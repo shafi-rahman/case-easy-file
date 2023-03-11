@@ -1,0 +1,46 @@
+.webapp {
+    position: relative;
+    overflow: hidden;
+}
+
+.webapp .card-overlay {
+    position: absolute;
+    top: -60px;
+    left: -60px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: all .5s;
+    transition: all .5s;
+    z-index: 1;
+}
+
+.webapp:hover .card-overlay {
+    -webkit-transform: scale(35);
+    transform: scale(35);
+}
+
+.webapp:hover .demo-text {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.webapp .demo-text {
+    transition: all .3s;
+    transition-delay: .1s;
+    transform: translateY(20px);
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+    justify-content: center;
+    width: calc(100% - 1rem);
+    height: calc(100% - 1rem);
+    align-items: center;
+    color: #fff;
+    opacity: 0;
+}
