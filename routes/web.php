@@ -14,11 +14,14 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/application-status', function () { return view('application-status'); });
+Route::get('/documents', function () { return view('documents'); });
+Route::get('/billing', function () { return view('billing'); });
+Route::get('/agreement', function () { return view('agreement'); });
+Route::get('/calender', function () { return view('calender'); });

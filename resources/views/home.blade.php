@@ -1,14 +1,8 @@
 @extends('layouts.app')
 @section('content')
+
     <div class="body-header border-bottom border-primary @@cardClass">
         <div class="container-fluid">
-            <div class="row g-3 mb-4">
-                <div class="col">
-                    <ul class="list-unstyled d-sm-flex justify-content-end mb-0 d-none">
-                        <li><a class="color-400" href="docs/index.html">Documentation & Process</a></li>
-                    </ul>
-                </div>
-            </div>
             <div class="row g-3">
                 <div class="col-xl-8 col-lg-7 col-md-12">
                     <div class="welcome-text">
@@ -18,6 +12,13 @@
                     </div>
                 </div>
                 <div class="col-xl-4 col-lg-5 col-md-12 text-md-end">
+                    <div class="row g-3 mb-4">
+                        <div class="col">
+                            <ul class="list-unstyled d-sm-flex justify-content-end mb-0 d-none">
+                                <li><a class="color-400" href="docs/index.html">Documentation & Process</a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="d-lg-flex d-none justify-content-lg-end align-items-center mt-4">
                         <div class="progress" style="height: 5px; width: 170px;">
                             <div class="progress-bar bg-warning" role="progressbar" style="width: 75%" aria-valuenow="75"
@@ -42,8 +43,9 @@
                         </ul>
                         <div class="team-members d-none d-md-inline-block">
                             <label class="me-2">Recent Case Officer : &nbsp;</label>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat" title=""><img
-                                    class="avatar sm rounded-1" src="assets/img/xs/avatar3.jpg" data-bs-toggle="tooltip"
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat" title="">
+                                <img class="avatar sm rounded-4" src="assets/img/xs/avatar3.jpg" 
+                                    data-bs-toggle="tooltip"
                                     data-bs-placement="top" title="Click to Talk" alt="friend"
                                     data-bs-original-title="Case Officer" aria-label="Case Officer"> Rishab Panth</a>
                         </div>

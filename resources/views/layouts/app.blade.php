@@ -20,6 +20,8 @@
 
     <link rel="stylesheet" href="assets/cssbundle/dropify.min.css">
 
+    <link rel="stylesheet" href="assets/cssbundle/tuicalendar.min.css">
+
 </head>
 
 <body class="layout-1" data-luno="theme-blue">
@@ -38,7 +40,7 @@
                         <small class="text-muted">Unique Client dashboard</small>
                     </li>
                     <li>
-                        <a class="m-link" href="client-home.php">
+                        <a class="m-link" href="/">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
                                 viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -50,18 +52,18 @@
                         </a>
                     </li>
                     <li>
-                        <a class="m-link" href="client-visa-application.php">
+                        <a class="m-link" href="{{ url('application-status') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
                                 viewBox="0 0 16 16">
                                 <path
                                     d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z" />
                                 <path class="fill-secondary" d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                             </svg>
-                            <span class="ms-2">My Visa Application</span>
+                            <span class="ms-2">My Application Status</span>
                         </a>
                     </li>
                     <li>
-                        <a class="m-link" href="client-documents.php">
+                        <a class="m-link" href="{{ url('documents') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
                                 viewBox="0 0 16 16">
                                 <path
@@ -73,7 +75,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="m-link" href="client-billing.php">
+                        <a class="m-link" href="{{ url('billing') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
                                 viewBox="0 0 16 16">
                                 <path
@@ -534,7 +536,7 @@
                                             </div>
                                             <div class="col-6">
                                                 <a class="card p-3 color-600 lift align-items-center"
-                                                    href="client-calender.php" title="">
+                                                    href="{{ url('calender') }}" title="">
                                                     <svg viewBox="0 0 16 16" width="30px" class="mb-3"
                                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                         <path
@@ -631,7 +633,7 @@
                                             <img class="avatar rounded-circle" src="assets/img/profile_av.png"
                                                 alt="">
                                             <div class="flex-fill ms-3">
-                                                <h6 class="card-title mb-0">{{ Auth::user()->name }}</h6>
+                                                {{-- <h6 class="card-title mb-0">{{ Auth::user()->name }}</h6> --}}
                                             </div>
                                         </div>
                                         <div class="list-group m-2 mb-3">
@@ -1764,6 +1766,8 @@
     <script src="assets/js/bundle/bootstrapdatepicker.bundle.js"></script>
     <script src="assets/js/bundle/dropify.bundle.js"></script>
     <script src="assets/js/bundle/owlcarousel.bundle.js"></script>
+    
+    <script src="assets/js/bundle/tui-calendar.bundle.js"></script>
 
     <script>
         // recent invoices Carousel
