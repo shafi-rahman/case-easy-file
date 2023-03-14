@@ -10,18 +10,15 @@
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
     <title>:: Case Easy ::</title>
 
-    <link rel="stylesheet" href="assets/cssbundle/daterangepicker.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-    <link rel="stylesheet" href="assets/css/custom-style.css">
+    <link rel="stylesheet" href="{{asset('assets/cssbundle/daterangepicker.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/custom-style.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/cssbundle/bootstrapdatepicker.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/cssbundle/select2.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/cssbundle/dropify.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/cssbundle/tuicalendar.min.css')}}">
 
-    <link rel="stylesheet" href="assets/cssbundle/bootstrapdatepicker.min.css">
-
-    <link rel="stylesheet" href="assets/cssbundle/select2.min.css">
-
-    <link rel="stylesheet" href="assets/cssbundle/dropify.min.css">
-
-    <link rel="stylesheet" href="assets/cssbundle/tuicalendar.min.css">
-
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="layout-1" data-luno="theme-blue">
@@ -1759,16 +1756,21 @@
     </div>
 
 
-    <script data-cfasync="false" src="assets/js/email-decode.min.js"></script>
-    <script src="assets/js/plugins.js"></script>
-    <script src="assets/js/theme.js"></script>
-    <script src="assets/js/bundle/select2.bundle.js"></script>
-    <script src="assets/js/bundle/bootstrapdatepicker.bundle.js"></script>
-    <script src="assets/js/bundle/dropify.bundle.js"></script>
-    <script src="assets/js/bundle/owlcarousel.bundle.js"></script>
+    {{-- <script data-cfasync="false" src="assets/js/email-decode.min.js"></script> --}}
+    <script src="{{asset('assets/js/plugins.js')}}"></script>
+    <script src="{{asset('assets/js/theme.js')}}"></script>
+    <script src="{{asset('assets/js/bundle/bootstrapdatepicker.bundle.js')}}"></script>
+    <script src="{{asset('assets/js/bundle/dropify.bundle.js')}}"></script>
+    <script src="{{asset('assets/js/bundle/owlcarousel.bundle.js')}}"></script>    
     
-    <script src="assets/js/bundle/tui-calendar.bundle.js"></script>
-
+    
+    {{-- <script src="assets/js/bundle/tui-calendar.bundle.js"></script> --}}
+    <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script>
+    <script>
+        $(".select2").select2({
+            allowClear: true
+        });
+    </script>
     <script>
         // recent invoices Carousel
         $('#recent_invoices').owlCarousel({
@@ -1797,8 +1799,7 @@
             }
         })
     </script>
-    <script src="assets/js/bundle/dataTables.bundle.js"></script>
-
+    <script src="{{asset('assets/js/bundle/dataTables.bundle.js')}}"></script>
     <script>
         $(document).ready(function() {
             $('#invoice_list').addClass('nowrap').dataTable({
@@ -1821,9 +1822,9 @@
         }).on('changeDate', function(e) {
             $(this).datepicker('hide');
         });
-
-        $('.select2').select2();
     </script>
+    
+
 
 </body>
 
