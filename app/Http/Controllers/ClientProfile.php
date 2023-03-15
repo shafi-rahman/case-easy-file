@@ -21,5 +21,15 @@ class ClientProfile extends Controller
         //     }
         // }
         return response()->json( $clientInfo );
+    } 
+    
+    public function get_country_list(){        
+        return response()->json( DB::table('countries')->where('status', 1)->get() );
+    } 
+    public function get_state_list(Request $request){        
+        return response()->json( DB::table('states')->where('country_id', $request->country_id)->get() );
+    }
+    public function get_city_list(Request $request){        
+        return response()->json( DB::table('cities')->where('state_id', $request->state_id)->get() );
     }
 }

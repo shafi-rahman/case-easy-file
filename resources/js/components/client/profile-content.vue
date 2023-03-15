@@ -91,11 +91,9 @@
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select">
-                                                <option value="1">India</option>
-                                                <option value="2">123123</option>
-                                                <option value="3">sdawda</option>
-                                                <option value="4">zxczxc</option>
+                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select" v-on:change="getStateList($event)">
+                                                <option value="">Select Country</option>
+                                                <option v-if="countryList.length > 0" v-for="country in countryList" :key="country.id" v-text="country.name" :value="country.id"></option>
                                             </select>
                                             <span>Country</span>
                                         </label>
@@ -106,8 +104,8 @@
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select">
-                                                <option value="38">Canada</option>
+                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select" v-on:change="getCityList($event)">
+                                                <option v-if="stateList.length > 0" v-for="state in stateList" :key="state.id" v-text="state.name" :value="state.id"></option>
                                             </select>
                                             <span>State</span>
                                         </label>
@@ -118,8 +116,8 @@
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select">
-                                                <option>India</option>
+                                            <select class="form-control show-tick ms select2"  style="height: 58px;" data-placeholder="Select">
+                                                <option v-if="cityList.length > 0" v-for="city in cityList" :key="city.id" v-text="city.city" :value="city.id"></option>
                                             </select>
                                             <span>City</span>
                                         </label>
@@ -918,6 +916,9 @@ export default {
     data() {
         return {
             results: [],
+            countryList: [],
+            stateList: [],
+            cityList: [],
             personalDetails: {
                 id: '', 
                 user_id: '',
@@ -944,21 +945,50 @@ export default {
         }
     },
     methods: {
+        getCountryList(){
+            axios.get(window.url+'get_country_list')
+            .then(response => { 
+                this.countryList = response.data;
+                // console.log(this.countryList);
+            } )
+            .catch(error => { console.log(error) });
+        },
+        getStateList(cid){ 
+            if(cid.target.value!=''){
+                this.cityList = [];
+                axios.get(window.url+'get_state_list', { params: { country_id: cid.target.value } } )
+                .then(response => { 
+                    this.stateList = response.data;
+                    // console.log(this.stateList);
+                } )
+                .catch(error => { console.log(error) });
+            }
+        },
+        getCityList(sid){ 
+            if(sid.target.value!=''){
+                axios.get(window.url+'get_city_list', { params: { state_id: sid.target.value } } )
+                .then(response => { 
+                    this.cityList = response.data;
+                    console.log(this.stateList);
+                } )
+                .catch(error => { console.log(error) });
+            }
+        },
         getClientDetails(user_id=11){
             // this.loaderIsActive = true;
-            console.log(window.url);
             axios.get(window.url+'get_client_details', { params: { user_id: user_id } } )
                 .then(response => { 
                     this.results = response.data;
                     this.personalDetails = this.results['personal_details'][0];
                     // this.loaderIsActive = false;
-                    console.log(this.personalDetails);                    
+                    // console.log(this.personalDetails);                    
                 } )
                 .catch(error => { console.log(error) });
         }
     },
     beforeMount() {
-        this.getClientDetails()
+        this.getCountryList();
+        this.getClientDetails();
     }
 }
 </script>
