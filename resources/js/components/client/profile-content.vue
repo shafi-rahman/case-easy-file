@@ -92,7 +92,10 @@
                                     <div class="col-12">
                                         <label class="form-group float-label">
                                             <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select">
-                                                <option>India</option>
+                                                <option value="1">India</option>
+                                                <option value="2">123123</option>
+                                                <option value="3">sdawda</option>
+                                                <option value="4">zxczxc</option>
                                             </select>
                                             <span>Country</span>
                                         </label>
@@ -104,7 +107,7 @@
                                     <div class="col-12">
                                         <label class="form-group float-label">
                                             <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select">
-                                                <option>India</option>
+                                                <option value="38">Canada</option>
                                             </select>
                                             <span>State</span>
                                         </label>

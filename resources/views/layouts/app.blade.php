@@ -1767,9 +1767,7 @@
     {{-- <script src="assets/js/bundle/tui-calendar.bundle.js"></script> --}}
     <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script>
     <script>
-        $(".select2").select2({
-            allowClear: true
-        });
+       $('.select2').select2();
     </script>
     <script>
         // recent invoices Carousel
