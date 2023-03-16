@@ -17,7 +17,7 @@
                             <div class="col-md-4 col-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" v-model="personalDetails.first_name" placeholder="First Name">
-                                    <label>First Name</label>
+                                    <label>First Name <code class="text-danger">*</code></label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-12">
@@ -35,32 +35,32 @@
                             <div class="col-md-4 col-12">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" v-model="personalDetails.email_id" placeholder="Email ID">
-                                    <label>Email ID</label>
+                                    <label>Email ID <code class="text-danger">*</code></label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" v-model="personalDetails.mobile_number" placeholder="Mobile Number">
-                                    <label>Mobile Number</label>
+                                    <label>Mobile Number <code class="text-danger">*</code></label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-12">
                                 <div class="form-floating">
                                     <input type="date" class="form-control form-control-lg datepicker" v-model="personalDetails.date_of_birth" placeholder="Select date of birth">
-                                    <label>Select date of birth</label>
+                                    <label>Select date of birth <code class="text-danger">*</code></label>
                                 </div>
                             </div>
                             <div class="col-md-4 col-12 p-3">
                                 <div class="form-floating">
                                     <div class="form-check form-check-inline">
-                                        <label class="form-check-label">Select Gender <code></code></label>
+                                        <label class="form-check-label">Select Gender <code class="text-danger">*</code></label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="inlineMale" value="option1">
+                                        <input class="form-check-input" type="radio" name="gender" v-model="personalDetails.gender" id="inlineMale" value="1">
                                         <label class="form-check-label" for="inlineMale">Male</label>
                                     </div>
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="gender" id="inlineFemale" value="option2">
+                                        <input class="form-check-input" type="radio" name="gender" v-model="personalDetails.gender" id="inlineFemale" value="2">
                                         <label class="form-check-label" for="inlineFemale">Female</label>
                                     </div>
                                 </div>
@@ -69,13 +69,14 @@
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control form-control-lg custom-select" style="height: 58px;">
+                                            <select class="form-control form-control-lg custom-select" v-model="personalDetails.marital_status" style="height: 58px;">
+                                                <option value="">Select</option>
                                                 <option value="1">Single</option>
                                                 <option value="2">Married</option>
                                                 <option value="3">Married With Kids</option>
                                                 <option value="4">Seperated</option>
                                             </select>
-                                            <span>Choose Martial Status</span>
+                                            <span>Choose Martial Status <code class="text-danger">*</code></span>
                                         </label>
                                     </div>
                                 </div>
@@ -83,19 +84,19 @@
                             <hr>
                             <div class="col-md-4 col-12">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control" v-model="personalDetails.address" placeholder="First Name">
-                                    <label>Address</label>
+                                    <input type="text" class="form-control" v-model="personalDetails.address" placeholder="Address">
+                                    <label>Address <code class="text-danger">*</code></label>
                                 </div>
                             </div>
                             <div class="col-md-2 col-12">
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select" v-on:change="getStateList($event)">
+                                            <select class="form-control show-tick ms" v-model="personalDetails.country" style="height: 58px;" data-placeholder="Select" v-on:change="getStateList(personalDetails.country)">
                                                 <option value="">Select Country</option>
-                                                <option v-if="countryList.length > 0" v-for="country in countryList" :key="country.id" v-text="country.name" :value="country.id"></option>
+                                                <option v-if="countryList.length > 0" v-for="country in countryList" v-text="country.name" :value="country.id"></option>
                                             </select>
-                                            <span>Country</span>
+                                            <span>Country <code class="text-danger">*</code></span>
                                         </label>
                                     </div>
                                 </div>
@@ -104,10 +105,11 @@
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control show-tick ms select2" style="height: 58px;" data-placeholder="Select" v-on:change="getCityList($event)">
-                                                <option v-if="stateList.length > 0" v-for="state in stateList" :key="state.id" v-text="state.name" :value="state.id"></option>
+                                            <select class="form-control show-tick ms" v-model="personalDetails.state" style="height: 58px;" data-placeholder="Select" v-on:change="getCityList(personalDetails.state)">
+                                                <option value="">Select</option>
+                                                <option v-if="stateList.length > 0" v-for="state in stateList" v-text="state.name" :value="state.id"></option>
                                             </select>
-                                            <span>State</span>
+                                            <span>State <code class="text-danger">*</code></span>
                                         </label>
                                     </div>
                                 </div>
@@ -116,10 +118,11 @@
                                 <div class="form-floating">
                                     <div class="col-12">
                                         <label class="form-group float-label">
-                                            <select class="form-control show-tick ms select2"  style="height: 58px;" data-placeholder="Select">
+                                            <select class="form-control show-tick ms" v-model="personalDetails.city" style="height: 58px;" data-placeholder="Select">
+                                                <option value="">Select</option>
                                                 <option v-if="cityList.length > 0" v-for="city in cityList" :key="city.id" v-text="city.city" :value="city.id"></option>
                                             </select>
-                                            <span>City</span>
+                                            <span>City <code class="text-danger">*</code></span>
                                         </label>
                                     </div>
                                 </div>
@@ -127,11 +130,14 @@
                             <div class="col-md-2 col-12">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" v-model="personalDetails.pin_code" placeholder="First Name">
-                                    <label>Pin Code</label>
+                                    <label>Pin Code <code class="text-danger">*</code></label>
                                 </div>
                             </div>
-                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button class="btn btn-primary me-md-2 btn-lg" type="button">Save & Next</button>
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end personal_details_btn_main">
+                                <div class="btn m-1 btn-lg btn-primary btn-animate-6" v-on:click="save_personal_details()">
+                                    <span class="btntext">Save & Next</span>
+                                    <div class="btninfo bg-success">Click</div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -915,6 +921,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            // loaderIsActive: false,
             results: [],
             countryList: [],
             stateList: [],
@@ -932,15 +939,22 @@ export default {
                 marital_status: '',
                 dependents: '',
                 address: '',
-                countries: '',
-                states: '',
-                cities: '',
+                country: '',
+                state: '',
+                city: '',
                 pin_code: '',
             },
             personalDetailsError: {
                 first_name: false,
                 email_id: false,
                 mobile_number: false,
+                date_of_birth: false,
+                gender: false,
+                address: false,
+                country: false,
+                state: false,
+                city: false,
+                pin_code: false,
             }
         }
     },
@@ -954,9 +968,9 @@ export default {
             .catch(error => { console.log(error) });
         },
         getStateList(cid){ 
-            if(cid.target.value!=''){
+            if(cid!=''){
                 this.cityList = [];
-                axios.get(window.url+'get_state_list', { params: { country_id: cid.target.value } } )
+                axios.get(window.url+'get_state_list', { params: { country_id: cid } } )
                 .then(response => { 
                     this.stateList = response.data;
                     // console.log(this.stateList);
@@ -965,30 +979,70 @@ export default {
             }
         },
         getCityList(sid){ 
-            if(sid.target.value!=''){
-                axios.get(window.url+'get_city_list', { params: { state_id: sid.target.value } } )
+            if(sid){
+                axios.get(window.url+'get_city_list', { params: { state_id: sid } } )
                 .then(response => { 
                     this.cityList = response.data;
-                    console.log(this.stateList);
+                    // console.log(this.stateList);
                 } )
                 .catch(error => { console.log(error) });
             }
+        },
+        save_personal_details(){
+            this.personalDetails.first_name =='' ? this.personalDetailsError.first_name=true : this.personalDetailsError.first_name=false
+            this.personalDetails.email_id =='' ? this.personalDetailsError.email_id=true : this.personalDetailsError.email_id=false
+            this.personalDetails.mobile_number =='' ? this.personalDetailsError.mobile_number=true : this.personalDetailsError.mobile_number=false
+            this.personalDetails.date_of_birth =='' ? this.personalDetailsError.date_of_birth=true : this.personalDetailsError.date_of_birth=false
+            this.personalDetails.gender =='' ? this.personalDetailsError.gender=true : this.personalDetailsError.gender=false
+            this.personalDetails.address =='' ? this.personalDetailsError.address=true : this.personalDetailsError.address=false
+            this.personalDetails.country =='' ? this.personalDetailsError.country=true : this.personalDetailsError.country=false
+            this.personalDetails.state =='' ? this.personalDetailsError.state=true : this.personalDetailsError.state=false
+            this.personalDetails.city =='' ? this.personalDetailsError.city=true : this.personalDetailsError.city=false
+            this.personalDetails.pin_code =='' ? this.personalDetailsError.pin_code=true : this.personalDetailsError.pin_code=false
+            
+            // if( this.clientInfo.company_name && this.clientInfo.company_address && this.clientInfo.company_city && this.clientInfo.company_contrary && this.clientInfo.contact_person && this.clientInfo.contact_email && this.clientInfo.contact_number ){
+            //     axios.post(window.url+'api/store_client_info', this.clientInfo)
+            //     .then(response => { 
+            //         if(response.data.success){
+            //             this.getClientList();
+            //             this.client_info_modal_close();
+            //         } })
+            //     .catch(errors => { console.log(errors); });
+
+            // }
         },
         getClientDetails(user_id=11){
             // this.loaderIsActive = true;
             axios.get(window.url+'get_client_details', { params: { user_id: user_id } } )
                 .then(response => { 
                     this.results = response.data;
-                    this.personalDetails = this.results['personal_details'][0];
+
+                    if(this.results['personal_details'].length>0){
+                        this.personalDetails = this.results['personal_details'][0];
+                    }
+
                     // this.loaderIsActive = false;
                     // console.log(this.personalDetails);                    
                 } )
                 .catch(error => { console.log(error) });
-        }
+        } 
     },
     beforeMount() {
         this.getCountryList();
         this.getClientDetails();
+        
+    }, updated(){
+        // call after all dom loaded
+        document.onreadystatechange = () => {
+            if (document.readyState == "complete") {
+                if(this.personalDetails.country!=''){
+                    this.getStateList(this.personalDetails.country)
+                }
+                if(this.personalDetails.state!=''){
+                    this.getCityList(this.personalDetails.state)
+                }
+            }
+        }
     }
 }
 </script>

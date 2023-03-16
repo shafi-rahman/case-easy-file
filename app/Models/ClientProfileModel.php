@@ -21,9 +21,9 @@ class ClientProfileModel extends Model
         'marital_status',
         'dependents',
         'address',
-        'countries',
-        'states',
-        'cities',
+        'country',
+        'state',
+        'city',
         'pin_code'
     ];
 }

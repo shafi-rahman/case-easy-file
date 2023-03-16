@@ -28909,7 +28909,8 @@ button:focus:not(:focus-visible) {
 }
 .float-label label,
 .float-label > span {
-  color: var(--primary-color);
+  /* color: var(--primary-color); */
+  color: #ababab;
   background: var(--card-color);
   position: absolute;
   cursor: text;
