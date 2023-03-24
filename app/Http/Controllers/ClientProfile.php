@@ -4,10 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rule;
+use SebastianBergmann\CodeCoverage\Driver\Selector;
 
 class ClientProfile extends Controller
 {
+    public function clientProfile(){
+
+        return view('client-profile');
+    }
     public function get_client_details(Request $request) {
         $clientInfo['personal_details'] = DB::table('user_personal_details')->where('user_id', $request->user_id)->get();
         $clientInfo['educational_details'] = DB::table('user_educational_details')->where('user_id', $request->user_id)->get();
@@ -169,5 +173,16 @@ class ClientProfile extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+        
     }
+
+    public function get_lead_status(){        
+        return response()->json( DB::table('user_status')->where('status', 1)->get() );
+    } 
+    public function get_email_template_list(){        
+        return response()->json( DB::table('email_template')->select('id', 'content_subject')->where('status', 1)->get() );
+    } 
+    public function get_mail_template_content(Request $request){
+        return response()->json( DB::table('email_template')->select('content_body')->where('id', $request->eid)->get()[0] );
+    } 
 }

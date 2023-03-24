@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="{{asset('assets/cssbundle/select2.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/cssbundle/dropify.min.css')}}">
     <link rel="stylesheet" href="{{asset('assets/cssbundle/tuicalendar.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/cssbundle/summernote.min.css')}}">
+
+    
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -84,7 +87,7 @@
                         </a>
                     </li>
                     <li>
-                        <a class="m-link" href="client-agreement.php">
+                        <a class="m-link" href="{{ url('agreement') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
                                 viewBox="0 0 16 16">
                                 <path class="fill-secondary"
@@ -102,11 +105,11 @@
             <div class="main-menu flex-grow-1">
                 <ul class="menu-list">
                     <li class="divider py-2 lh-sm">
-                        <span class="small">Subcriber User</span><br>
-                        <small class="text-muted">Subcriber user dashboard</small>
+                        <span class="small">Seller User</span><br>
+                        <small class="text-muted">Seller dashboard</small>
                     </li>
                     <li>
-                        <a class="m-link" href="subcriber-user-home.php">
+                        <a class="m-link" href="{{ url('dashboard') }}">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
                                 viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -115,6 +118,17 @@
                                     d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
                             </svg>
                             <span class="ms-2">Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="m-link" href="{{ url('lead') . '/' . Crypt::encryptString('my-leads') }}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
+                                viewBox="0 0 16 16">
+                                <path
+                                    d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z" />
+                                <path class="fill-secondary" d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+                            </svg>
+                            <span class="ms-2">My Current Leads <span class="badge bg-primary ms-auto">0</span></span>
                         </a>
                     </li>
                 </ul>
@@ -488,14 +502,6 @@
                                         <div class="list-group list-group-custom" style="width: 200px;">
                                             <a href="#" class="list-group-item"><span
                                                     class="flag-icon flag-icon-gb me-2"></span>UK English</a>
-                                            <a href="#" class="list-group-item"><span
-                                                    class="flag-icon flag-icon-us me-2"></span>US English</a>
-                                            <a href="#" class="list-group-item"><span
-                                                    class="flag-icon flag-icon-de me-2"></span>Germany</a>
-                                            <a href="#" class="list-group-item"><span
-                                                    class="flag-icon flag-icon-in me-2"></span>Hindi</a>
-                                            <a href="#" class="list-group-item"><span
-                                                    class="flag-icon flag-icon-sa me-2"></span>Saudi Arabia</a>
                                         </div>
                                     </div>
                                 </div>
@@ -519,7 +525,7 @@
                                         <div class="row g-1 text-center p-3" style="width: 302px;">
                                             <div class="col-6">
                                                 <a class="card p-3 color-600 lift align-items-center"
-                                                    href="client-visa-application.php" title="">
+                                                    href="{{ url('application-status') }}" title="">
                                                     <svg viewBox="0 0 16 16" width="30px" class="mb-3"
                                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                                         <path class="fill-secondary"

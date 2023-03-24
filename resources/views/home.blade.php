@@ -14,7 +14,7 @@
                 <div class="row g-3 mb-4">
                     <div class="col">
                         <ul class="list-unstyled d-sm-flex justify-content-end mb-0 d-none">
-                            <li><a class="color-400" href="docs/index.html">Documentation & Process</a></li>
+                            <li><a class="color-400" href="{{ url('documentation-process') }}">Documentation & Process</a></li>
                         </ul>
                     </div>
                 </div>

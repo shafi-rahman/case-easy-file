@@ -15,7 +15,7 @@ use App\Http\Controllers\ClientProfile;
 | 
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) { 
     return $request->user();
 });
 
@@ -30,3 +30,6 @@ Route::post('save_educational_details/{action}', [ClientProfile::class, 'save_ed
 Route::post('save_professional_details/{action}', [ClientProfile::class, 'save_professional_details']);
 
 
+Route::get('get_lead_status', [ClientProfile::class, 'get_lead_status']);
+Route::get('get_email_template_list', [ClientProfile::class, 'get_email_template_list']);
+Route::post('get_mail_template_content', [ClientProfile::class, 'get_mail_template_content']);

@@ -1,0 +1,9 @@
+.custon_file_input{
+    height: 58px;
+}
+.custon_file_input::file-selector-button {
+    height: 58px;
+  }
+.cust_pay{
+    cursor: pointer;
+}
