@@ -78,9 +78,9 @@
     <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0 mt-lg-3">
         <div class="container-fluid">
             <div class="row g-3 row-deck">
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('payment-received') }}">
+                        <a href="{{ url('lead') . '/' . Crypt::encryptString('payment-reminder') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="26" fill="currentColor" viewBox="0 0 16 16">
@@ -93,10 +93,10 @@
                                     <path class="fill-muted"
                                         d="M9.998 5.083 10 5a2 2 0 1 0-3.132 1.65 5.982 5.982 0 0 1 3.13-1.567z" />
                                 </svg>
-                                <div class="mb-2 text-uppercase">Payment received</div>
-                                <div><span class="h4">12,980</span> <span class="small text-muted"><i
-                                            class="fa fa-dollar"></i></span></div>
-                                <small class="text-muted">Today's payment received from client.</small>
+                                <div class="mb-2 text-uppercase">Today's Payment Reminder</div>
+                                <div><span class="h4">7</span> <span class="small text-muted"><i
+                                            class="fa fa-history"></i></span></div>
+                                <small class="text-muted">Today's payment reminder.</small>
                             </div>
                         </a>
                         <div class="progress" style="height: 4px;">
@@ -105,9 +105,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('payment-pending') }}">
+                        <a href="{{ url('lead') . '/' . Crypt::encryptString('today-recall') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="26" fill="currentColor" viewBox="0 0 16 16">
@@ -116,10 +116,10 @@
                                     <path class="fill-primary"
                                         d="M2 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1zm0 3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 2a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5z" />
                                 </svg>
-                                <div class="mb-2 text-uppercase">Payment Pending</div>
-                                <div><span class="h4">39,000</span> <span class="small text-muted"><i
-                                            class="fa fa-dollar"></i></span></div>
-                                <small class="text-muted">Payment expected to receive</small>
+                                <div class="mb-2 text-uppercase">Today's Follow Ups</div>
+                                <div><span class="h4">21</span> <span class="small text-muted"><i
+                                            class="fa fa-lightbulb-o"></i></span></div>
+                                <small class="text-muted">Schedule calls for today</small>
                             </div>
                         </a>
                         <div class="progress" style="height: 4px;">
@@ -128,9 +128,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('leads') }}">
+                        <a href="{{ url('lead') . '/' . Crypt::encryptString('my-leads') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="26" fill="currentColor" viewBox="0 0 16 16">
@@ -139,9 +139,10 @@
                                     <path class="fill-primary"
                                         d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z" />
                                 </svg>
-                                <div class="mb-2 text-uppercase">LEADS connected</div>
-                                <div><span class="h4">39</span> <span class="small text-muted"><i class="fa fa-level-up"></i></span></div>
-                                <small class="text-muted">Client try to connect </small>
+                                <div class="mb-2 text-uppercase">My Closed LEADS</div>
+                                <div><span class="h4">17</span> <span class="small text-muted"><i
+                                            class="fa fa-level-up"></i></span></div>
+                                <small class="text-muted">Client connected </small>
                             </div>
                         </a>
                         <div class="progress" style="height: 4px;">
@@ -150,27 +151,123 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('leads') }}">
-                            <div class="card-body">
-                                <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
-                                width="26" fill="currentColor" viewBox="0 0 16 16">
-                                    <path d="M5.33801 1.59C4.38559 1.85248 3.43965 2.1379 2.50101 2.446C2.41529 2.47376 2.3391 2.52504 2.28111 2.59399C2.22312 2.66295 2.18567 2.7468 2.17301 2.836C1.61901 6.993 2.89901 10.026 4.42601 12.024C5.07252 12.8784 5.84341 13.6311 6.71301 14.257C7.05901 14.501 7.36501 14.677 7.60601 14.79C7.72601 14.847 7.82401 14.885 7.89901 14.908C7.93181 14.9195 7.96562 14.9279 8.00001 14.933C8.03398 14.9275 8.06743 14.9191 8.10001 14.908C8.17601 14.885 8.27401 14.847 8.39401 14.79C8.63401 14.677 8.94101 14.5 9.28701 14.257C10.1566 13.6311 10.9275 12.8784 11.574 12.024C13.101 10.027 14.381 6.993 13.827 2.836C13.8145 2.74676 13.777 2.66285 13.719 2.59388C13.661 2.52491 13.5848 2.47366 13.499 2.446C12.848 2.233 11.749 1.886 10.662 1.591C9.55201 1.29 8.53101 1.067 8.00001 1.067C7.47001 1.067 6.44801 1.289 5.33801 1.59ZM5.07201 0.56C6.15701 0.265 7.31001 0 8.00001 0C8.69001 0 9.84301 0.265 10.928 0.56C12.038 0.86 13.157 1.215 13.815 1.43C14.0901 1.52085 14.334 1.68747 14.5187 1.9107C14.7034 2.13394 14.8213 2.40474 14.859 2.692C15.455 7.169 14.072 10.487 12.394 12.682C11.6824 13.621 10.834 14.4479 9.87701 15.135C9.5461 15.3728 9.19549 15.5819 8.82901 15.76C8.54901 15.892 8.24801 16 8.00001 16C7.75201 16 7.45201 15.892 7.17101 15.76C6.80452 15.5819 6.45391 15.3728 6.12301 15.135C5.16603 14.4478 4.31759 13.621 3.60601 12.682C1.92801 10.487 0.545005 7.169 1.14101 2.692C1.17869 2.40474 1.29665 2.13394 1.48132 1.9107C1.666 1.68747 1.9099 1.52085 2.18501 1.43C3.1402 1.11681 4.10281 0.826725 5.07201 0.56Z"></path>
-                                    <path class="fill-secondary" d="M8 5.38462C8.21217 5.38462 8.41566 5.46566 8.56569 5.60992C8.71571 5.75418 8.8 5.94983 8.8 6.15385V6.53846H7.2V6.15385C7.2 5.94983 7.28429 5.75418 7.43431 5.60992C7.58434 5.46566 7.78783 5.38462 8 5.38462ZM9.2 6.53846V6.15385C9.2 5.84783 9.07357 5.55434 8.84853 5.33795C8.62348 5.12157 8.31826 5 8 5C7.68174 5 7.37652 5.12157 7.15147 5.33795C6.92643 5.55434 6.8 5.84783 6.8 6.15385V6.53846C6.58783 6.53846 6.38434 6.61951 6.23431 6.76376C6.08429 6.90802 6 7.10368 6 7.30769V9.23077C6 9.43478 6.08429 9.63044 6.23431 9.7747C6.38434 9.91896 6.58783 10 6.8 10H9.2C9.41217 10 9.61566 9.91896 9.76569 9.7747C9.91571 9.63044 10 9.43478 10 9.23077V7.30769C10 7.10368 9.91571 6.90802 9.76569 6.76376C9.61566 6.61951 9.41217 6.53846 9.2 6.53846Z"></path>
-                                </svg>
 
-                                <div class="mb-2 text-uppercase">Closed LEADS</div>
-                                <div><span class="h4">17</span> <span class="small text-muted"><i
-                                            class="fa fa-level-up"></i></span></div>
-                                <small class="text-muted">Client closed & paid </small>
-                            </div>
+                <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">
+                  <div class="card">
+                    <ul class="nav nav-tabs tab-card pt-3 " role="tablist">
+                      <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#activeLead" id="active_lead" role="tab">
+                          <span class="d-none d-sm-inline">Active Lead</span>
                         </a>
-                        <div class="progress" style="height: 4px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%"
-                                aria-valuenow="78" aria-valuemin="0" aria-valuemax="100"></div>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#inActiveLead" id="in_active_lead" role="tab">
+                          <span class="d-none d-sm-inline">In-active Lead</span>
+                        </a>
+                      </li>
+                    </ul>
+                    <div class="card-body">
+                      <div class="tab-content mt-2">
+                        <div class="tab-pane fade show active" id="activeLead" role="tabpanel">
+                          <div class="card">
+                            <div class="card-header p-2">
+                              <h6 class="card-title m-0">List of all new lead</h6>
+                              <div class="dropdown morphing scale-left">
+                                <a href="#" class="btn btn-outline-success"><i class="fa fa fa-refresh"></i> Create Lead </a>
+                              </div>
+                            </div>
+                            <div class="table-responsive border-top">
+                                <table class="table card-table table-nowrap mb-0">
+                                    <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><i class="fa fa-circle me-2 chart-text-color1"></i>Nita kumari</td>
+                                            <td>Delhi</td>
+                                            <td>12 feb 2023</td>
+                                            <td>
+                                              <a href="{{ url('client-profile') }}" class="btn m-1 btn-primary btn-animate-6"><span class="btntext">Pick Lead</span><div class="btninfo bg-success">Click</div></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><i class="fa fa-circle me-2 chart-text-color2"></i>Varun Sharma</td>
+                                            <td>Noida</td>
+                                            <td>17 feb 2023</td>
+                                            <td>
+                                              <a href="{{ url('client-profile') }}" class="btn m-1 btn-primary btn-animate-6"><span class="btntext">Pick Lead</span><div class="btninfo bg-success">Click</div></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td><i class="fa fa-circle me-2 chart-text-color3"></i>Reena</td>
+                                            <td>Merath</td>
+                                            <td>12 mar 2023</td>
+                                            <td>
+                                              <a href="{{ url('client-profile') }}" class="btn m-1 btn-primary btn-animate-6"><span class="btntext">Pick Lead</span><div class="btninfo bg-success">Click</div></a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>4</td>
+                                            <td><i class="fa fa-circle me-2"></i>Other</td>
+                                            <td>Haryana</td>
+                                            <td>16 mar 2023</td>
+                                            <td>
+                                              <a href="{{ url('client-profile') }}" class="btn m-1 btn-primary btn-animate-6"><span class="btntext">Pick Lead</span><div class="btninfo bg-success">Click</div></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                          </div>
                         </div>
+                        <div class="tab-pane fade" id="inActiveLead" role="tabpanel">
+                          <div class="card">
+                            <div class="table-responsive">
+                                <table class="table card-table table-nowrap mb-0">
+                                    <thead>
+                                      <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Location</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Description</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><i class="fa fa-circle me-2 chart-text-color1"></i>Nita kumari</td>
+                                            <td>Delhi</td>
+                                            <td>12 feb 2023</td>
+                                            <td>Lead Closed - No Contact</td>
+                                            <td>call many times, did not get response.</td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td><i class="fa fa-circle me-2 chart-text-color2"></i>Varun Sharma</td>
+                                            <td>Noida</td>
+                                            <td>17 feb 2023</td>
+                                            <td>Lead Closed - No Contact</td>
+                                            <td>number not rechable</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
+                  </div>
                 </div>
 
             </div>

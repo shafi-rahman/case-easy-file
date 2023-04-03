@@ -9058,8 +9058,8 @@ wi-wind-default._345-deg {
   --chart-color5: #00ac9a;
   --primary-gradient: linear-gradient(
     145deg,
-    var(--primary-color),
-    var(--secondary-color)
+    #72baf3,
+    #b4f0ea
   );
 }
 [data-luno="theme-cyan"] {

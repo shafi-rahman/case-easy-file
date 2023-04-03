@@ -10,17 +10,52 @@
     <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
     <title>:: Case Easy ::</title>
 
-    <link rel="stylesheet" href="{{asset('assets/cssbundle/daterangepicker.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/css/custom-style.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/cssbundle/bootstrapdatepicker.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/cssbundle/select2.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/cssbundle/dropify.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/cssbundle/tuicalendar.min.css')}}">
-    <link rel="stylesheet" href="{{asset('assets/cssbundle/summernote.min.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/daterangepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/bootstrapdatepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/dropify.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/tuicalendar.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/summernote.min.css') }}">
 
-    
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/jquerysteps.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/parsleyjs/css/parsley.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/vendor/prismjs/prism.css') }}">
+    <style>
+        .layout-1 .document.sidebar {
+            width: 260px;
+        }
 
+        .layout-1 .document.sidebar .title-text {
+            flex-direction: row;
+        }
+
+        .layout-1 .document.sidebar .menu-list {
+            border: 0;
+            padding: 0;
+        }
+
+        .layout-1 .document.sidebar .menu-list li {
+            border: 0;
+        }
+
+        .layout-1 .document.sidebar .menu-list .m-link {
+            padding: 4px 0;
+        }
+
+        .layout-1 .document.sidebar .menu-list .m-link>i {
+            text-align: left;
+            margin: 0;
+            width: 20px;
+        }
+    </style>
+
+    <script src="{{ asset('assets/js/plugins.js') }}"></script>
+    <script type="text/javascript">
+        var APP_URL = {!! json_encode(url('/')) !!}
+    </script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
@@ -36,72 +71,21 @@
             <div class="main-menu flex-grow-1">
                 <ul class="menu-list">
                     <li class="divider py-2 lh-sm">
-                        <span class="small">Client</span><br>
+                        <span class="small">Main Operations</span><br>
                         <small class="text-muted">Unique Client dashboard</small>
                     </li>
-                    <li>
-                        <a class="m-link" href="/">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path fill-rule="evenodd"
-                                    d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z" />
-                                <path class="var(--secondary-color)" fill-rule="evenodd"
-                                    d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z" />
-                            </svg>
-                            <span class="ms-2">Home</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="m-link" href="{{ url('application-status') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path
-                                    d="M5.5 2A3.5 3.5 0 0 0 2 5.5v5A3.5 3.5 0 0 0 5.5 14h5a3.5 3.5 0 0 0 3.5-3.5V8a.5.5 0 0 1 1 0v2.5a4.5 4.5 0 0 1-4.5 4.5h-5A4.5 4.5 0 0 1 1 10.5v-5A4.5 4.5 0 0 1 5.5 1H8a.5.5 0 0 1 0 1H5.5z" />
-                                <path class="fill-secondary" d="M16 3a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                            </svg>
-                            <span class="ms-2">My Application Status</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="m-link" href="{{ url('documents') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path
-                                    d="M14 2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h12zM2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z" />
-                                <path class="fill-secondary"
-                                    d="M3 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4z" />
-                            </svg>
-                            <span class="ms-2">My Documents</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="m-link" href="{{ url('billing') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path
-                                    d="M5.33801 1.59C4.38559 1.85248 3.43965 2.1379 2.50101 2.446C2.41529 2.47376 2.3391 2.52504 2.28111 2.59399C2.22312 2.66295 2.18567 2.7468 2.17301 2.836C1.61901 6.993 2.89901 10.026 4.42601 12.024C5.07252 12.8784 5.84341 13.6311 6.71301 14.257C7.05901 14.501 7.36501 14.677 7.60601 14.79C7.72601 14.847 7.82401 14.885 7.89901 14.908C7.93181 14.9195 7.96562 14.9279 8.00001 14.933C8.03398 14.9275 8.06743 14.9191 8.10001 14.908C8.17601 14.885 8.27401 14.847 8.39401 14.79C8.63401 14.677 8.94101 14.5 9.28701 14.257C10.1566 13.6311 10.9275 12.8784 11.574 12.024C13.101 10.027 14.381 6.993 13.827 2.836C13.8145 2.74676 13.777 2.66285 13.719 2.59388C13.661 2.52491 13.5848 2.47366 13.499 2.446C12.848 2.233 11.749 1.886 10.662 1.591C9.55201 1.29 8.53101 1.067 8.00001 1.067C7.47001 1.067 6.44801 1.289 5.33801 1.59ZM5.07201 0.56C6.15701 0.265 7.31001 0 8.00001 0C8.69001 0 9.84301 0.265 10.928 0.56C12.038 0.86 13.157 1.215 13.815 1.43C14.0901 1.52085 14.334 1.68747 14.5187 1.9107C14.7034 2.13394 14.8213 2.40474 14.859 2.692C15.455 7.169 14.072 10.487 12.394 12.682C11.6824 13.621 10.834 14.4479 9.87701 15.135C9.5461 15.3728 9.19549 15.5819 8.82901 15.76C8.54901 15.892 8.24801 16 8.00001 16C7.75201 16 7.45201 15.892 7.17101 15.76C6.80452 15.5819 6.45391 15.3728 6.12301 15.135C5.16603 14.4478 4.31759 13.621 3.60601 12.682C1.92801 10.487 0.545005 7.169 1.14101 2.692C1.17869 2.40474 1.29665 2.13394 1.48132 1.9107C1.666 1.68747 1.9099 1.52085 2.18501 1.43C3.1402 1.11681 4.10281 0.826725 5.07201 0.56Z" />
-                                <path class="fill-secondary"
-                                    d="M8 5.38462C8.21217 5.38462 8.41566 5.46566 8.56569 5.60992C8.71571 5.75418 8.8 5.94983 8.8 6.15385V6.53846H7.2V6.15385C7.2 5.94983 7.28429 5.75418 7.43431 5.60992C7.58434 5.46566 7.78783 5.38462 8 5.38462ZM9.2 6.53846V6.15385C9.2 5.84783 9.07357 5.55434 8.84853 5.33795C8.62348 5.12157 8.31826 5 8 5C7.68174 5 7.37652 5.12157 7.15147 5.33795C6.92643 5.55434 6.8 5.84783 6.8 6.15385V6.53846C6.58783 6.53846 6.38434 6.61951 6.23431 6.76376C6.08429 6.90802 6 7.10368 6 7.30769V9.23077C6 9.43478 6.08429 9.63044 6.23431 9.7747C6.38434 9.91896 6.58783 10 6.8 10H9.2C9.41217 10 9.61566 9.91896 9.76569 9.7747C9.91571 9.63044 10 9.43478 10 9.23077V7.30769C10 7.10368 9.91571 6.90802 9.76569 6.76376C9.61566 6.61951 9.41217 6.53846 9.2 6.53846Z" />
-                            </svg>
-                            <span class="ms-2">My Billing</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="m-link" href="{{ url('agreement') }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path class="fill-secondary"
-                                    d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
-                                <path fill-rule="evenodd"
-                                    d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
-                            </svg>
-                            <span class="ms-2">Agreement</span>
-                        </a>
-                    </li>
+                    @foreach (Session::get('menus') as $menu)
+                        <li>
+                            <a class="m-link" href="{{ url($menu->menu_link) }}" >
+                                <span v-html="menu.menu_icon">{!! $menu->menu_icon !!}</span>
+                                <span class="ms-2"> {{ $menu->menu_label }}</span>
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </div>
 
-
+            {{-- 
             <div class="main-menu flex-grow-1">
                 <ul class="menu-list">
                     <li class="divider py-2 lh-sm">
@@ -132,15 +116,14 @@
                         </a>
                     </li>
                 </ul>
-            </div>
+            </div> --}}
 
 
             <ul class="menu-list nav navbar-nav flex-row text-center menu-footer-link">
                 <li class="nav-item flex-fill p-2">
                     <a class="d-inline-block w-100 color-400" href="#" data-bs-toggle="modal"
                         data-bs-target="#ScheduleModal" title="My Schedule">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
                             <path class="fill-secondary"
                                 d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
                             <path
@@ -153,8 +136,7 @@
                 <li class="nav-item flex-fill p-2">
                     <a class="d-inline-block w-100 color-400" href="#" data-bs-toggle="modal"
                         data-bs-target="#MynotesModal" title="My notes">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
                             <path class="fill-secondary"
                                 d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z" />
                             <path
@@ -165,8 +147,7 @@
                 <li class="nav-item flex-fill p-2">
                     <a class="d-inline-block w-100 color-400" href="#" data-bs-toggle="modal"
                         data-bs-target="#RecentChat">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
                             <path
                                 d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
                             <path class="fill-secondary"
@@ -176,8 +157,7 @@
                 </li>
                 <li class="nav-item flex-fill p-2">
                     <a class="d-inline-block w-100 color-400" href="auth-signin.html" title="sign-out">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor"
-                            viewBox="0 0 16 16">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M7.5 1v7h1V1h-1z" />
                             <path class="fill-secondary"
                                 d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
@@ -646,8 +626,12 @@
                                                 href="client-support-ticket.php"><i class="w30 fa fa-tag"></i>Support
                                                 Ticket</a>
                                         </div>
-                                        <a class="btn bg-secondary text-light text-uppercase rounded-0" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();"> {{ __('Logout') }} </a>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        <a class="btn bg-secondary text-light text-uppercase rounded-0"
+                                            href="{{ route('logout') }}"
+                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }} </a>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                            class="d-none">
                                             @csrf
                                         </form>
                                     </div>
@@ -1179,10 +1163,10 @@
                                                 <div class="card p-3">
                                                     <div class="message">
                                                         <p>Please find attached images</p>
-                                                        <img class="w120 img-thumbnail"
-                                                            src="assets/img/gallery/3.jpg" alt="">
-                                                        <img class="w120 img-thumbnail"
-                                                            src="assets/img/gallery/4.jpg" alt="">
+                                                        <img class="w120 img-thumbnail" src="assets/img/gallery/3.jpg"
+                                                            alt="">
+                                                        <img class="w120 img-thumbnail" src="assets/img/gallery/4.jpg"
+                                                            alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1225,8 +1209,7 @@
 
                                 <div class="card-footer border-top bg-transparent py-3 px-4">
                                     <div class="input-group">
-                                        <input type="text" class="form-control"
-                                            placeholder="Enter text here...">
+                                        <input type="text" class="form-control" placeholder="Enter text here...">
                                         <button class="btn btn-primary" type="button">Send</button>
                                     </div>
                                 </div>
@@ -1763,18 +1746,36 @@
 
 
     {{-- <script data-cfasync="false" src="assets/js/email-decode.min.js"></script> --}}
-    <script src="{{asset('assets/js/plugins.js')}}"></script>
-    <script src="{{asset('assets/js/theme.js')}}"></script>
-    <script src="{{asset('assets/js/bundle/bootstrapdatepicker.bundle.js')}}"></script>
-    <script src="{{asset('assets/js/bundle/dropify.bundle.js')}}"></script>
-    <script src="{{asset('assets/js/bundle/owlcarousel.bundle.js')}}"></script>    
-    
-    
-    {{-- <script src="assets/js/bundle/tui-calendar.bundle.js"></script> --}}
-    <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script>
+    <script src="{{ asset('assets/js/email-decode.min.js') }}"></script>
+    <script src="{{ asset('assets/js/theme.js') }}"></script>
+    <script src="{{ asset('assets/js/bundle/bootstrapdatepicker.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/bundle/dropify.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/bundle/owlcarousel.bundle.js') }}"></script>
+
+    <script src="{{ asset('assets/vendor/prismjs/prism.js') }}"></script>
+    {{-- <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script> --}}
+    <script src="{{ asset('assets/js/bundle/jquerysteps.bundle.js') }}"></script>
+    <script src="{{ asset('assets/vendor/jquery-validate/jquery.validate.js') }}"></script>
+    <script src="{{ asset('assets/vendor/parsleyjs/js/parsley.js') }}"></script>
     <script>
-       $('.select2').select2();
+        //   $('.select2').select2();
+        // Step Demo 1
+        $('.h-wizard-demo1').steps({});
+        // Select2
+        //   $(".country, .language").select2({});
+        // Form Validation
+        $('.validation, .validation1, .validation2').parsley();
     </script>
+
+
+    {{-- <script src="{{asset('assets/js/bundle/dataTables.bundle.js')}}"></script>
+    <script src="{{asset('assets/js/bundle/apexcharts.bundle.js')}}"></script> --}}
+
+    {{-- <script src="assets/js/bundle/tui-calendar.bundle.js"></script> --}}
+    {{-- <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script> --}}
+    {{-- <script>
+       $('.select2').select2();
+    </script> --}}
     <script>
         // recent invoices Carousel
         $('#recent_invoices').owlCarousel({
@@ -1803,7 +1804,7 @@
             }
         })
     </script>
-    <script src="{{asset('assets/js/bundle/dataTables.bundle.js')}}"></script>
+    <script src="{{ asset('assets/js/bundle/dataTables.bundle.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#invoice_list').addClass('nowrap').dataTable({
@@ -1818,7 +1819,7 @@
             });
         });
 
-        $('.dropify').dropify();
+        // $('.dropify').dropify();
         // date range picker
         // $('.datepicker').datepicker({});
         $('.datepicker').datepicker({
@@ -1827,9 +1828,11 @@
             $(this).datepicker('hide');
         });
     </script>
-    
-
-
 </body>
 
 </html>
+
+
+
+
+

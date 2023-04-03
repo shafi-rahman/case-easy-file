@@ -28,8 +28,19 @@ Route::get('/calender', function () { return view('calender'); });
 Route::get('/documentation-process', function () { return view('documentation-process'); });
 
 
-Route::get('/client-profile', [App\Http\Controllers\ClientProfile::class, 'clientProfile']);
+// subcriber
+Route::get('/home-guide', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
-Route::get('/dashboard', [App\Http\Controllers\Dashboard::class, 'teamDashboard']);
+
+Route::get('/client-profile/{cid}', [App\Http\Controllers\ClientProfile::class, 'clientProfile']);
+
+// subcriber user
+Route::get('/dashboard', [App\Http\Controllers\Dashboard::class, 'subscriberDashboard']); 
+Route::get('/cases', [App\Http\Controllers\Dashboard::class, 'cases']); 
+Route::get('/email', [App\Http\Controllers\Dashboard::class, 'email']);
+Route::get('/task', [App\Http\Controllers\Dashboard::class, 'task']);
+Route::get('/calendar', [App\Http\Controllers\Dashboard::class, 'calendar']);
+Route::get('/reporting', [App\Http\Controllers\Dashboard::class, 'reporting']);
+Route::get('/client-prospects', [App\Http\Controllers\Dashboard::class, 'clientProspects']);
 Route::get('/lead/{type}', [App\Http\Controllers\Dashboard::class, 'lead']);

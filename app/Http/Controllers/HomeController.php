@@ -1,7 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,6 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
+        
         $this->middleware('auth');
     }
 
@@ -23,6 +24,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        
+        // $menus = $this->get_menus();
+        // return view($menus[0]->menu_link, ['menus'=>$menus]);
         return view('home');
     }
+
+
 }

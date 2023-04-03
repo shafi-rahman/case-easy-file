@@ -252,7 +252,7 @@
           <div class="card">
             <div class="card-body border-bottom">
               <div class="d-flex align-items-md-start align-items-center flex-column flex-md-row">
-                <img src="assets/img/profile_av.png" alt="" class="rounded-4">
+                <img src="{{ url('assets/img/profile_av.png') }}" alt="" class="rounded-4">
                 <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
                   <h4 class="mb-1 fw-light">Allie Grater</h4>
                   <div class="">

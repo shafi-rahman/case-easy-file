@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ConfirmsPasswords;
 
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class ConfirmPasswordController extends Controller
 {
     /*
@@ -35,6 +39,11 @@ class ConfirmPasswordController extends Controller
      */
     public function __construct()
     {
+        
+        $rid = Auth::user()->role;
+        $menus = DB::table('menus')->select('menu_label', 'menu_link', 'menu_icon')->whereRaw("FIND_IN_SET($rid, role_id)")->where('status', 1)->orderBy('sort', 'ASC')->get();
+        Session::put('menu', $menus);
+
         $this->middleware('auth');
     }
 }
