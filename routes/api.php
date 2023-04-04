@@ -37,3 +37,4 @@ Route::get('get_lead_status', [ClientProfile::class, 'get_lead_status']);
 Route::get('get_email_template_list', [ClientProfile::class, 'get_email_template_list']);
 Route::post('get_mail_template_content', [ClientProfile::class, 'get_mail_template_content']);
 Route::post('upload_case_excel_file', [commonController::class, 'upload_case_excel_file']);
+Route::post('upload_case_manually', [commonController::class, 'upload_case_manually']);

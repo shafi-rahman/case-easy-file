@@ -3,17 +3,19 @@
     <div class="modal fade" id="CreateCaseByForm" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content text-start">
-                <div class="modal-body custom_scroll p-lg-5">
-                    <button type="button" class="btn-close position-absolute top-0 end-0 mt-3 me-3" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                    <h4 class="modal-title">Case Details</h4>
+                <div class="modal-header">
+                    <h5 class="modal-title h4">Case Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body custom_scroll p-lg-4 pt-lg-1">
                     <div class="row g-2 mt-3">
                         <div class="col-6 form-floating mb-3">
-                            <input type="text" class="form-control" placeholder="Name">
-                            <label>Name</label>
+                            <input type="text" class="form-control" placeholder="Name" v-model="caseData.first_name">
+                            <label>Name <span class="text-danger">*</span></label>
+                            <span class="text-danger" v-if="this.caseDataError.first_name">Name is required</span>
                         </div>
                         <div class="col-6 form-floating mb-3">
-                            <select class="form-control form-control-lg custom-select">
+                            <select class="form-control form-control-lg custom-select" v-model="caseData.marital_status">
                                 <option> Choose </option>
                                 <option value="1">Single</option>
                                 <option value="2">Married</option>
@@ -23,15 +25,16 @@
                             <label>Marital Status</label>
                         </div>
                         <div class="col-6 form-floating mb-3">
-                            <input type="text" class="form-control" placeholder="email@example.com">
+                            <input type="text" class="form-control" placeholder="email@example.com" v-model="caseData.email_id">
                             <label>Email</label>
                         </div>
                         <div class="col-6 form-floating mb-3">
-                            <input type="text" class="form-control" placeholder="Mobile Number">
-                            <label>Mobile Number</label>
+                            <input type="text" class="form-control" placeholder="Mobile Number" v-model="caseData.mobile_number">
+                            <label>Mobile Number <span class="text-danger">*</span></label>
+                            <span class="text-danger" v-if="this.caseDataError.mobile_number">Mobile number is required</span>
                         </div>
                         <div class="col-6 form-floating mb-3">
-                            <select class="form-control form-control-lg custom-select">
+                            <select class="form-control form-control-lg custom-select" v-model="caseData.highest_qualification">
                                 <option> Choose Highest </option>
                                 <option value="php">PHD</option>
                                 <option value="master">Master's</option>
@@ -42,7 +45,7 @@
                             <label>Qualification</label>
                         </div>
                         <div class="col-6 form-floating mb-3">
-                            <select class="form-control form-control-lg custom-select">
+                            <select class="form-control form-control-lg custom-select" v-model="caseData.work_experience">
                                 <option> Choose an option </option>
                                 <option value="0">Fresher</option>
                                 <option value="1">1 year</option>
@@ -59,7 +62,7 @@
                             <label>Work Experience</label>
                         </div>
                         <div class="col-6 form-floating mb-3">
-                            <select class="form-control form-control-lg custom-select">
+                            <select class="form-control form-control-lg custom-select" v-model="caseData.visa_type">
                                 <option> Applying For </option>
                                 <option value="1">Business Investor Visa</option>
                                 <option value="2">Tourist Visa</option>  
@@ -68,18 +71,21 @@
                                 <option value="7">Australia PR</option>
                                 <option value="8">Investor Visa</option>
                             </select>
-                            <label>Visa</label>
+                            <label>Visa <span class="text-danger">*</span></label>
+                            <span class="text-danger" v-if="this.caseDataError.visa_type">Visa type is required</span>
                         </div> 
                         <div class="col-6 form-floating mb-3">
-                            <input type="date" class="form-control" placeholder="Date of Birth">
+                            <input type="date" class="form-control" placeholder="Date of Birth" v-model="caseData.date_of_birth">
                             <label>Date of Birth</label>
                         </div>                        
 
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <button class="btn m-1 btn-primary btn-animate-6"><span class="btntext">Save</span>
+                            <button class="btn m-1 btn-primary btn-animate-6" v-on:click="submitManually()"><span class="btntext">Save</span>
                                 <div class="btninfo bg-success">Click</div>
                             </button>
                         </div>
+                        
+                        <div class="alert alert-warning text-center mt-3" v-if="response" v-text="response"></div>
                     </div>
                 </div>
             </div>
@@ -90,40 +96,41 @@
 export default {
     data() {
         return {
+            response: '',
             caseData: {
                 first_name: '',
                 email_id: '',
                 mobile_number: '',
                 marital_status: '',
                 date_of_birth: '',
-                first_name: '',
-                first_name: '',
-                first_name: '',
-                first_name: '',
-            }
+                highest_qualification: '',
+                work_experience: '',
+                visa_type: '',
+                source:'manual by form',
+            },
+            caseDataError: {
+                first_name: false,
+                mobile_number: false,
+                visa_type: false,
+            },
         }
     },
     methods:{
-        getLeadStatus() {
-            axios.get(window.url + 'get_lead_status')
-                .then(response => {
-                    this.leadStatus = response.data;
-                    // console.log(this.leadStatus);
-                })
-                .catch(error => { console.log(error) });
-        },
-        add_more_payment(){
-            let payRow = '<div class="row p-0 mt-2"><div class="col-6"><div class="form-floating">';
-            payRow += '<input type="text" class="form-control text-primary" value="" placeholder="Amount">';
-            payRow += '<label>Amount</label></div></div><div class="col-6"><div class="form-floating">';
-            payRow += '<input type="date" class="form-control text-primary" value="" placeholder="Amount">';
-            payRow += '<label>Date</label></div></div></div>';
-            
-            $('.payment-schedule').append(payRow);
+        submitManually() {
+            // this.caseDataError.first_name = this.caseData.first_name==''?true:false; 
+            this.caseDataError.mobile_number = this.caseData.mobile_number==''?true:false; 
+            this.caseDataError.visa_type = this.caseData.visa_type==''?true:false;
+
+            if(!this.caseDataError.mobile_number&&!this.caseDataError.visa_type){
+                axios.post(window.url + 'upload_case_manually', {data: this.caseData}).then((res) => {
+                    this.response = res.data;
+                    // console.log(res.data);
+                }) .catch(error => { console.log(error) });
+            }
         }
     },
     beforeMount() {
-        this.getLeadStatus();
+        
 
     }
 }
