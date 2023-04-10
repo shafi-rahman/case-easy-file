@@ -28486,9 +28486,10 @@ button:focus:not(:focus-visible) {
   align-items: center;
   flex: inherit;
   outline: 0;
-  font-size: 18px;
-  margin-right: 25px;
+  font-size: 16px;
+  margin-right: 0px;
   flex-grow: 0;
+  padding: 0;
 }
 .step-app.h-wizard-demo1 > .step-steps > li.active {
   background-color: transparent;
@@ -28510,9 +28511,9 @@ button:focus:not(:focus-visible) {
 .step-app.h-wizard-demo1 > .step-steps > li span {
   background-color: var(--color-400);
   color: var(--white-color);
-  padding: 0 12px;
-  border-radius: 0.25rem;
-  margin: 0 10px 0 0;
+  padding: 10px 14px;
+  border-radius: 0;
+  margin: 0;
 }
 .step-app.h-wizard-demo1 > .step-content {
   margin-top: 30px;
@@ -28535,6 +28536,37 @@ button:focus:not(:focus-visible) {
   padding: 0.375rem 0.75rem;
   border-radius: 0.25rem;
 }
+
+/* .step-app.h-wizard-demo1 > .step-steps > li span{
+  background: #32557f;
+  position: relative;
+  padding: 13px 0px 13px 30px;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .step-app.h-wizard-demo2 > .step-steps {
   border: 1px dashed var(--primary-color);
   display: flex;

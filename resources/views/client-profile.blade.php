@@ -1,7 +1,12 @@
 @extends('layouts.app')
 @section('content')
 
-     
+{{-- from vue --}}
+<div id="root-create-user-account">
+    {{-- @{{message}} --}}
+    <create-user-account></create-user-account>
+</div> 
+
 {{-- from vue --}}
 <div id="root-add-quote">
     {{-- @{{message}} --}}
@@ -236,9 +241,9 @@
         <div class="row g-3 align-items-center">
             <div class="col">
                 <ol class="breadcrumb bg-transparent mb-0">
-                    <li class="breadcrumb-item"><a class="text-secondary" href="{{url('dashboard')}}">Home</a></li>
-                    <li class="breadcrumb-item"><a class="text-secondary" href="{{ url('lead').'/'.Crypt::encryptString('payment-reminder') }}">Payment Reminder</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                    <li class="breadcrumb-item"><a class="text-secondary" href="{{url('home')}}">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-secondary" href="{{ url('cases') }}">Cases</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">{{ $userDetails->first_name }}</li>
                 </ol>
             </div>
         </div>
@@ -252,32 +257,39 @@
           <div class="card">
             <div class="card-body border-bottom">
               <div class="d-flex align-items-md-start align-items-center flex-column flex-md-row">
-                <img src="{{ url('assets/img/profile_av.png') }}" alt="" class="rounded-4">
+                <img src="{{ url('uploads/users').'/'.$userDetails->avatar }}" alt="" class="rounded-4">
                 <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
-                  <h4 class="mb-1 fw-light">Allie Grater</h4>
+                  <h4 class="mb-1 fw-light">{{ $userDetails->first_name }} | <span class="text-success fs-6" style="font-size: 12px !important; font-weight: 100;"><i class="fa fa-tags"></i> {{ $userDetails->currentstatus }}</span></h4>
                   <div class="">
                     <div class="input-group">
                         <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
-                        data-bs-target="#sendmail" data-bs-toggle="tooltip" title="Send email"><i
+                        data-bs-target="#sendmail" emailid="{{ $userDetails->email_id }}" title="Send email"><i
                                 class="fa fa-envelope"></i> email</button>
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="tooltip" title="Make a call"><i
-                                class="fa fa-phone"></i> call</button>
+                        <a href="callto:{{$userDetails->mobile_number}}" class="btn btn-secondary" type="button" data-bs-toggle="tooltip" title="Make a call"><i
+                                class="fa fa-phone"></i> call</a>
                     </div>
                   </div>
                   
                   <div
                     class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                    
-                    <button class="btn mx-2 btn-primary btn-animate-1 mb-2" data-bs-toggle="modal" data-bs-target="#addquote">
-                        <span>Add Quota</span><i class="fa fa-long-arrow-right"></i>
-                    </button>
+                    @if($userDetails->user_id==0)
+                        <p class="mt-3">*This user is not registered till now in our system, if you need to manage his/her other details e.g. Educational Details, Professional Details & Document Details, you need to create account for him/her.</p>
+                    @endif
+                    @if($userDetails->status==5&&count($userPaymentDetails)==0)
+                        <button class="btn mx-2 btn-primary btn-animate-1 mb-2" data-bs-toggle="modal" data-bs-target="#addquote">
+                            <span>Add Quota</span><i class="fa fa-long-arrow-right"></i>
+                        </button>
+                    @endif
+                    @if(count($userPaymentDetails)>0)
 
-                    <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="card cust_pay py-2 px-3 me-2 mt-2 bg-success">
-                      <small class="text-white">First Installment </small>
-                      <div class="fs-5 text-white">₹ 25,000</div>
-                      <small class="text-white">Paid @ 12 Dec 23</small>
+                    @foreach($userPaymentDetails as $i=>$paymentDetail)
+                    <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="card cust_pay py-2 px-3 me-2 mt-2 btn btn-outline-success">
+                      <small class="">{{ ($i+1) }} Installment </small>
+                      <div class="fs-5">₹ {{ $paymentDetail->amount }}</div>
+                      <small class="">Unpaid @ {{ date("d M Y", strtotime($paymentDetail->due_date)) }}</small>
                     </div>
-                    <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="card cust_pay py-2 px-3 me-2 mt-2 bg-success">
+                    @endforeach
+                    {{-- <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="card cust_pay py-2 px-3 me-2 mt-2 bg-success">
                       <small class="text-white">2nd Installment</small>
                       <div class="fs-5 text-white">₹ 25,000</div>
                       <small class="text-white">Paid @ 12 Jan 23</small>
@@ -291,7 +303,8 @@
                       <small class="text-white">4rth Installment</small>
                       <div class="fs-5 text-white">₹ 25,000</div>
                       <small class="text-white">Unpaid @ 12 Mar 23</small>
-                    </div>
+                    </div> --}}
+                    @endif
                   </div>
                 </div>
                 
@@ -316,19 +329,35 @@
                 </div>
                 
             </div>
-            {{-- from vue --}}
-            <div id="root-profile-header">
-                {{-- @{{message}} --}}
-                <profile-header></profile-header>
-            </div> 
+            
+            @if($userDetails->user_id!=0)
+                {{-- from vue --}}
+                <div id="root-profile-header">
+                    {{-- @{{message}} --}}
+                    <profile-header></profile-header>
+                </div> 
+            @else
+            <ul class="nav nav-tabs tab-card border-bottom-0 p-0 fs-6 justify-content-center justify-content-md-start" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active" data-bs-toggle="tab" href="#personal_details" role="tab">
+                        <i class="fa fa-address-card-o"></i>
+                        <span class="d-none d-sm-inline-block ms-2">Personal Details</span>
+                    </a>
+                </li>
+            </ul>
+            @endif
           </div>
           <div class="tab-content mt-5">
 
             {{-- from vue --}}
-            <div id="root-profile-content">
+            <script>
+                window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
+            </script>
+            <div id="root-profile-content" :caseId="{{ $userDetails->id }}">
                 {{-- @{{message}} --}}
-                <profile-content></profile-content>
+                <profile-content :caseId="{{ $userDetails->id }}"></profile-content>
             </div> 
+            
 
         </div>
       </div>

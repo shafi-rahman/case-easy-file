@@ -31,7 +31,8 @@ Route::post('check_email_already_exist', [ClientProfile::class, 'check_email_alr
 Route::post('check_mobile_already_exist', [ClientProfile::class, 'check_mobile_already_exist']);
 Route::post('save_educational_details/{action}', [ClientProfile::class, 'save_educational_details']);
 Route::post('save_professional_details/{action}', [ClientProfile::class, 'save_professional_details']);
-
+Route::post('update_case_status_details', [ClientProfile::class, 'update_case_status_details']);
+Route::post('save_case_quote', [ClientProfile::class, 'save_case_quote']);
 
 Route::get('get_lead_status', [ClientProfile::class, 'get_lead_status']);
 Route::get('get_email_template_list', [ClientProfile::class, 'get_email_template_list']);

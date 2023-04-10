@@ -22,11 +22,13 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        
         // $menus = $this->get_menus();
         // return view($menus[0]->menu_link, ['menus'=>$menus]);
+
+
+        
         return view('home');
     }
 

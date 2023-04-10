@@ -1,6 +1,6 @@
 <template>
     <div class="tab-content">
-        <div class="toast fade" style="position: absolute; top: 50px; right: 25px; z-index: 99999;"></div>
+        
         <div class="tab-pane fade show active" id="personal_details" role="tabpanel">
             <div class="row g-3 row-deck">
                 <div class="col-lg-12 col-md-12 col-sm-12">
@@ -13,7 +13,7 @@
                                 <path class="fill-primary"
                                     d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                             </svg>
-                            <div class="mb-2 text-uppercase">Personal Details</div>
+                            <div class="mb-2 text-uppercase">Personal Details </div>
                             <div><span class="h4">20</span> <span class="small text-muted"><i
                                         class="fa fa-level-up"></i>%</span></div>
                             <form class="row g-2 pt-3" name="personalDetailForm">
@@ -113,6 +113,29 @@
                                     <label class="text-danger" v-if="personalDetailsError.marital_status">This field is
                                         required</label>
                                 </div>
+                                
+                                <div class="col-md-4 col-12">
+                                    <div class="form-floating">
+                                        <div class="col-12">
+                                            <label class="form-group float-label">
+                                                <select class="form-control form-control-lg custom-select"
+                                                    v-model="personalDetails.visa_type" style="height: 58px;"
+                                                    v-on:change="checkValidation()">
+                                                    <option value="">Select</option>
+                                                    <option value="1">Business Investor Visa</option>
+                                                    <option value="2">Tourist Visa</option>
+                                                    <option value="3">Canada PR</option>
+                                                    <option value="4">Study Visa</option>
+                                                    <option value="5">Australia PR</option>
+                                                    <option value="6">Investor Visa</option>
+                                                </select>
+                                                <span>Choose Visa Type <code class="text-danger">*</code></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <label class="text-danger" v-if="personalDetailsError.visa_type">This field is
+                                        required</label>
+                                </div>
                                 <hr>
                                 <div class="col-md-4 col-12">
                                     <div class="form-floating">
@@ -186,10 +209,12 @@
                                     <label class="text-danger" v-if="personalDetailsError.pin_code">This field is
                                         required</label>
                                 </div>
+
                                 <div class="d-grid gap-2 d-md-flex justify-content-md-end personal_details_btn_main">
+                                    <p class="mt-2" v-if="this.personal_detail_button!='Save'">*Password will send to the registered email id.</p>
                                     <div class="btn m-1 btn-lg btn-primary btn-animate-6"
                                         v-on:click="save_personal_details()">
-                                        <span class="btntext">Save</span>
+                                        <span class="btntext" v-text="personal_detail_button"></span>
                                         <div class="btninfo bg-success">Click</div>
                                     </div>
                                 </div>
@@ -476,11 +501,15 @@
 </template>
 <script>
 import axios from 'axios';
-let user_id = 11;
+// let user_id = 11;
+var userDetails = JSON.parse(window.userDetails .replace(/&quot;/g,'"'));
+var case_id = userDetails.id;
+// console.log("case ID : "+userDetails.id);
 export default {
     data() {
         return {
             // loaderIsActive: false,
+            personal_detail_button: 'Save',
             show_toast: false,
             results: [],
             countryList: [],
@@ -490,8 +519,8 @@ export default {
             educationalDetailAction: 'insert',
             professionalDetailAction: 'insert',
             personalDetails: {
-                id: '',
-                user_id: user_id,
+                id: case_id,
+                user_id: '',
                 first_name: '',
                 middle_name: '',
                 last_name: '',
@@ -500,9 +529,11 @@ export default {
                 date_of_birth: '',
                 gender: '',
                 marital_status: '',
+                visa_type: '',
                 address: '',
                 country: '',
                 state: '',
+                status: '',
                 city: '',
                 pin_code: '',
             },
@@ -514,12 +545,13 @@ export default {
                 gender: false,
                 address: false,
                 country: false,
+                visa_type: false,
                 state: false,
                 city: false,
                 pin_code: false,
             },
             educationalDetails: {
-                user_id: user_id,
+                user_id: '',
                 id: '',
                 educationalDetailSubmit : '',
                 secondary: '',
@@ -541,7 +573,7 @@ export default {
             },
             professionalDetails: {
                 id: '',
-                user_id: user_id,
+                user_id: '',
                 experience_year: '',
                 description: ''
             },
@@ -618,7 +650,7 @@ export default {
         },
         checkEmailAlreadyExists() {
             // console.log(this.personalDetails.email_id);
-            let emailCheck = { user_id: this.user_id, email_id: this.personalDetails.email_id }
+            let emailCheck = { case_id: this.case_id, email_id: this.personalDetails.email_id }
             axios.post(window.url + 'check_email_already_exist/', emailCheck)
                 .then(response => {
                     if (response.data.length != 0) {
@@ -631,7 +663,7 @@ export default {
 
         checkMobileAlreadyExists() {
             // console.log(this.personalDetails.mobile_number);
-            let mobileCheck = { user_id: this.user_id, mobile_number: this.personalDetails.mobile_number }
+            let mobileCheck = { case_id: this.case_id, mobile_number: this.personalDetails.mobile_number }
             axios.post(window.url + 'check_mobile_already_exist/', mobileCheck)
                 .then(response => {
                     if (response.data.length != 0) {
@@ -663,33 +695,41 @@ export default {
             this.personalDetails.marital_status == '' ? this.personalDetailsError.marital_status = true : this.personalDetailsError.marital_status = false;
             this.personalDetails.city == '' ? this.personalDetailsError.city = true : this.personalDetailsError.city = false;
             this.personalDetails.pin_code == '' ? this.personalDetailsError.pin_code = true : this.personalDetailsError.pin_code = false;
+            this.personalDetails.visa_type == '' ? this.personalDetailsError.visa_type = true : this.personalDetailsError.visa_type = false;
+
+            
         },
-        save_personal_details() {
-            this.personalDetails.first_name == '' ? this.personalDetailsError.first_name = true : this.personalDetailsError.first_name = false;
-            this.personalDetails.email_id == '' ? this.personalDetailsError.email_id = true : this.personalDetailsError.email_id = false;
-            this.personalDetails.mobile_number == '' ? this.personalDetailsError.mobile_number = true : this.personalDetailsError.mobile_number = false;
-            this.personalDetails.date_of_birth == '' ? this.personalDetailsError.date_of_birth = true : this.personalDetailsError.date_of_birth = false;
-            this.personalDetails.gender == '' ? this.personalDetailsError.gender = true : this.personalDetailsError.gender = false;
-            this.personalDetails.address == '' ? this.personalDetailsError.address = true : this.personalDetailsError.address = false;
-            this.personalDetails.marital_status == '' ? this.personalDetailsError.marital_status = true : this.personalDetailsError.marital_status = false;
-            this.personalDetails.country == '' ? this.personalDetailsError.country = true : this.personalDetailsError.country = false;
-            this.personalDetails.state == '' ? this.personalDetailsError.state = true : this.personalDetailsError.state = false;
-            this.personalDetails.city == '' ? this.personalDetailsError.city = true : this.personalDetailsError.city = false;
-            this.personalDetails.pin_code == '' ? this.personalDetailsError.pin_code = true : this.personalDetailsError.pin_code = false;
+        save_personal_details() { 
+            this.personalDetails.first_name == null ? this.personalDetailsError.first_name = true : this.personalDetailsError.first_name = false;
+            this.personalDetails.email_id == null ? this.personalDetailsError.email_id = true : this.personalDetailsError.email_id = false;
+            this.personalDetails.mobile_number == null ? this.personalDetailsError.mobile_number = true : this.personalDetailsError.mobile_number = false;
+            this.personalDetails.date_of_birth == null ? this.personalDetailsError.date_of_birth = true : this.personalDetailsError.date_of_birth = false;
+            this.personalDetails.gender == null ? this.personalDetailsError.gender = true : this.personalDetailsError.gender = false;
+            this.personalDetails.address == null ? this.personalDetailsError.address = true : this.personalDetailsError.address = false;
+            this.personalDetails.marital_status == null ? this.personalDetailsError.marital_status = true : this.personalDetailsError.marital_status = false;
+            this.personalDetails.country == null ? this.personalDetailsError.country = true : this.personalDetailsError.country = false;
+            this.personalDetails.state == null ? this.personalDetailsError.state = true : this.personalDetailsError.state = false;
+            this.personalDetails.city == null ? this.personalDetailsError.city = true : this.personalDetailsError.city = false;
+            this.personalDetails.pin_code == null ? this.personalDetailsError.pin_code = true : this.personalDetailsError.pin_code = false;
+            this.personalDetails.visa_type == '' ? this.personalDetailsError.visa_type = true : this.personalDetailsError.visa_type = false;
+
 
             if (this.personalDetails.first_name && this.personalDetails.email_id && this.personalDetails.mobile_number &&
                 this.personalDetails.date_of_birth && this.personalDetails.gender && this.personalDetails.address && this.personalDetails.marital_status &&
-                this.personalDetails.country && this.personalDetails.state && this.personalDetails.city && this.personalDetails.pin_code) {
+                this.personalDetails.country && this.personalDetails.state && this.personalDetails.city && this.personalDetails.pin_code &&
+                this.personalDetails.visa_type) {
 
                 axios.post(window.url + 'save_personal_details/' + this.personalDetailAction, this.personalDetails)
                     .then(response => {
                         // console.log(response);
                         
                         if (response.data.success) {
-                            this.personalDetailAction = 'update';
                             this.personalDetails.id = response.data.insID;
                             showToastMsg('success', 'Greate', 'Details updated', 'Your profile information successfully updated');
-                            
+                            if(this.personalDetailAction=='createaccount'){
+                                window.location.reload();
+                            }
+                            this.personalDetailAction = 'update';
                         }
                     })
                     .catch(errors => {
@@ -701,27 +741,29 @@ export default {
                         // console.log(errorObj);
                     });
 
+            } else {
+                console.log("in else");
             }
         },
-        getClientDetails(user_id) {
-            // this.loaderIsActive = true;
-            axios.get(window.url + 'get_client_details', { params: { user_id: user_id } })
-                .then(response => {
-                    this.results = response.data;
+        // getClientDetails(case_id) {
+        //     // this.loaderIsActive = true;
+        //     axios.get(window.url + 'get_client_details', { params: { case_id: case_id } })
+        //         .then(response => {
+        //             this.results = response.data;
 
-                    if (this.results['personal_details'].length > 0) {
-                        this.personalDetails = this.results['personal_details'][0];
-                        this.personalDetailAction = 'update';
-                    }
+        //             if (this.results['personal_details'].length > 0) {
+        //                 this.personalDetails = this.results['personal_details'][0];
+        //                 this.personalDetailAction = 'update';
+        //             }
 
-                    // this.loaderIsActive = false;
-                    // console.log(this.personalDetails);                    
-                })
-                .catch(error => { console.log(error) });
-        },
-        getClientDetails(user_id) {
+        //             // this.loaderIsActive = false;
+        //             // console.log(this.personalDetails);                    
+        //         })
+        //         .catch(error => { console.log(error) });
+        // },
+        getClientDetails(case_id) {
             // this.loaderIsActive = true;
-            axios.get(window.url + 'get_client_details', { params: { user_id: user_id } })
+            axios.get(window.url + 'get_client_details', { params: { case_id: case_id } })
                 .then(response => {
                     this.results = response.data;
 
@@ -731,6 +773,12 @@ export default {
                     if (this.results['personal_details'].length > 0) {
                         this.personalDetails = this.results['personal_details'][0];
                         this.personalDetailAction = 'update';
+
+                        if(this.personalDetails.user_id==0){
+                            this.personal_detail_button = "Create Account";
+                            this.personalDetailAction = 'createaccount';
+                        }
+
                     }
                     // set personal details
                     if (this.results['educational_details'].length > 0) {
@@ -799,31 +847,26 @@ export default {
         }
     },
     beforeMount() {
+        
         this.getCountryList();
-        this.getClientDetails(this.personalDetails.user_id);
+        this.getClientDetails(this.personalDetails.id);
 
     }, updated() {
         // call after all dom loaded
-        document.onreadystatechange = () => {
+        document.onreadystatechange = () => { console.log("call after all dom loaded: "+this.personalDetails.country);
             if (document.readyState == "complete") {
-                if (this.personalDetails.country != '') {
+                if (this.personalDetails.country != null) {  console.log("country: "+this.personalDetails.country);
                     this.getStateList(this.personalDetails.country)
-                }
-                if (this.personalDetails.state != '') {
+                }   
+                if (this.personalDetails.state != null) { console.log("state: "+this.personalDetails.state);
                     this.getCityList(this.personalDetails.state)
+
+                    
                 }
             }
         }
     }
 }
-function showToastMsg(typ='secondary', expressionMsg='', subject='', message='' ){
-    typ = typ=='success'?'success':'danger';
 
-    let toastMsg = '<div class="toast-header bg-'+typ+' text-white"> <i class="fa fa-info-circle"></i>&nbsp;';
-        toastMsg += '<strong class="me-auto"> '+expressionMsg+'</strong><small>'+subject+'</small></div>';
-        toastMsg += '<div class="toast-body"> '+message+'! </div>';
-    $('.toast').html(toastMsg);
-    $('.toast').addClass('show').animate({"top":"25px"}, "slow");
-    setTimeout(() => $('.toast').removeClass( "show") , 3000);
-}
+
 </script>

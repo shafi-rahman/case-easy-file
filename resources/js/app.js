@@ -13,6 +13,7 @@ import ProfileContent from './components/client/profile-content.vue';
 import clientStatusupdate from './components/client/client-statusupdate.vue'; 
 import sendEmailPopup from './components/client/send-mail-popup.vue';
 import addQuote from './components/client/add-quote.vue';
+import createUserAccount from './components/client/create-user-account.vue';
 
 import uploadCaseByExcel from './components/subscriber/upload-case-by-excel.vue';
 import createCaseByForm from './components/subscriber/create-case-by-form.vue';
@@ -65,6 +66,18 @@ const rootSendEmailPopup = createApp({
     },
 }, );
 rootSendEmailPopup.mount('#root-send-email-popup');
+
+const rootCreateUserAccount = createApp({
+    data() {
+        return {
+            message: 'create-User-Account'
+        };
+    },
+    components: {
+        'create-user-account': createUserAccount,
+    },
+}, );
+rootCreateUserAccount.mount('#root-create-user-account'); 
 
 const rootAddQuote = createApp({
     data() {

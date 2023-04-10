@@ -9,6 +9,11 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+
+    
+    public static function calcPrecentage($total=0, $sub=0){
+        return number_format( (($sub/$total)*100), 0);
+    }
     
 }
 

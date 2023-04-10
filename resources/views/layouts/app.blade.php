@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="-">
     <meta name="keyword" content="-">
-    <link rel="icon" href="assets/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="{{ asset('assets/img/favicon.ico') }}" type="image/x-icon">
     <title>:: Case Easy ::</title>
 
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/daterangepicker.min.css') }}">
@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/dropify.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/tuicalendar.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/summernote.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/dataTables.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/jquerysteps.min.css') }}">
@@ -50,6 +52,7 @@
             margin: 0;
             width: 20px;
         }
+       
     </style>
 
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
@@ -74,14 +77,16 @@
                         <span class="small">Main Operations</span><br>
                         <small class="text-muted">Unique Client dashboard</small>
                     </li>
-                    @foreach (Session::get('menus') as $menu)
-                        <li>
-                            <a class="m-link" href="{{ url($menu->menu_link) }}" >
-                                <span v-html="menu.menu_icon">{!! $menu->menu_icon !!}</span>
-                                <span class="ms-2"> {{ $menu->menu_label }}</span>
-                            </a>
-                        </li>
-                    @endforeach
+                    @if(Session::get('menus')!=NULL)
+                        @foreach (Session::get('menus') as $menu)
+                            <li>
+                                <a class="m-link" href="{{ url($menu->menu_link) }}" >
+                                    <span v-html="menu.menu_icon">{!! $menu->menu_icon !!}</span>
+                                    <span class="ms-2"> {{ $menu->menu_label }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif 
                 </ul>
             </div>
 
@@ -300,7 +305,7 @@
                                                     <li class="py-2 mb-1 border-bottom">
                                                         <a href="javascript:void(0);" class="d-flex">
                                                             <img class="avatar rounded-circle"
-                                                                src="assets/img/xs/avatar5.jpg" alt="">
+                                                                src="{{ asset('assets/img/xs/avatar5.jpg') }}" alt="">
                                                             <div class="flex-fill ms-3">
                                                                 <p class="d-flex justify-content-between mb-0">
                                                                     <span>Olive Tree</span> <small>13MIN</small>
@@ -312,7 +317,7 @@
                                                     <li class="py-2 mb-1 border-bottom">
                                                         <a href="javascript:void(0);" class="d-flex">
                                                             <img class="avatar rounded-circle"
-                                                                src="assets/img/xs/avatar6.jpg" alt="">
+                                                                src="{{ asset('assets/img/xs/avatar6.jpg') }}" alt="">
                                                             <div class="flex-fill ms-3">
                                                                 <p class="d-flex justify-content-between mb-0">
                                                                     <span>Del
@@ -325,7 +330,7 @@
                                                     <li class="py-2 mb-1 border-bottom">
                                                         <a href="javascript:void(0);" class="d-flex">
                                                             <img class="avatar rounded-circle"
-                                                                src="assets/img/xs/avatar1.jpg" alt="">
+                                                                src="{{ asset('assets/img/xs/avatar1.jpg') }}" alt="">
                                                             <div class="flex-fill ms-3">
                                                                 <p class="d-flex justify-content-between mb-0">
                                                                     <span>Rose Bush</span> <small>2MIN</small>
@@ -351,7 +356,7 @@
                                                     <li class="py-2 mb-1 border-bottom">
                                                         <a href="javascript:void(0);" class="d-flex">
                                                             <img class="avatar rounded-circle"
-                                                                src="assets/img/xs/avatar3.jpg" alt="">
+                                                                src="{{ asset('assets/img/xs/avatar3.jpg') }}" alt="">
                                                             <div class="flex-fill ms-3">
                                                                 <p class="d-flex justify-content-between mb-0">
                                                                     <span>Eileen Dover</span> <small>1HR</small>
@@ -363,7 +368,7 @@
                                                     <li class="py-2 mb-1 border-bottom">
                                                         <a href="javascript:void(0);" class="d-flex">
                                                             <img class="avatar rounded-circle"
-                                                                src="assets/img/xs/avatar4.jpg" alt="">
+                                                                src="{{ asset('assets/img/xs/avatar4.jpg') }}" alt="">
                                                             <div class="flex-fill ms-3">
                                                                 <p class="d-flex justify-content-between mb-0">
                                                                     <span>Carmen Goh</span> <small>1DAY</small>
@@ -376,7 +381,7 @@
                                                     <li class="py-2">
                                                         <a href="javascript:void(0);" class="d-flex">
                                                             <img class="avatar rounded-circle"
-                                                                src="assets/img/xs/avatar7.jpg" alt="">
+                                                                src="{{ asset('assets/img/xs/avatar7.jpg') }}" alt="">
                                                             <div class="flex-fill ms-3">
                                                                 <p class="d-flex justify-content-between mb-0">
                                                                     <span>Karen Onnabit</span> <small>1DAY</small>
@@ -605,18 +610,16 @@
 
                         <li>
                             <div class="dropdown morphing scale-left user-profile mx-lg-3 mx-2">
-                                <a class="nav-link dropdown-toggle rounded-circle after-none p-0" href="#"
-                                    role="button" data-bs-toggle="dropdown">
-                                    <img class="avatar img-thumbnail rounded-circle shadow"
-                                        src="assets/img/profile_av.png" alt="">
+                                <a class="nav-link dropdown-toggle rounded-circle after-none p-0" href="#" role="button" data-bs-toggle="dropdown">
+                                    <span class="btn bg-primary text-white rounded-circle shadow">{{ ucwords(Auth::user()->name[0]) }}</span>
                                 </a>
                                 <div class="dropdown-menu border-0 rounded-4 shadow p-0">
                                     <div class="card border-0 w240">
                                         <div class="card-body border-bottom d-flex">
-                                            <img class="avatar rounded-circle" src="assets/img/profile_av.png"
-                                                alt="">
+                                            {{-- <img class="avatar rounded-circle" src="{{ asset('assets/img/profile_av.png"
+                                                alt=""> --}}
                                             <div class="flex-fill ms-3">
-                                                {{-- <h6 class="card-title mb-0">{{ Auth::user()->name }}</h6> --}}
+                                                <h6 class="card-title mb-0">{{ ucfirst(Auth::user()->name) }}</h6>
                                             </div>
                                         </div>
                                         <div class="list-group m-2 mb-3">
@@ -626,8 +629,7 @@
                                                 href="client-support-ticket.php"><i class="w30 fa fa-tag"></i>Support
                                                 Ticket</a>
                                         </div>
-                                        <a class="btn bg-secondary text-light text-uppercase rounded-0"
-                                            href="{{ route('logout') }}"
+                                        <a class="btn bg-danger text-light text-uppercase rounded-0" href="{{ route('logout') }}"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                             {{ __('Logout') }} </a>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -657,7 +659,7 @@
                 </nav>
             </div>
         </header>
-
+        <div class="toast fade" style="position: absolute; top: 50px; right: 25px; z-index: 99999;"></div>
 
 
 
@@ -682,14 +684,10 @@
                     </svg>
                 </a>
                 <ul class="nav col-md-4 justify-content-center justify-content-lg-end">
-                    <li class="nav-item"><a href="https://themeforest.net/user/wrraptheme/portfolio" target="_blank"
-                            class="nav-link px-2 text-muted">Portfolio</a></li>
-                    <li class="nav-item"><a href="https://themeforest.net/licenses/standard" target="_blank"
-                            class="nav-link px-2 text-muted">licenses</a></li>
-                    <li class="nav-item"><a href="https://help.market.envato.com/hc/en-us" target="_blank"
-                            class="nav-link px-2 text-muted">Support</a></li>
-                    <li class="nav-item"><a href="https://themeforest.net/licenses/faq" target="_blank"
-                            class="nav-link px-2 text-muted">FAQs</a></li>
+                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">Portfolio</a></li>
+                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">licenses</a></li>
+                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">Support</a></li>
+                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">FAQs</a></li>
                 </ul>
             </div>
         </footer>
@@ -908,14 +906,14 @@
                                 <i class="fa fa-phone"></i>
                             </div>
                             <div class="timeline-content ms-3">
-                                <div>Call Danny at Colby's</div>
+                                <div>Call Danny at Colbys</div>
                                 <small class="text-muted">Today - 11:32am</small>
                             </div>
                         </div>
 
                         <div class="timeline-item ti-info p-3">
                             <div class="timeline-icon">
-                                <img class="avatar sm rounded-circle" src="assets/img/xs/avatar1.jpg" alt="">
+                                <img class="avatar sm rounded-circle" src="{{ asset('assets/img/xs/avatar1.jpg') }}" alt="">
                             </div>
                             <div class="timeline-content ms-3">
                                 <div>Meeting with Alice</div>
@@ -985,12 +983,12 @@
                     <div class="nav flex-column nav-pills p-3 h-100">
                         <a class="nav-link rounded-circle p-1 mb-2 active" href="javascript:void(0);"
                             data-bs-toggle="pill" data-bs-target="#c-user-1" title="">
-                            <img class="avatar sm rounded-circle border" src="assets/img/xs/avatar1.jpg"
+                            <img class="avatar sm rounded-circle border" src="{{ asset('assets/img/xs/avatar1.jpg') }}"
                                 alt="avatar">
                         </a>
                         <a class="nav-link rounded-circle p-1 mb-2" href="javascript:void(0);" data-bs-toggle="pill"
                             data-bs-target="#c-user-2" title="">
-                            <img class="avatar sm rounded-circle border" src="assets/img/xs/avatar2.jpg"
+                            <img class="avatar sm rounded-circle border" src="{{ asset('assets/img/xs/avatar2.jpg') }}"
                                 alt="avatar">
                         </a>
                     </div>
@@ -1000,7 +998,7 @@
                                 <div class="card-header border-bottom py-3">
                                     <div class="d-flex">
                                         <a href="javascript:void(0);" title="">
-                                            <img class="avatar rounded-circle" src="assets/img/xs/avatar1.jpg"
+                                            <img class="avatar rounded-circle" src="{{ asset('assets/img/xs/avatar1.jpg') }}"
                                                 alt="avatar">
                                         </a>
                                         <div class="ms-3">
@@ -1036,7 +1034,7 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar1.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar1.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
@@ -1082,7 +1080,7 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar1.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar1.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
@@ -1108,7 +1106,7 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar1.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar1.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
@@ -1157,15 +1155,15 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar1.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar1.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
                                                     <div class="message">
                                                         <p>Please find attached images</p>
-                                                        <img class="w120 img-thumbnail" src="assets/img/gallery/3.jpg"
+                                                        <img class="w120 img-thumbnail" src="{{ asset('assets/img/gallery/3.jpg') }}"
                                                             alt="">
-                                                        <img class="w120 img-thumbnail" src="assets/img/gallery/4.jpg"
+                                                        <img class="w120 img-thumbnail" src="{{ asset('assets/img/gallery/4.jpg') }}"
                                                             alt="">
                                                     </div>
                                                 </div>
@@ -1221,7 +1219,7 @@
                                 <div class="card-header border-bottom py-3">
                                     <div class="d-flex">
                                         <a href="javascript:void(0);" title="">
-                                            <img class="avatar rounded-circle" src="assets/img/xs/avatar2.jpg"
+                                            <img class="avatar rounded-circle" src="{{ asset('assets/img/xs/avatar2.jpg') }}"
                                                 alt="avatar">
                                         </a>
                                         <div class="ms-3">
@@ -1280,7 +1278,7 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar2.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar2.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
@@ -1327,16 +1325,16 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar2.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar2.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
                                                     <div class="message">
                                                         <p>Please find attached images</p>
                                                         <img class="w120 img-thumbnail"
-                                                            src="assets/img/gallery/1.jpg" alt="">
+                                                            src="{{ asset('assets/img/gallery/1.jpg') }}" alt="">
                                                         <img class="w120 img-thumbnail"
-                                                            src="assets/img/gallery/2.jpg" alt="">
+                                                            src="{{ asset('assets/img/gallery/2.jpg') }}" alt="">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1379,7 +1377,7 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar2.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar2.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
@@ -1405,7 +1403,7 @@
                                             <div class="max-width-70">
                                                 <div class="user-info mb-1">
                                                     <img class="avatar xs rounded-circle me-1"
-                                                        src="assets/img/xs/avatar2.jpg" alt="avatar">
+                                                        src="{{ asset('assets/img/xs/avatar2.jpg') }}" alt="avatar">
                                                     <span class="text-muted small">10:10 AM, Today</span>
                                                 </div>
                                                 <div class="card p-3">
@@ -1557,27 +1555,27 @@
                             <label class="m-1 theme-switch" for="theme-switch">
                                 <input type="checkbox" id="theme-switch" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/dark-version.svg" alt="Dark Mode" />
+                                    <img class="img-fluid" src="{{ asset('assets/img/dark-version.svg') }}" alt="Dark Mode" />
                                 </span>
                             </label>
                             <label class="m-1 theme-dark" for="theme-dark">
                                 <input type="checkbox" id="theme-dark" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/dark-theme.svg"
+                                    <img class="img-fluid" src="{{ asset('assets/img/dark-theme.svg') }}"
                                         alt="Theme Dark Mode" />
                                 </span>
                             </label>
                             <label class="m-1 theme-high-contrast" for="theme-high-contrast">
                                 <input type="checkbox" id="theme-high-contrast" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/high-version.svg"
+                                    <img class="img-fluid" src="{{ asset('assets/img/high-version.svg') }}"
                                         alt="High Contrast" />
                                 </span>
                             </label>
                             <label class="m-1 theme-rtl" for="theme-rtl">
                                 <input type="checkbox" id="theme-rtl" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/rtl-version.svg" alt="RTL Mode!" />
+                                    <img class="img-fluid" src="{{ asset('assets/img/rtl-version.svg') }}" alt="RTL Mode!" />
                                 </span>
                             </label>
                         </div>
@@ -1589,27 +1587,27 @@
                             <label class="m-1" for="font-opensans">
                                 <input type="radio" name="font" id="font-opensans" value="font-opensans" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/font-opensans.svg" alt="Dark Mode" />
+                                    <img class="img-fluid" src="{{ asset('assets/img/font-opensans.svg') }}" alt="Dark Mode" />
                                 </span>
                             </label>
                             <label class="m-1" for="font-quicksand">
                                 <input type="radio" name="font" id="font-quicksand"
                                     value="font-quicksand" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/font-quicksand.svg" alt="Dark Mode" />
+                                    <img class="img-fluid" src="{{ asset('assets/img/font-quicksand.svg') }}" alt="Dark Mode" />
                                 </span>
                             </label>
                             <label class="m-1" for="font-nunito">
                                 <input type="radio" name="font" id="font-nunito" value="font-nunito"
                                     checked="" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/font-nunito.svg" alt="Dark Mode" />
+                                    <img class="img-fluid" src="{{ asset('assets/img/font-nunito.svg') }}" alt="Dark Mode" />
                                 </span>
                             </label>
                             <label class="m-1" for="font-raleway">
                                 <input type="radio" name="font" id="font-raleway" value="font-raleway" />
                                 <span class="card p-2">
-                                    <img class="img-fluid" src="assets/img/font-raleway.svg" alt="Dark Mode" />
+                                    <img class="img-fluid" src="{{ asset('assets/img/font-raleway.svg') }}" alt="Dark Mode" />
                                 </span>
                             </label>
                         </div>
@@ -1688,23 +1686,23 @@
                                     <ul class="list-unstyled d-flex">
                                         <li class="sidebar-img-1 me-1 sidebar-img-active"><a
                                                 class="rounded sidebar-img" id="img-1" href="#"><img
-                                                    src="assets/img/sidebar-bg/sidebar-1.jpg" alt="" /></a>
+                                                    src="{{ asset('assets/img/sidebar-bg/sidebar-1.jpg') }}" alt="" /></a>
                                         </li>
                                         <li class="sidebar-img-2 me-1"><a class="rounded sidebar-img"
                                                 id="img-2" href="#"><img
-                                                    src="assets/img/sidebar-bg/sidebar-2.jpg" alt="" /></a>
+                                                    src="{{ asset('assets/img/sidebar-bg/sidebar-2.jpg') }}" alt="" /></a>
                                         </li>
                                         <li class="sidebar-img-3 me-1"><a class="rounded sidebar-img"
                                                 id="img-3" href="#"><img
-                                                    src="assets/img/sidebar-bg/sidebar-3.jpg" alt="" /></a>
+                                                    src="{{ asset('assets/img/sidebar-bg/sidebar-3.jpg') }}" alt="" /></a>
                                         </li>
                                         <li class="sidebar-img-4 me-1"><a class="rounded sidebar-img"
                                                 id="img-4" href="#"><img
-                                                    src="assets/img/sidebar-bg/sidebar-4.jpg" alt="" /></a>
+                                                    src="{{ asset('assets/img/sidebar-bg/sidebar-4.jpg') }}" alt="" /></a>
                                         </li>
                                         <li class="sidebar-img-5 me-1"><a class="rounded sidebar-img"
                                                 id="img-5" href="#"><img
-                                                    src="assets/img/sidebar-bg/sidebar-5.jpg" alt="" /></a>
+                                                    src="{{ asset('assets/img/sidebar-bg/sidebar-5.jpg') }}" alt="" /></a>
                                         </li>
                                     </ul>
                                 </div>
@@ -1745,13 +1743,16 @@
     </div>
 
 
-    {{-- <script data-cfasync="false" src="assets/js/email-decode.min.js"></script> --}}
+    {{-- <script data-cfasync="false" src="assets/js/email-decode.min.js"></script>  --}}
     <script src="{{ asset('assets/js/email-decode.min.js') }}"></script>
     <script src="{{ asset('assets/js/theme.js') }}"></script>
     <script src="{{ asset('assets/js/bundle/bootstrapdatepicker.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/bundle/dropify.bundle.js') }}"></script>
     <script src="{{ asset('assets/js/bundle/owlcarousel.bundle.js') }}"></script>
+    {{-- <script src="{{ asset('assets/bundles/dataTables.bundle.js') }}"></script> --}}
 
+    <script src="{{ asset('assets/js/bundle/dataTables.bundle.js') }}"></script>
+    
     <script src="{{ asset('assets/vendor/prismjs/prism.js') }}"></script>
     {{-- <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script> --}}
     <script src="{{ asset('assets/js/bundle/jquerysteps.bundle.js') }}"></script>
@@ -1804,7 +1805,7 @@
             }
         })
     </script>
-    <script src="{{ asset('assets/js/bundle/dataTables.bundle.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/bundle/dataTables.bundle.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('#invoice_list').addClass('nowrap').dataTable({
@@ -1817,17 +1818,30 @@
             $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
                 $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
             });
-        });
+        }); --}}
 
-        // $('.dropify').dropify();
+        {{-- // $('.dropify').dropify();
         // date range picker
-        // $('.datepicker').datepicker({});
-        $('.datepicker').datepicker({
+        // $('.datepicker').datepicker({}); --}}
+        {{-- $('.datepicker').datepicker({
             format: 'dd/mm/yyyy',
         }).on('changeDate', function(e) {
             $(this).datepicker('hide');
         });
-    </script>
+    </script> --}}
+
+<script>
+    function showToastMsg(typ='secondary', expressionMsg='', subject='', message='' ){
+        typ = typ=='success'?'success':'danger';
+    
+        let toastMsg = '<div class="toast-header bg-'+typ+' text-white"> <i class="fa fa-info-circle"></i>&nbsp;';
+            toastMsg += '<strong class="me-auto"> '+expressionMsg+'</strong><small>'+subject+'</small></div>';
+            toastMsg += '<div class="toast-body"> '+message+'! </div>';
+        $('.toast').html(toastMsg);
+        $('.toast').addClass('show').animate({"top":"25px"}, "slow");
+        setTimeout(() => $('.toast').removeClass( "show") , 3000);
+    }
+</script>
 </body>
 
 </html>
