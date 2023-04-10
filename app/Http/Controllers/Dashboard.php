@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
+
 class Dashboard extends Controller
 {
     public function subscriberDashboard(){
@@ -126,5 +129,80 @@ class Dashboard extends Controller
 
         return view('lead', ['type'=>$type]);
     }
+
+
+
+
+
+
+    public function generateDocx()
+    {
+        try {
+
+            $filename = 'nitin_Retainer-Agreement.docx';
+
+            $templateProcessor = new TemplateProcessor('uploads/docs/Retainer-Agreement.docx');
+            $templateProcessor->setValue('firstname', 'Sohail');
+            $templateProcessor->setValue('lastname', 'Saleem');
+            $templateProcessor->saveAs('uploads/userdocs/'.$filename);
+
+            
+
+            //Load export library
+        //   echo   $domPdfPath = base_path( 'vendor/dompdf/dompdf');
+        //     \PhpOffice\PhpWord\Settings::setPdfRendererPath($domPdfPath);
+        //     \PhpOffice\PhpWord\Settings::setPdfRendererName('DomPDF');
+
+            // \PhpOffice\PhpWord\Settings::getPdfRendererPath(domPdfPath);
+
+            $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;
+           echo  $rendererLibraryPath = base_path('vendor/dompdf/dompdf');
+            \PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+
+            // $phpWord = \PhpOffice\PhpWord\IOFactory::load('uploads/userdocs/'.$filename); 
+
+
+            // $xmlWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord , 'PDF');
+            // //save generated File
+            // $pdfLocation = storage_path('app/public/converted/converted.pdf');
+            // $xmlWriter->save($pdfLocation, true);
+            // //return the file from controller
+            // return response()->download($pdfLocation);
+
+
+            $phpWord = IOFactory::load('uploads/userdocs/'.$filename);
+            $phpWord->save($templateProcessor ,'PDF'); 
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+//         $phpWord = new \PhpOffice\PhpWord\PhpWord();
+
+
+//         $section = $phpWord->addSection();
+
+
+//         $description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+// tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+// quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+// consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+// cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+// proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+
+//         // $section->addImage("http://itsolutionstuff.com/frontTheme/images/logo.png");
+//         $section->addText($description);
+
+
+//         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+//         try {
+//             $objWriter->save(storage_path('helloWorld.docx'));
+//         } catch (Exception $e) {
+//         }
+
+
+//         return response()->download(storage_path('helloWorld.docx'));
+    }
+
 }
     

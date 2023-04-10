@@ -43,5 +43,7 @@ Route::get('/task', [App\Http\Controllers\Dashboard::class, 'task']);
 Route::get('/calendar', [App\Http\Controllers\Dashboard::class, 'calendar']);
 Route::get('/reporting', [App\Http\Controllers\Dashboard::class, 'reporting']);
 Route::get('/client-prospects', [App\Http\Controllers\Dashboard::class, 'clientProspects']);
-Route::get('/client-prospect-details/{cid}', [App\Http\Controllers\Dashboard::class, 'clientProspectDetails']);
+Route::get('/client-prospect-details/{cid}', [App\Http\Controllers\Dashboard::class, 'clientProspectDetails']); 
 Route::get('/lead/{type}', [App\Http\Controllers\Dashboard::class, 'lead']);
+
+Route::get('/generateDocx', [App\Http\Controllers\Dashboard::class, 'generateDocx']);
