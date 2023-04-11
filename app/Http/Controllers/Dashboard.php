@@ -138,7 +138,7 @@ class Dashboard extends Controller
     {
         try {
 
-            $filename = strtotime(date('Y-m-d')).'_Retainer-Agreement';
+            $filename = strtotime(date('Y-m-d H:i:s')).'_Retainer-Agreement';
             $location = 'uploads/userdocs/'.$filename.'.docx';
 
             $templateProcessor = new TemplateProcessor('uploads/docs/Retainer-Agreement.docx');
