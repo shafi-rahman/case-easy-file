@@ -11,26 +11,6 @@
                 </ol>
             </div>
         </div>
-        <div class="row align-items-center">
-            <div class="col-auto">
-                <h1 class="fs-5 color-900 mt-1 mb-0">Welcome back, Allie!</h1>
-                <small class="text-muted">You have 12 new messages and 7 new notifications.</small>
-            </div>
-            <div class="col d-flex justify-content-lg-end mt-2 mt-md-0">
-                <div class="p-2 me-md-3">
-                    <div><span class="h6 mb-0">8.18K</span> <small class="text-secondary"><i class="fa fa-angle-up"></i> 1.3%</small></div>
-                    <small class="text-muted text-uppercase">Income</small>
-                </div>
-                <div class="p-2 me-md-3">
-                    <div><span class="h6 mb-0">1.11K</span> <small class="text-secondary"><i class="fa fa-angle-up"></i> 4.1%</small></div>
-                    <small class="text-muted text-uppercase">Expense</small>
-                </div>
-                <div class="p-2 pe-lg-0">
-                    <div><span class="h6 mb-0">3.66K</span> <small class="text-danger"><i class="fa fa-angle-down"></i> 7.5%</small></div>
-                    <small class="text-muted text-uppercase">Revenue</small>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 <div class="body-area">
@@ -92,78 +72,37 @@
         </div>
     </div>
 
-    <div class="container-fluid pt-4">
+    <div class="container-fluid">
         <div class="tab-content">
             <div class="row g-3">
-
                 <div class="col-12">
-
                     <div class="card fieldset border border-primary">
-                        <span class="fieldset-tile text-primary bg-body">Upcomming Invoices:</span>
+                        <span class="fieldset-tile text-primary bg-body">Services Charges & Upcomming Invoices:</span>
                         <div class="owl-carousel owl-theme" id="recent_invoices">
                             <div class="item card ribbon">
                                 <div class="option-9 position-absolute text-light"><i class="fa fa-star"></i></div>
                                 <div class="card-body">
-                                    <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">BB</div>
-                                    <small class="text-muted">Total</small>
-                                    <h4>USD 2,500</h4>
-                                    <ul class="lh-lg mb-0 text-muted">
-                                        <li>Bucky Barnes</li>
-                                        <li>#RA0015</li>
-                                        <li>Jan 01 2022</li>
-                                    </ul>
-                                    <button class="btn btn-primary px-4 text-uppercase" data-bs-toggle="modal" data-bs-target="#Upgradeplan" type="button">Payment</button>
-                                </div>
-
-                            </div>
-                            <div class="item card">
-                                <div class="card-body">
-                                    <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">DO</div>
-                                    <small class="text-muted">Total</small>
-                                    <h4>USD 5,520</h4>
-                                    <ul class="lh-lg mb-0 text-muted">
-                                        <li>Dean Otto</li>
-                                        <li>#RA0016</li>
-                                        <li>Jan 03 2022</li>
-                                    </ul>
+                                    <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">TQ</div>
+                                    <small class="text-muted">Total Charges</small>
+                                    <h4>₹ {{ $paymentQuote->quote_amount }}</h4>
+                                    <p class="m-0">{{ $paymentQuote->notes }}</p>
                                 </div>
                             </div>
-                            <div class="item card">
-                                <div class="card-body">
-                                    <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">OL</div>
-                                    <small class="text-muted">Total</small>
-                                    <h4>USD 8,000</h4>
-                                    <ul class="lh-lg mb-0 text-muted">
-                                        <li>Orlando Lentz</li>
-                                        <li>#RA0017</li>
-                                        <li>Jan 03 2022</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item card">
-                                <div class="card-body">
-                                    <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">AJ</div>
-                                    <small class="text-muted">Total</small>
-                                    <h4>USD 12,500</h4>
-                                    <ul class="lh-lg mb-0 text-muted">
-                                        <li>Andew Jon</li>
-                                        <li>#RA0018</li>
-                                        <li>Jan 05 2022</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="item card">
-                                <div class="card-body">
-                                    <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">AJ</div>
-                                    <small class="text-muted">Total</small>
-                                    <h4>USD 7,100</h4>
-                                    <ul class="lh-lg mb-0 text-muted">
-                                        <li>Andew Jon</li>
-                                        <li>#RA0018</li>
-                                        <li>Jan 05 2022</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            @if(count($paymentInstallment)>0)
+                                @foreach($paymentInstallment as $installment)
+                                    <div class="item card">
+                                        <div class="card-body">
+                                            <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">DO</div>
+                                            <small class="text-muted">Total</small>
+                                            <h4>₹ {{ $installment->amount }}</h4>
+                                            <p class="text-grey">Due Date: {{ date("d M Y", strtotime($installment->due_date)) }}</p>
+                                            @if($installment->status==0)
+                                                <button class="btn btn-primary px-4 text-uppercase" data-bs-toggle="modal" data-bs-target="#Upgradeplan" type="button">Payment</button>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
                         </div>
                     </div>
 

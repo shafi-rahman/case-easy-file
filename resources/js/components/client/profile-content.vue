@@ -499,11 +499,14 @@
 
     </div>
 </template>
+
 <script>
 import axios from 'axios';
 // let user_id = 11;
-var userDetails = JSON.parse(window.userDetails .replace(/&quot;/g,'"'));
-var case_id = userDetails.id;
+if(window.userDetails!=undefined){
+    var userDetails = JSON.parse(window.userDetails.replace(/&quot;/g,'"'));
+    var case_id = userDetails.id;
+}
 // console.log("case ID : "+userDetails.id);
 export default {
     data() {

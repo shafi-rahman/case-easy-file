@@ -37,5 +37,7 @@ Route::post('save_case_quote', [ClientProfile::class, 'save_case_quote']);
 Route::get('get_lead_status', [ClientProfile::class, 'get_lead_status']);
 Route::get('get_email_template_list', [ClientProfile::class, 'get_email_template_list']);
 Route::post('get_mail_template_content', [ClientProfile::class, 'get_mail_template_content']);
-Route::post('upload_case_excel_file', [commonController::class, 'upload_case_excel_file']);
+Route::post('upload_case_excel_file', [commonController::class, 'upload_case_excel_file']); 
 Route::post('upload_case_manually', [commonController::class, 'upload_case_manually']);
+Route::post('send_mail', [commonController::class, 'send_mail']);
+Route::post('update_document_approval_status', [commonController::class, 'update_document_approval_status']);

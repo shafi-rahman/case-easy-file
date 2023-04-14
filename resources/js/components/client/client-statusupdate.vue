@@ -51,8 +51,9 @@
 </div>
 </template>
 <script>
-var userDetails = JSON.parse(window.userDetails .replace(/&quot;/g,'"'));
-
+if(window.userDetails!=undefined){
+    var userDetails = JSON.parse(window.userDetails.replace(/&quot;/g,'"'));
+}
 export default {
     props: ['currentstatus'],
     data() {

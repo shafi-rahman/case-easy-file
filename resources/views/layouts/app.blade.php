@@ -11,6 +11,8 @@
     <title>:: Case Easy ::</title>
 
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/daterangepicker.min.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('assets/cssbundle/daterangepicker.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom-style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/bootstrapdatepicker.min.css') }}">
@@ -25,6 +27,7 @@
     <link rel="stylesheet" href="{{ asset('assets/cssbundle/jquerysteps.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/parsleyjs/css/parsley.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/prismjs/prism.css') }}">
+
     <style>
         .layout-1 .document.sidebar {
             width: 260px;
@@ -56,6 +59,7 @@
     </style>
 
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
+    
     <script type="text/javascript">
         var APP_URL = {!! json_encode(url('/')) !!}
     </script>
@@ -1758,6 +1762,25 @@
     <script src="{{ asset('assets/js/bundle/jquerysteps.bundle.js') }}"></script>
     <script src="{{ asset('assets/vendor/jquery-validate/jquery.validate.js') }}"></script>
     <script src="{{ asset('assets/vendor/parsleyjs/js/parsley.js') }}"></script>
+
+    {{-- <script src="assets/js/bundle/summernote.bundle.js"></script> --}}
+    <script src="{{ asset('assets/js/bundle/summernote.bundle.js') }}"></script>
+    <script>
+        // $('.inbox .inbox-list-toggle').on('click', function() {
+        //   $('.inbox .order-1').toggleClass('open');
+        // });
+        $(document).ready(function() {
+          $('.summernote').summernote({
+            tabsize: 2,
+            height: 200
+          });
+        //   $('.note-editor .note-btn').on('click', function() {
+        //     $(this).next().toggleClass("show");
+        //   });
+        });
+    </script>
+
+
     <script>
         //   $('.select2').select2();
         // Step Demo 1
@@ -1765,7 +1788,7 @@
         // Select2
         //   $(".country, .language").select2({});
         // Form Validation
-        $('.validation, .validation1, .validation2').parsley();
+        // $('.validation, .validation1, .validation2').parsley();
     </script>
 
 
@@ -1831,16 +1854,71 @@
     </script> --}}
 
 <script>
-    function showToastMsg(typ='secondary', expressionMsg='', subject='', message='' ){
-        typ = typ=='success'?'success':'danger';
-    
-        let toastMsg = '<div class="toast-header bg-'+typ+' text-white"> <i class="fa fa-info-circle"></i>&nbsp;';
-            toastMsg += '<strong class="me-auto"> '+expressionMsg+'</strong><small>'+subject+'</small></div>';
-            toastMsg += '<div class="toast-body"> '+message+'! </div>';
-        $('.toast').html(toastMsg);
-        $('.toast').addClass('show').animate({"top":"25px"}, "slow");
-        setTimeout(() => $('.toast').removeClass( "show") , 3000);
+
+$('#sendmail').on('click', function () {
+    if($(this).attr('data-attachment')!=''){
+        $('#attachmentDiv').html('<input type="hidden" id="emailid" name="emailid" value="'+$(this).attr('data-emailid')+'" /><br/><a id="attachment" href="'+$(this).attr('data-attachment')+'"><i class="fa fa-paperclip"></i> &nbsp;<lebel>'+$(this).attr('data-attachmentMSG')+'</lebel></a>');
     }
+});
+$('.approvalPopupBtn').on('click', function(){
+    $('#docApproval').html('<img src="'+$(this).attr('doc')+'" style="width: 100%;"/>');
+    $('.modal-body').find('button').attr('did', $(this).attr('id'));
+});
+$('.docStatusUpdate').on('click', function(){
+    if(confirm('Are you sure to take this action?')){
+        var did = $(this).attr('did');
+        var cStatus = $(this).attr('status');
+        
+        $.post(window.url + 'update_document_approval_status', {id:did, status:cStatus, updated_by:$(this).attr('updated_by')}, function(response){ 
+            if(response.success){
+                showToastMsg('success', 'Greate', 'Details updated', 'Your action is updated successfully!');
+                $('#'+did+'_status').html(cStatus==0?'<i class="fa fa-close text-danger"></i>&nbsp;Rejecetd':'<i class="fa fa-check text-success"></i>&nbsp;Approved');
+                $('#'+did+'_updated_by').html(response.updated_by);
+            }
+         });
+    }
+});
+
+$('body').on('click', '#send_otp', function(){
+    $('#approval_popup_content').empty();
+    var upd = `<p>An OTP has been sent to your current mobile number.</p>
+            <div class="row">
+                <div class="col-12">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Enter OTP" >
+                    <button class="btn btn-outline-primary" type="button" id="button-addon2">Approve OTP</button>
+                </div>
+            </div>
+            <div class="text-center mt-3" id="counterDiv"> Resend OTP in <span id="counter"></span></div>`;
+    $('#approval_popup_content').append(upd);
+    otp_countdown(30);
+});
+
+function showToastMsg(typ='secondary', expressionMsg='', subject='', message='' ){
+    typ = typ=='success'?'success':'danger';
+
+    let toastMsg = '<div class="toast-header bg-'+typ+' text-white"> <i class="fa fa-info-circle"></i>&nbsp;';
+        toastMsg += '<strong class="me-auto"> '+expressionMsg+'</strong><small>'+subject+'</small></div>';
+        toastMsg += '<div class="toast-body"> '+message+'! </div>';
+    $('.toast').html(toastMsg);
+    $('.toast').addClass('show').animate({"top":"25px"}, "slow");
+    setTimeout(() => $('.toast').removeClass( "show") , 3000);
+}
+
+function otp_countdown(seconds){
+    function tick() {
+        var counter = document.getElementById("counter");
+        seconds--;
+        counter.innerHTML =
+        "0:" + (seconds < 10 ? "0" : "") + String(seconds);
+        if (seconds > 0) {
+            setTimeout(tick, 1000);
+        } else {
+            document.getElementById("counterDiv").innerHTML = `<div class="btn m-1 btn-primary btn-animate-6" id="send_otp"><span class="btntext">Re-Send OTP</span><div class="btninfo bg-success">Click</div></div>`;
+        }
+    }
+    tick();
+}
 </script>
 </body>
 

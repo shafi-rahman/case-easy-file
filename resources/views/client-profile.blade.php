@@ -350,17 +350,17 @@
           <div class="tab-content mt-5">
 
             {{-- from vue --}}
-            <script>
-                window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
-            </script>
             <div id="root-profile-content" :caseId="{{ $userDetails->id }}">
                 {{-- @{{message}} --}}
                 <profile-content :caseId="{{ $userDetails->id }}"></profile-content>
             </div> 
-            
 
         </div>
       </div>
     </div>
   </div>
 @endsection
+
+<script>
+    window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
+</script>

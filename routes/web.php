@@ -18,12 +18,14 @@ Auth::routes();
 
 
 
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); 
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/client-home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/application-status', function () { return view('application-status'); });
-Route::get('/documents', function () { return view('documents'); });
-Route::get('/billing', function () { return view('billing'); });
-Route::get('/agreement', function () { return view('agreement'); });
+
+Route::get('/documents', [App\Http\Controllers\HomeController::class, 'documents']);
+Route::get('/billing', [App\Http\Controllers\HomeController::class, 'billing']);
+Route::get('/agreement', [App\Http\Controllers\HomeController::class, 'agreement']);
 Route::get('/calender', function () { return view('calender'); });
 Route::get('/documentation-process', function () { return view('documentation-process'); });
 
@@ -44,6 +46,7 @@ Route::get('/calendar', [App\Http\Controllers\Dashboard::class, 'calendar']);
 Route::get('/reporting', [App\Http\Controllers\Dashboard::class, 'reporting']);
 Route::get('/client-prospects', [App\Http\Controllers\Dashboard::class, 'clientProspects']);
 Route::get('/client-prospect-details/{cid}', [App\Http\Controllers\Dashboard::class, 'clientProspectDetails']); 
-Route::get('/lead/{type}', [App\Http\Controllers\Dashboard::class, 'lead']);
+// Route::get('/lead/{type}', [App\Http\Controllers\Dashboard::class, 'lead']); 
+Route::get('/follow-ups', [App\Http\Controllers\Dashboard::class, 'follow_ups']);
 
 Route::get('/generateDocx', [App\Http\Controllers\Dashboard::class, 'generateDocx']);

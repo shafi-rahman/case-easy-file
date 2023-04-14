@@ -118,8 +118,10 @@
 </div>
 </template>
 <script>
-var userDetails = JSON.parse(window.userDetails .replace(/&quot;/g,'"'));
-var case_id = userDetails.id;
+if(window.userDetails!=undefined){
+    var userDetails = JSON.parse(window.userDetails.replace(/&quot;/g,'"'));
+    var case_id = userDetails.id;
+}
 export default {
     data() {
         return {

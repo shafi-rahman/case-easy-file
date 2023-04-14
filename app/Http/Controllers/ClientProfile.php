@@ -17,7 +17,7 @@ class ClientProfile extends Controller
     public function clientProfile(Request $request){
 
         $uid = Crypt::decryptString($request->segment(2));
-
+        
         // $data['userDetails'] = DB::table('user_personal_details')->where('id', $uid)->first();
         
         // case assign to
@@ -37,8 +37,8 @@ class ClientProfile extends Controller
         ->where('user_payment_quote.case_id', $uid)
         ->get();
 
-        // echo "<pre>";
-        // print_r($data['userPaymentDetails']);
+        // echo "<pre>".$view;
+        // print_r($data);
         // die();
 
         return view('client-profile', $data);

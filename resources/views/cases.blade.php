@@ -108,9 +108,9 @@
                                                         <th>highest qualification</th>
                                                         <th>work experience</th>
                                                         <th>visa type</th>
-                                                        @if(Auth::user()->role==2)
+                                                        {{-- @if(Auth::user()->role==2)
                                                             <th>Assign</th>
-                                                        @endif
+                                                        @endif --}}
                                                         <th>Action</th>
                                                     </tr>
                                                 </thead>
@@ -127,9 +127,9 @@
                                                             <td>{{ $case->highest_qualification }}</td>
                                                             <td>{{ $case->work_experience }}</td>
                                                             <td>{{ $case->visa_type }}</td>
-                                                            @if(Auth::user()->role==2)
+                                                            {{-- @if(Auth::user()->role==2)
                                                                 <td>{{ $case->name }}</td>
-                                                            @endif
+                                                            @endif --}}
                                                             <td>
                                                                 <a href="{{ url('client-profile') . '/' . Crypt::encryptString( $case->id ) }}"
                                                                     class="btn m-1 btn-primary btn-animate-6"><span
