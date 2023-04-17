@@ -702,7 +702,7 @@ export default {
 
             
         },
-        save_personal_details() { 
+        save_personal_details() {
             this.personalDetails.first_name == null ? this.personalDetailsError.first_name = true : this.personalDetailsError.first_name = false;
             this.personalDetails.email_id == null ? this.personalDetailsError.email_id = true : this.personalDetailsError.email_id = false;
             this.personalDetails.mobile_number == null ? this.personalDetailsError.mobile_number = true : this.personalDetailsError.mobile_number = false;
@@ -724,7 +724,7 @@ export default {
 
                 axios.post(window.url + 'save_personal_details/' + this.personalDetailAction, this.personalDetails)
                     .then(response => {
-                        // console.log(response);
+                        console.log(response);
                         
                         if (response.data.success) {
                             this.personalDetails.id = response.data.insID;

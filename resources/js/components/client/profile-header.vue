@@ -18,11 +18,11 @@
                 <span class="d-none d-md-inline-block ms-2">Professional Details</span>
             </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" data-bs-toggle="tab" href="#document_details" role="tab">
                 <i class="fa fa-folder"></i><span class="d-none d-md-inline-block ms-2">Document Details</span>
             </a>
-        </li>
+        </li> -->
     </ul>
 </template>
 <script>

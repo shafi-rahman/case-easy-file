@@ -41,3 +41,6 @@ Route::post('upload_case_excel_file', [commonController::class, 'upload_case_exc
 Route::post('upload_case_manually', [commonController::class, 'upload_case_manually']);
 Route::post('send_mail', [commonController::class, 'send_mail']);
 Route::post('update_document_approval_status', [commonController::class, 'update_document_approval_status']);
+
+Route::post('upload_form_document', [commonController::class, 'upload_form_document']);
+Route::post('genetare_form', [commonController::class, 'genetare_form']);

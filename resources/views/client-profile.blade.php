@@ -354,13 +354,12 @@
                 {{-- @{{message}} --}}
                 <profile-content :caseId="{{ $userDetails->id }}"></profile-content>
             </div> 
-
+            <script>
+                window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
+            </script>
         </div>
       </div>
     </div>
   </div>
 @endsection
 
-<script>
-    window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
-</script>

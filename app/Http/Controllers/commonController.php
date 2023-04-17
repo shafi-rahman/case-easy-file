@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use PhpOffice\PhpWord\TemplateProcessor;
+
 class commonController extends Controller 
 {
     public function upload_case_manually(Request $request){
@@ -69,6 +71,37 @@ class commonController extends Controller
         }
     }
 
+    public function upload_form_document(Request $request){
+        try{
+            $file = $request->file('file');
+            $filename = strtotime(now()).'_'.preg_replace('/[^A-Za-z\-]/', '', str_replace(' ', '', pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME))).'.'.$file->getClientOriginalExtension();
+            $uPath = 'uploads/userdocs/';
+            $file->move($uPath, $filename);
+
+            // set row data
+            $insertArray['case_id'] = $request->case_id;
+            $insertArray['document'] = $uPath.$filename;
+            $insertArray['doc_id'] = $request->did;
+            $insertArray['status'] = 0;
+            $insertArray['created_by'] = $request->created_by;
+            if($request->status==0){
+                $insertArray['created_at'] = date('Y-m-d H:i:s');
+                $id = DB::table('user_form_document_data')->insertGetId($insertArray);
+            } else {
+                DB::table('user_form_document_data')
+                    ->where('doc_id', $request->did)
+                    ->where('case_id', $request->case_id)
+                    ->update($insertArray);
+                $id = $request->did;
+            }
+
+            return response()->json( array('success' => true, 'data'=>$insertArray, 'did'=>$request->did, 'date'=>date('d M Y')), 200 );
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
     public function update_document_approval_status(Request $request){
         try {
             $agrData['status'] = $request->status; 
@@ -107,5 +140,41 @@ class commonController extends Controller
         } catch (\Exception $e) {
             return $e->getMessage();
         }
+    }
+
+    public function genetare_form(Request $request){
+        // $request->form_id : $request->case_id : $request->genetare_by
+
+        try {
+            $userData = DB::table('user_personal_details')->where('id',$request->case_id)->first();
+            $form = DB::table('user_forms')->select('id', 'form')->where('type', $request->form_id)->first();
+            $formData = DB::table('user_form_fields')->where("form_id", $request->form_id)->get();
+            $filename = strtotime(date('Y-m-d H:i:s')).'_'.str_replace(' ', '', $userData->first_name).'_'.pathinfo($form->form, PATHINFO_FILENAME);
+
+            $location = 'uploads/userdocs/'.$filename.'.docx';
+
+            $templateProcessor = new TemplateProcessor('uploads/docs/'.$form->form);
+
+            foreach($formData as $data){
+                if($data->short_code_type==1){ 
+                    $col = $data->field_name;
+                    $rdata = DB::table($data->short_code_from)->select($col)->where($data->where_col, $request->case_id)->first();
+                    $templateProcessor->setValue($col, $rdata->$col);
+                } else {
+                    $col = 'field_value';
+                    $rdata = DB::table('user_form_field_data')->select($col)->where('field_id', $data->id)->where('case_id', $request->case_id)->first();
+                    $templateProcessor->setValue($data->field_name, $rdata->$col);
+                }
+            }
+
+            $templateProcessor->saveAs($location);
+            
+            return response()->json( array('success' => true, 'href'=> url($location)), 200 );
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+
+        
     }
 }

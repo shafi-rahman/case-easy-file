@@ -78,21 +78,23 @@ class ClientProfile extends Controller
         return response()->json( DB::table('user_personal_details')->where('mobile_number', $request->mobile_number)->where('id', '!=', $request->case_id)->get() );
     }
     public function save_personal_details(Request $request, $action){  
-        $request->validate([
-            'first_name'        => 'required',
-            // 'middle_name'       => 'required',
-            // 'email_id'          =>  "required|email|unique:user_personal_details,email_id,$user_id" ,
-            // 'mobile_number'     =>  "required|unique:user_personal_details,mobile_number,$user_id",
-            'date_of_birth'     => 'required',
-            'marital_status'    => 'required',
-            'address'           => 'required',
-            'country'           => 'required',
-            'state'             => 'required',
-            'city'              => 'required',
-            'pin_code'          => 'required',
-            'visa_type'          => 'visa_type',
-        ]);
 
+
+        // $request->validate([
+        //     'first_name'        => 'required',
+        //     // 'middle_name'       => 'required',
+        //     // 'email_id'          =>  "required|email|unique:user_personal_details,email_id,$user_id" ,
+        //     // 'mobile_number'     =>  "required|unique:user_personal_details,mobile_number,$user_id",
+        //     'date_of_birth'     => 'required',
+        //     'marital_status'    => 'required',
+        //     'address'           => 'required',
+        //     'country'           => 'required',
+        //     'state'             => 'required',
+        //     'city'              => 'required',
+        //     'pin_code'          => 'required',
+        //     'visa_type'          => 'visa_type',
+        // ]);
+  
         $insertArray['user_id'] = $request->user_id;
         $insertArray['first_name'] = $request->first_name;
         $insertArray['middle_name'] = $request->middle_name;

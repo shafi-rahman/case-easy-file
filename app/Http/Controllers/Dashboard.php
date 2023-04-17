@@ -31,19 +31,22 @@ class Dashboard extends Controller
 
         if(Auth::user()->role==2){
             $data['all_case'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->whereIn('C.status',  [1,2,3,4])->get();
             $data['connected'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->whereIn('C.status',  [5,13])->get();
             $data['in_active'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->whereIn('C.status',  [6,7,8,9,10,11,12])->get();
 
         } else {
@@ -83,9 +86,10 @@ class Dashboard extends Controller
     public function follow_ups(){ 
         if(Auth::user()->role==2){
             $data['all_case'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'S.name as current_status', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'S.name as current_status', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->join('user_status as S', 'S.id', '=', 'C.status')
             ->where('A.user_id', Auth::user()->id)
             ->whereIn('C.status',  [1,2,3,4])->get();
@@ -99,19 +103,22 @@ class Dashboard extends Controller
     public function clientProspects(){
         if(Auth::user()->role==2){
             $data['all_case'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->whereIn('C.status',  [1,2,3,4])->get();
             $data['connected'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->whereIn('C.status',  [5,13])->get();
             $data['in_active'] = DB::table('user_personal_details as C')
-            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'A.user_id as assignto', 'U.name')
+            ->select('C.id', 'C.first_name', 'C.gender', 'C.date_of_birth', 'C.highest_qualification', 'C.work_experience', 'C.visa_type', 'visa_type.name as visa_name', 'A.user_id as assignto', 'U.name')
             ->leftJoin('user_assign_to as A', 'A.case_id', '=', 'C.id')
             ->leftJoin('users as U', 'U.id', '=', 'A.user_id')
+            ->leftJoin('visa_type', 'visa_type.id', '=', 'C.visa_type')
             ->whereIn('C.status',  [6,7,8,9,10,11,12])->get();
 
         } else {
@@ -141,7 +148,7 @@ class Dashboard extends Controller
         if(count($ufd)>0){
             foreach($ufd as $i=>$d){
                 $data['userFormDocuments'][$i]['doc'] = $d;
-                $data['userFormDocuments'][$i]['data'] = DB::table('user_form_document_data AS D')->select('D.*', 'U.name as updated_by')->join('users AS U', 'U.id', '=', 'D.updated_by')->where('doc_id', $d->id)->where('case_id', $uid)->first();
+                $data['userFormDocuments'][$i]['data'] = DB::table('user_form_document_data AS D')->select('D.*', 'U.name as updated_by')->leftjoin('users AS U', 'U.id', '=', 'D.updated_by')->where('doc_id', $d->id)->where('case_id', $uid)->first();
             }
         }
 
@@ -159,9 +166,12 @@ class Dashboard extends Controller
             }
         }
         
+        
         $data['userRetainerAgreement'] = DB::table('user_retainer_agreement')->where('case_id', $uid)->first();
         
-
+        // echo "<pre>"; 
+        // print_r($data['userFormDocuments']);
+        // die();
         return view('client-prospect-details', $data);
     }
     

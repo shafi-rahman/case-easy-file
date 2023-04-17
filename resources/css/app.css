@@ -7,3 +7,12 @@
 .cust_pay{
     cursor: pointer;
 }
+.dataTables_length{
+    margin-left: 20px !important;
+}
+.dataTables_filter{
+    margin-right: 20px !important;
+}
+.dataTables_paginate{
+    margin: 0px 20px 20px 0px !important;
+}

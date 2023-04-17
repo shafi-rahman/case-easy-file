@@ -199,7 +199,7 @@
                                 <span class="line"></span>
                             </span>
                         </button>
-                        <a href="index.html" class="brand-icon d-flex align-items-center mx-2 mx-sm-3 text-primary">
+                        {{-- <a href="index.html" class="brand-icon d-flex align-items-center mx-2 mx-sm-3 text-primary">
                             <svg height="22" viewBox="0 0 67 20" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path class="fill-muted"
@@ -211,7 +211,7 @@
                                 <path class="fill-muted"
                                     d="M66.0301 10.0497C66.0301 11.433 65.8551 12.6913 65.5051 13.8247C65.1551 14.9413 64.6301 15.908 63.9301 16.7247C63.2467 17.5413 62.3884 18.1663 61.3551 18.5997C60.3384 19.033 59.1551 19.2497 57.8051 19.2497C56.4051 19.2497 55.1884 19.033 54.1551 18.5997C53.1217 18.1497 52.2634 17.5247 51.5801 16.7247C50.8967 15.908 50.3884 14.933 50.0551 13.7997C49.7217 12.6663 49.5551 11.408 49.5551 10.0247C49.5551 8.19135 49.8551 6.59135 50.4551 5.22468C51.0551 3.85801 51.9634 2.79135 53.1801 2.02468C54.4134 1.25801 55.9634 0.87468 57.8301 0.87468C59.6134 0.87468 61.1134 1.25801 62.3301 2.02468C63.5467 2.77468 64.4634 3.84135 65.0801 5.22468C65.7134 6.59135 66.0301 8.19968 66.0301 10.0497ZM51.9301 10.0497C51.9301 11.5497 52.1384 12.8413 52.5551 13.9247C52.9717 15.008 53.6134 15.8413 54.4801 16.4247C55.3634 17.008 56.4717 17.2997 57.8051 17.2997C59.1551 17.2997 60.2551 17.008 61.1051 16.4247C61.9717 15.8413 62.6134 15.008 63.0301 13.9247C63.4467 12.8413 63.6551 11.5497 63.6551 10.0497C63.6551 7.79968 63.1884 6.04135 62.2551 4.77468C61.3217 3.49135 59.8467 2.84968 57.8301 2.84968C56.4801 2.84968 55.3634 3.14135 54.4801 3.72468C53.6134 4.29135 52.9717 5.11635 52.5551 6.19968C52.1384 7.26635 51.9301 8.54968 51.9301 10.0497Z" />
                             </svg>
-                        </a>
+                        </a> --}}
                     </div>
 
                     <div class="header-left flex-grow-1 d-none d-md-block">
@@ -674,7 +674,7 @@
         <footer class="page-footer px-xl-4 px-sm-2 px-0 py-3">
             <div class="container-fluid d-flex flex-wrap justify-content-between align-items-center">
                 <p class="col-md-4 mb-0 text-muted"><span id="Changelog"></span> © 2023, All Rights Reserved.</p>
-                <a href="#"
+                {{-- <a href="#"
                     class="col-md-4 d-flex align-items-center justify-content-center my-3 my-lg-0 me-lg-auto">
                     <svg height="18" viewBox="0 0 67 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path class="fill-muted"
@@ -686,7 +686,8 @@
                         <path class="fill-muted"
                             d="M66.0301 10.0497C66.0301 11.433 65.8551 12.6913 65.5051 13.8247C65.1551 14.9413 64.6301 15.908 63.9301 16.7247C63.2467 17.5413 62.3884 18.1663 61.3551 18.5997C60.3384 19.033 59.1551 19.2497 57.8051 19.2497C56.4051 19.2497 55.1884 19.033 54.1551 18.5997C53.1217 18.1497 52.2634 17.5247 51.5801 16.7247C50.8967 15.908 50.3884 14.933 50.0551 13.7997C49.7217 12.6663 49.5551 11.408 49.5551 10.0247C49.5551 8.19135 49.8551 6.59135 50.4551 5.22468C51.0551 3.85801 51.9634 2.79135 53.1801 2.02468C54.4134 1.25801 55.9634 0.87468 57.8301 0.87468C59.6134 0.87468 61.1134 1.25801 62.3301 2.02468C63.5467 2.77468 64.4634 3.84135 65.0801 5.22468C65.7134 6.59135 66.0301 8.19968 66.0301 10.0497ZM51.9301 10.0497C51.9301 11.5497 52.1384 12.8413 52.5551 13.9247C52.9717 15.008 53.6134 15.8413 54.4801 16.4247C55.3634 17.008 56.4717 17.2997 57.8051 17.2997C59.1551 17.2997 60.2551 17.008 61.1051 16.4247C61.9717 15.8413 62.6134 15.008 63.0301 13.9247C63.4467 12.8413 63.6551 11.5497 63.6551 10.0497C63.6551 7.79968 63.1884 6.04135 62.2551 4.77468C61.3217 3.49135 59.8467 2.84968 57.8301 2.84968C56.4801 2.84968 55.3634 3.14135 54.4801 3.72468C53.6134 4.29135 52.9717 5.11635 52.5551 6.19968C52.1384 7.26635 51.9301 8.54968 51.9301 10.0497Z" />
                     </svg>
-                </a>
+                </a> --}}
+                <img src="{{ url('assets/img/ecf_logo-b.png') }}" width="160" />
                 <ul class="nav col-md-4 justify-content-center justify-content-lg-end">
                     <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">Portfolio</a></li>
                     <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">licenses</a></li>
@@ -1765,6 +1766,92 @@
 
     {{-- <script src="assets/js/bundle/summernote.bundle.js"></script> --}}
     <script src="{{ asset('assets/js/bundle/summernote.bundle.js') }}"></script>
+
+
+    <script src="{{ asset('assets/js/bundle/apexcharts.bundle.js') }}"></script>
+    <script>
+        // LUNO Revenue
+        var options = {
+          series: [{
+            name: 'Total Case',
+            data: [440, 505, 414, 671, 227, 413, 201, 352, 752, 320, 257, 160]
+          }, {
+            name: 'Qualified Case',
+            data: [123, 142, 135, 127, 143, 122, 117, 131, 122, 122, 112, 116]
+          }, {
+            name: 'Agreement Sign',
+            data: [223, 242, 235, 227, 243, 222, 217, 231, 222, 222, 212, 216]
+          }],
+          chart: {
+            type: 'bar',
+            height: 260,
+            stacked: true,
+            stackType: '100%',
+            toolbar: {
+              show: false,
+            },
+          },
+          colors: ['var(--chart-color1)', 'var(--chart-color2)', 'var(--chart-color3)'],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              legend: {
+                position: 'bottom',
+                offsetX: -10,
+                offsetY: 0
+              }
+            }
+          }],
+          xaxis: {
+            categories: ['Jan', 'Feb', 'March', 'Apr', 'May', 'Jun', 'July', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+          },
+          fill: {
+            opacity: 1
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+          },
+        };
+        var chart = new ApexCharts(document.querySelector("#apex-AudienceOverview"), options);
+        chart.render();
+        // Sales by Category
+        var options = {
+          chart: {
+            height: 280,
+            type: 'donut',
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                labels: {
+                  show: true,
+                  total: {
+                    showAlways: true,
+                    show: true
+                  }
+                }
+              }
+            }
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          legend: {
+            position: 'bottom',
+            horizontalAlign: 'center',
+            show: true,
+          },
+          colors: ['var(--chart-color1)', 'var(--chart-color2)'],
+          series: [2700, 4000],
+          labels: ["Payment Received", "Expected Receiver"],
+        }
+        var chart = new ApexCharts(document.querySelector("#apex-SalesbyCategory"), options);
+        chart.render();
+      </script>
     <script>
         // $('.inbox .inbox-list-toggle').on('click', function() {
         //   $('.inbox .order-1').toggleClass('open');
@@ -1854,6 +1941,40 @@
     </script> --}}
 
 <script>
+$(".approvalPopupBtn").on('click', function(){
+    $('#uploadDocument').append('<input type="hidden" name="case_id" value="'+$(this).attr('case_id')+'" />');
+    $('#uploadDocument').append('<input type="hidden" name="status" value="'+$(this).attr('status')+'" />');
+    $('#uploadDocument').append('<input type="hidden" name="did" value="'+$(this).attr('did')+'" />');
+    $('#uploadDocument').append('<input type="hidden" name="created_by" value="'+$(this).attr('created_by')+'" />');
+});
+
+$("#docuploadBtn").on('click', function(e){
+    e.preventDefault();
+    var formData = new FormData($('#uploadDocument')[0]);
+    formData.append('tax_file', $('input[type=file]')[0].files[0]);
+    $.ajax({
+        type: "POST",
+        url: window.url + 'upload_form_document',
+        data: formData,
+        contentType: false,
+        processData: false,
+        success: function(res) {
+            if(res.success){
+                console.log(res.data);
+                showToastMsg('success', 'Greate', 'Details updated', 'Your document uploaded successfully, waiting for review');
+                $('#errorDiv').css('display', 'block');
+                $('#errorDiv').html('Your document uploaded successfully, waiting for review');
+                $("#docuploadBtn").css('display', 'none');
+                $('#'+res.did+'_status').html('Waiting for approval&nbsp;<i class="fa fa-folder"></i>');
+                $('#'+res.did+'_date').html(res.date);
+            }
+        },
+        error: function() {
+            console.log('err');
+        }
+    });
+});
+
 
 $('#sendmail').on('click', function () {
     if($(this).attr('data-attachment')!=''){
@@ -1861,7 +1982,12 @@ $('#sendmail').on('click', function () {
     }
 });
 $('.approvalPopupBtn').on('click', function(){
-    $('#docApproval').html('<img src="'+$(this).attr('doc')+'" style="width: 100%;"/>');
+    const validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+    if ($(this).attr('doc').match(/\.(jpg|jpeg|png|gif)$/i)){
+        $('#docApproval').html('<img src="'+$(this).attr('doc')+'" style="width: 100%;"/>');
+    } else {
+        $('#docApproval').html('<div class="mb-4"><a target="_blank" class="luno-link text_bg" href="'+$(this).attr('doc')+'">Click to check the file</a></div>');
+    }
     $('.modal-body').find('button').attr('did', $(this).attr('id'));
 });
 $('.docStatusUpdate').on('click', function(){
@@ -1872,12 +1998,29 @@ $('.docStatusUpdate').on('click', function(){
         $.post(window.url + 'update_document_approval_status', {id:did, status:cStatus, updated_by:$(this).attr('updated_by')}, function(response){ 
             if(response.success){
                 showToastMsg('success', 'Greate', 'Details updated', 'Your action is updated successfully!');
-                $('#'+did+'_status').html(cStatus==0?'<i class="fa fa-close text-danger"></i>&nbsp;Rejecetd':'<i class="fa fa-check text-success"></i>&nbsp;Approved');
+                $('#'+did+'_status').html(cStatus==2?'<i class="fa fa-close text-danger"></i>&nbsp;Rejecetd':'<i class="fa fa-check text-success"></i>&nbsp;Approved');
                 $('#'+did+'_updated_by').html(response.updated_by);
             }
          });
     }
 });
+
+
+function genetare_form(ths){
+    var form_id = $(ths).attr('form_id');
+    var case_id = $(ths).attr('case_id');
+    var genetare_by = $(ths).attr('genetare_by');
+    if(confirm('Are you sure to genetare form now?')){        
+        $.post(window.url+'genetare_form', {form_id:form_id, case_id:case_id, genetare_by:genetare_by}, function(response){ 
+            console.log(response);
+            if(response.success){
+                $(ths).css('display', 'none');
+                showToastMsg('success', 'Greate', 'Details updated', 'Successfully genetared the form!');
+                $('#form_link').html('<a class="luno-link text_bg" href="'+response.href+'">Immigration Form</a>&nbsp;generated, this is auto generated form, you need to check it manually.');
+            }
+         });
+    }
+}
 
 $('body').on('click', '#send_otp', function(){
     $('#approval_popup_content').empty();

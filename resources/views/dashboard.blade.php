@@ -48,30 +48,29 @@
             <div class="row g-3 mb-3 align-items-center">
                 <div class="col">
                     <ol class="breadcrumb bg-transparent mb-0">
-                        <li class="breadcrumb-item"><a class="text-secondary" href="index.html">Home</a></li>
+                        <li class="breadcrumb-item"><a class="text-secondary" href="{{ url('home') }}">Home</a></li>
                         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                     </ol>
                 </div>
             </div>
-            {{-- <div class="row align-items-center">
+            <div class="row align-items-center">
                 <div class="col">
-                    <h1 class="fs-5 color-900 mt-1 mb-0">Welcome back, Allie!</h1>
+                    <h1 class="fs-5 color-900 mt-1 mb-0">Welcome back, {{ Str::ucfirst(Auth::user()->name); }}</h1>
                     <small class="text-muted">You have 12 new messages and 7 new notifications.</small>
                 </div>
-                <div class="col-xxl-4 col-xl-5 col-lg-6 col-md-7 col-sm-12 mt-2 mt-md-0">
-                    <div class="input-group">
-                        <input class="form-control" type="text" name="daterange">
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="tooltip" title="Send Report"><i
-                                class="fa fa-envelope"></i></button>
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="tooltip"
-                            title="Download Reports"><i class="fa fa-download"></i></button>
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="tooltip" title="Generate PDF"><i
-                                class="fa fa-file-pdf-o"></i></button>
-                        <button class="btn btn-secondary" type="button" data-bs-toggle="tooltip" title="Share Dashboard"><i
-                                class="fa fa-share-alt"></i></button>
+                <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-7 col-sm-12 mt-2 mt-md-0 ">
+                    <div class="input-group float-end" style="width: auto;">
+                        <button class="btn btn-outline-primary active text-white" type="button" data-bs-toggle="tooltip" title="Send Report"><i
+                                class="fa fa-database"></i> ALL Time</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="tooltip"
+                            title="Download Reports"><i class="fa fa-cubes"></i> Monthly</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="tooltip" title="Generate PDF"><i
+                                class="fa fa-cube"></i> Weekly</button>
+                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="tooltip" title="Share Dashboard"><i
+                                class="fa fa-compass"></i> Today</button>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
     </div>
 
@@ -96,7 +95,7 @@
                                 <div class="mb-2 text-uppercase">Payment received</div>
                                 <div><span class="h4">12,980</span> <span class="small text-muted"><i
                                             class="fa fa-dollar"></i></span></div>
-                                <small class="text-muted">Today's payment received from client.</small>
+                                <small class="text-muted">Payment received from client.</small>
                             </div>
                         </a>
                         <div class="progress" style="height: 4px;">
@@ -139,9 +138,9 @@
                                     <path class="fill-primary"
                                         d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85v5.65z" />
                                 </svg>
-                                <div class="mb-2 text-uppercase">LEADS connected</div>
-                                <div><span class="h4">39</span> <span class="small text-muted"><i class="fa fa-level-up"></i></span></div>
-                                <small class="text-muted">Client try to connect </small>
+                                <div class="mb-2 text-uppercase">Case status</div>
+                                <div><span class="h4">13/37</span> <span class="small text-muted"><i class="fa fa-level-up"></i></span></div>
+                                <small class="text-muted">Case qualified / total </small>
                             </div>
                         </a>
                         <div class="progress" style="height: 4px;">
@@ -160,7 +159,7 @@
                                     <path class="fill-secondary" d="M8 5.38462C8.21217 5.38462 8.41566 5.46566 8.56569 5.60992C8.71571 5.75418 8.8 5.94983 8.8 6.15385V6.53846H7.2V6.15385C7.2 5.94983 7.28429 5.75418 7.43431 5.60992C7.58434 5.46566 7.78783 5.38462 8 5.38462ZM9.2 6.53846V6.15385C9.2 5.84783 9.07357 5.55434 8.84853 5.33795C8.62348 5.12157 8.31826 5 8 5C7.68174 5 7.37652 5.12157 7.15147 5.33795C6.92643 5.55434 6.8 5.84783 6.8 6.15385V6.53846C6.58783 6.53846 6.38434 6.61951 6.23431 6.76376C6.08429 6.90802 6 7.10368 6 7.30769V9.23077C6 9.43478 6.08429 9.63044 6.23431 9.7747C6.38434 9.91896 6.58783 10 6.8 10H9.2C9.41217 10 9.61566 9.91896 9.76569 9.7747C9.91571 9.63044 10 9.43478 10 9.23077V7.30769C10 7.10368 9.91571 6.90802 9.76569 6.76376C9.61566 6.61951 9.41217 6.53846 9.2 6.53846Z"></path>
                                 </svg>
 
-                                <div class="mb-2 text-uppercase">Closed LEADS</div>
+                                <div class="mb-2 text-uppercase">agreement sign</div>
                                 <div><span class="h4">17</span> <span class="small text-muted"><i
                                             class="fa fa-level-up"></i></span></div>
                                 <small class="text-muted">Client closed & paid </small>
@@ -172,8 +171,36 @@
                         </div>
                     </div>
                 </div>
-
+                <div class="row mt-4">
+                    <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-6">
+                        <div class="card">
+                            <div class="card-header pb-0">
+                                <h6 class="card-title m-0">Revenue Analysis</h6>  
+                                <div class="scale-left">
+                                    <a href="#" data-bs-toggle="tooltip" title="Refresh"><i class="fa fa-history"></i></a>
+                                </div>  
+                            </div>
+                            <div class="card-body pt-0">
+                                <div id="apex-SalesbyCategory"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xxl-6 col-xl-6 col-lg-6">
+                        <div class="card">
+                            <div class="card-header pb-0">
+                                <h6 class="card-title m-0">Case Analysis</h6>  
+                                <div class="scale-left">
+                                    <a href="#" data-bs-toggle="tooltip" title="Refresh"><i class="fa fa-history"></i></a>
+                                </div>  
+                            </div>
+                            <div class="card-body pt-0">
+                                <div id="apex-AudienceOverview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 @endsection
+

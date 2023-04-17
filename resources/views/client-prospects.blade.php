@@ -67,7 +67,7 @@
                                             <td>{{ $case->date_of_birth }}</td>
                                             <td>{{ $case->highest_qualification }}</td>
                                             <td>{{ $case->work_experience }}</td>
-                                            <td>{{ $case->visa_type }}</td>
+                                            <td>{{ $case->visa_name }}</td>
                                             @if(Auth::user()->role==2)
                                                 <td>{{ $case->name }}</td>
                                             @endif

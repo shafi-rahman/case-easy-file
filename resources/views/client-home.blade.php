@@ -30,9 +30,9 @@
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
                     {{-- from vue --}}
-                    {{-- <div id="root-profile-header">
+                    <div id="root-profile-header">
                         <profile-header></profile-header>
-                    </div>  --}}
+                    </div> 
                     <div class="team-members d-none d-md-inline-block">
                         <label class="me-2">Recent Case Officer : &nbsp;</label>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat" title="">
@@ -93,15 +93,14 @@
         <div class="tab-content">
 
             {{-- from vue --}}
-            {{-- <div id="root-profile-content">
+            <div id="root-profile-content">
                 <profile-content ></profile-content>
-            </div>  --}}
-
+            </div> 
+            <script>
+                window.userDetails = "{{ ($userDetails->id)?json_encode($userDetails):'' }}";
+            </script>
         </div>
     </div>
 </div>
 @endsection
 
-{{-- <script>
-    // window.userDetails = "{{ ($userDetails->id)?json_encode($userDetails):'' }}";
-</script> --}}

@@ -19,7 +19,7 @@
           <button class="btn m-1 btn-success btn-animate-6 docStatusUpdate" status="1" updated_by="{{Auth::user()->id}}"><span class="btntext"><i class="fa fa-thumbs-o-up"></i> Approved</span>
             <div class="btninfo bg-primary">Click</div>
           </button>
-          <button class="btn m-1 btn-danger btn-animate-6 r docStatusUpdate" status="0" updated_by="{{Auth::user()->id}}"><span class="btntext"><i class="fa fa-thumbs-o-down"></i> Reject</span>
+          <button class="btn m-1 btn-danger btn-animate-6 r docStatusUpdate" status="2" updated_by="{{Auth::user()->id}}"><span class="btntext"><i class="fa fa-thumbs-o-down"></i> Reject</span>
             <div class="btninfo bg-primary">Click</div>
           </button>
         </div>
@@ -50,9 +50,9 @@
                 <li data-step-target="step1"><span>Assessment</span></li>
                 <li data-step-target="step2"><span>Retainer Agreement</span></li>
                 <li data-step-target="step3"><span>Request & Review Documents</span></li>
-                <li data-step-target="step5"><span>Complete Immigration Forms</span></li>
-                <li data-step-target="step6"><span>Submit Files to IRCC</span></li>
-                <li data-step-target="step7"><span>IRCC Response</span></li>
+                <li data-step-target="step4"><span>Complete Immigration Forms</span></li>
+                <li data-step-target="step5"><span>Submit Files to IRCC</span></li>
+                <li data-step-target="step6"><span>IRCC Response</span></li>
               </ul>
               <div class="step-content">
                 <div class="step-tab-panel" data-step="step1">
@@ -76,15 +76,15 @@
                             <div class="col-lg-3 col-md-12">
                               <h5 class="mb-0 fw-light">Service Quote</h5>
                               <p class="mt-1">
-                                {{'Total Amount: ₹'.$paymentQuote->quote_amount }}<br>
-                                {{'Diacount: ₹'.$paymentQuote->discount }}<br>
-                                {{'Notes: '.$paymentQuote->notes }}
+                                {{'Total Amount: ₹'.($paymentQuote->quote_amount??'') }}<br>
+                                {{'Diacount: ₹'.($paymentQuote->discount??'') }}<br>
+                                {{'Notes: '.($paymentQuote->notes??'') }}
                               </p>
                             </div>
                             <div class="col-lg-6 col-md-12">
                               <h5 class="mb-0 fw-light">Payment break-up</h5>
                               <div class="d-flex flex-row flex-wrap align-items-center justify-content-center justify-content-md-start">
-                                @if(count($userPaymentInstallment)>0)
+                                @if(isset($userPaymentInstallment)&&count($userPaymentInstallment)>0)
                                   @foreach($userPaymentInstallment as $i=>$payment)
                                   <div class="card py-1 px-3 me-2 mt-2">
                                     <small class="text-muted">{{ ($i+1).' Installment' }}</small>
@@ -155,7 +155,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        @if(count($userFormDocuments)>0)
+                        @if(isset($userFormDocuments)&&count($userFormDocuments)>0)
                           @foreach($userFormDocuments as $i=>$doc)
                             <tr>
                               <td>
@@ -178,6 +178,51 @@
                       </tbody>
                     </table>
                   </div>
+                </div>
+                
+                <div class="step-tab-panel p-3" data-step="step4">
+                  {{-- @if(count($userFormDocuments)>0)
+                    @foreach($userFormDocuments as $i=>$doc)
+                          @if($doc['data']=='')
+                              
+                          @else
+                            <button type="button" class="btn btn-link btn-sm text-primary approvalPopupBtn" doc="{{url($doc['data']->document)}}" status="{{$doc['data']->status}}" id="{{$doc['data']->id}}" data-bs-toggle="modal" data-bs-target="#approval_popup"><i class="fa fa-gear"></i></button>
+                          @endif 
+                    @endforeach
+                  @endif --}}
+
+                  <div class="row g-3">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title mb-0"><i class="fa fa-thumbs-up me-2"></i>Getting worked</h5>
+                            </div>
+                            <div class="card-body">
+                                <p class="lead">
+                                  Congratulations! I am thrilled to hear that you have achieved a significant milestone!
+                                  <br/>
+                                  Now to to generate your final immigration forms. 
+                                </p>
+                                <p class="lead">
+                                    <span class="ms-2">
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                        <i class="fa fa-star text-warning"></i>
+                                    </span>
+                                </p> 
+                                <button class="btn mx-2 btn-primary btn-animate-1 mb-2" form_id="1" case_id="34" genetare_by="22" onclick="genetare_form(this)">
+                                  <span>Generate Immigration Form </span>
+                                  <i class="fa fa-long-arrow-right"></i>
+                                </button>
+                                <span id="form_link"></span>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+
+
                 </div>
               </div>
               @if($userRetainerAgreement->status==2)

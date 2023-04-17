@@ -97,10 +97,13 @@ class HomeController extends Controller
         
         if(count($ufd)>0){
             foreach($ufd as $i=>$d){
+                $data['userDocuments'][$i]['case_id'] = $udt->id;
+                $data['userDocuments'][$i]['created_by'] = Auth::user()->id;
                 $data['userDocuments'][$i]['doc'] = $d;
-                $data['userDocuments'][$i]['data'] = DB::table('user_form_document_data AS D')->select('D.*', 'U.name as updated_by')->join('users AS U', 'U.id', '=', 'D.updated_by')->where('doc_id', $d->id)->where('case_id', $udt->id)->first();
+                $data['userDocuments'][$i]['data'] = DB::table('user_form_document_data AS D')->select('D.*', 'U.name as updated_by')->leftjoin('users AS U', 'U.id', '=', 'D.updated_by')->where('doc_id', $d->id)->where('case_id', $udt->id)->first();
             }
         }
+        // echo "<pre>"; print_r($data); echo "</pre>"; die();
         return view('documents', $data);
     }
     
