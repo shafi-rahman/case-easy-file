@@ -40,13 +40,25 @@
                         <small class="text-muted text-uppercase">All Cases</small>
                     </div>
                     <div class="p-2 me-md-3">
-                        <div><span class="h6 mb-0">{{ count($connected) }}</span> <small class="text-secondary"><i class="fa fa-angle-up"></i>
-                            {{ App\Http\Controllers\Controller::calcPrecentage((count($all_case)+count($connected)+count($in_active)), count($connected)).'%' }}</small></div>
+                        @if(count($all_case)>0)
+                            <div><span class="h6 mb-0">{{ count($connected) }}</span> 
+                            <small class="text-secondary"><i class="fa fa-angle-up"></i>
+                            {{ App\Http\Controllers\Controller::calcPrecentage((count($all_case)+count($connected)+count($in_active)), count($connected)).'%' }}
+                            </small></div>
+                        @else 
+                            0 <br/>
+                        @endif
                         <small class="text-muted text-uppercase">Connected</small>
                     </div>
                     <div class="p-2 pe-lg-0">
-                        <div><span class="h6 mb-0">{{ count($in_active) }}</span> <small class="text-danger"><i class="fa fa-angle-down"></i>
-                            {{ App\Http\Controllers\Controller::calcPrecentage((count($all_case)+count($connected)+count($in_active)), count($in_active)).'%' }}</small></div>
+                        @if(count($in_active)>0)
+                        <div><span class="h6 mb-0">{{ count($in_active) }}</span> 
+                        <small class="text-danger"><i class="fa fa-angle-down"></i>
+                            {{ App\Http\Controllers\Controller::calcPrecentage((count($all_case)+count($connected)+count($in_active)), count($in_active)).'%' }}
+                        </small></div>
+                        @else 
+                            0 <br/>
+                        @endif
                         <small class="text-muted text-uppercase">In-active</small>
                     </div>
                 </div>
@@ -54,7 +66,7 @@
         </div>
     </div>
 
-    <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0 mt-lg-3">
+    <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0 ">
         <div class="container-fluid">
             <div class="row g-3 row-deck">
                 <div class="col-xxl-12 col-xl-12 col-lg-12 col-md-12">

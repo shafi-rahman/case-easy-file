@@ -25,6 +25,7 @@ Route::get('/user-guide', function () { return view('user-guide'); });
 Route::get('/application-status', function () { return view('application-status'); });
 
 Route::get('/documents', [App\Http\Controllers\HomeController::class, 'documents']);
+Route::get('/my-form-fields', [App\Http\Controllers\HomeController::class, 'my_form_fields']);
 Route::get('/billing', [App\Http\Controllers\HomeController::class, 'billing']);
 Route::get('/agreement', [App\Http\Controllers\HomeController::class, 'agreement']);
 Route::get('/calender', function () { return view('calender'); });

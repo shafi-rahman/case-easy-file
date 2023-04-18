@@ -21,6 +21,7 @@
                             <div class="btninfo bg-success">Click</div>
                         </button>
                         <div class="alert alert-warning text-center mt-3" v-if="response" v-text="response"></div>
+                        <a class="btn btn-success text-uppercase w-100 mt-3 btn-animate-6" v-if="response" v-on:click="refresh_list">Refresh the list</a>
                 </div>
             </div>
         </div>
@@ -51,7 +52,10 @@ export default {
                 // console.log(res.data); // binary representation of the file
                 // console.log(res.status); // HTTP status
             });
-        }     
+        },
+        refresh_list(){
+            window.location.reload();
+        } 
     },
     beforeMount() {
         

@@ -22,21 +22,24 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('get_main_menus', [commonController::class, 'get_main_menus']);
 
-Route::get('get_client_details', [ClientProfile::class, 'get_client_details']);
-Route::get('get_country_list', [ClientProfile::class, 'get_country_list']);  
-Route::get('get_state_list', [ClientProfile::class, 'get_state_list']);
-Route::get('get_city_list', [ClientProfile::class, 'get_city_list']);
-Route::post('save_personal_details/{action}', [ClientProfile::class, 'save_personal_details']);
-Route::post('check_email_already_exist', [ClientProfile::class, 'check_email_already_exist']);
-Route::post('check_mobile_already_exist', [ClientProfile::class, 'check_mobile_already_exist']);
-Route::post('save_educational_details/{action}', [ClientProfile::class, 'save_educational_details']);
-Route::post('save_professional_details/{action}', [ClientProfile::class, 'save_professional_details']);
-Route::post('update_case_status_details', [ClientProfile::class, 'update_case_status_details']);
-Route::post('save_case_quote', [ClientProfile::class, 'save_case_quote']);
+Route::get('get_client_details', [commonController::class, 'get_client_details']);
+Route::get('get_country_list', [commonController::class, 'get_country_list']);  
+Route::get('get_state_list', [commonController::class, 'get_state_list']);
+Route::get('get_city_list', [commonController::class, 'get_city_list']);
+Route::post('check_email_already_exist', [commonController::class, 'check_email_already_exist']);
+Route::post('check_mobile_already_exist', [commonController::class, 'check_mobile_already_exist']);
 
-Route::get('get_lead_status', [ClientProfile::class, 'get_lead_status']);
-Route::get('get_email_template_list', [ClientProfile::class, 'get_email_template_list']);
-Route::post('get_mail_template_content', [ClientProfile::class, 'get_mail_template_content']);
+Route::post('save_personal_details/{action}', [commonController::class, 'save_personal_details']);
+Route::post('save_educational_details/{action}', [commonController::class, 'save_educational_details']);
+Route::post('save_professional_details/{action}', [commonController::class, 'save_professional_details']);
+
+Route::post('update_case_status_details', [commonController::class, 'update_case_status_details']);
+Route::post('save_case_quote', [commonController::class, 'save_case_quote']);
+
+Route::get('get_lead_status', [commonController::class, 'get_lead_status']);
+Route::get('get_email_template_list', [commonController::class, 'get_email_template_list']);
+Route::post('get_mail_template_content', [commonController::class, 'get_mail_template_content']);
+
 Route::post('upload_case_excel_file', [commonController::class, 'upload_case_excel_file']); 
 Route::post('upload_case_manually', [commonController::class, 'upload_case_manually']);
 Route::post('send_mail', [commonController::class, 'send_mail']);
@@ -44,3 +47,6 @@ Route::post('update_document_approval_status', [commonController::class, 'update
 
 Route::post('upload_form_document', [commonController::class, 'upload_form_document']);
 Route::post('genetare_form', [commonController::class, 'genetare_form']);
+
+Route::post('sendEmail', [commonController::class, 'sendEmail']);
+

@@ -47,7 +47,7 @@
                                         <th>Name</th>
                                         <th>Date of Birth</th>
                                         <th>highest qualification</th>
-                                        <th>work experience</th>
+                                        {{-- <th>work experience</th> --}}
                                         <th>visa type</th>
                                         @if(Auth::user()->role==2)
                                             <th>Assign</th>
@@ -65,8 +65,8 @@
                                                 </label>
                                             </td>
                                             <td>{{ $case->date_of_birth }}</td>
-                                            <td>{{ $case->highest_qualification }}</td>
-                                            <td>{{ $case->work_experience }}</td>
+                                            <td>{{ $case->highest_qualification }} @if($case->work_experience>0) <span class="badge bg-success">{{ $case->work_experience }} Work Exp</span> @endif </td>
+                                            {{-- <td>{{ $case->work_experience }}</td> --}}
                                             <td>{{ $case->visa_name }}</td>
                                             @if(Auth::user()->role==2)
                                                 <td>{{ $case->name }}</td>

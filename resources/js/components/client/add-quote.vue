@@ -164,7 +164,10 @@ export default {
         save_case_quote(){ console.log(this.quoteData);
             axios.post(window.url + 'save_case_quote/', this.quoteData)
                 .then(response => {
-                    console.log(response);
+                    if(response.data.success){
+                        window.location.reload();
+                    }
+                    
                     // if (response.data.length != 0) {
                     //     this.personalDetailsError.email_id = true;
                     //     $('.email_validation').text('Email already in used');

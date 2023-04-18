@@ -63,8 +63,8 @@ class HomeController extends Controller
     public function agreement(){
         $data['agreementDetails'] = DB::table('user_personal_details AS P')
         ->select('P.id', 'P.user_id', 'P.first_name', 'P.avatar', 'R.agreement', 'R.status as agreement_status', 'A.approved_at')
-        ->join('user_retainer_agreement AS R', 'R.case_id', '=', 'P.id')
-        ->join('user_retainer_agreement_approval AS A', 'A.ra_id', '=', 'R.id')
+        ->leftjoin('user_retainer_agreement AS R', 'R.case_id', '=', 'P.id')
+        ->leftjoin('user_retainer_agreement_approval AS A', 'A.ra_id', '=', 'R.id')
         ->where('P.user_id', Auth::user()->id)
         ->first();
 
@@ -93,7 +93,7 @@ class HomeController extends Controller
 
         $udt = DB::table('user_personal_details')->select('id', 'visa_type', 'user_id')->where('user_id', Auth::user()->id)->first();
 
-        $ufd = DB::table('user_form_documents')->where('form_id', $udt->visa_type)->get();
+        $ufd = DB::table('user_form_documents')->whereRaw("find_in_set($udt->visa_type, form_id)")->get();
         
         if(count($ufd)>0){
             foreach($ufd as $i=>$d){
@@ -105,6 +105,36 @@ class HomeController extends Controller
         }
         // echo "<pre>"; print_r($data); echo "</pre>"; die();
         return view('documents', $data);
+    }
+
+    public function my_form_fields(Request $request){
+        
+        if(isset($_GET['submitformfield'])&&$_GET['submitformfield']=='submit'){
+            unset($_GET['submitformfield']);
+            foreach($_GET['fields'] as $k=>$v){
+                if(DB::table('user_form_field_data')->where('case_id', $_GET['case_id'])->where('field_id', $k)->first()){
+                    DB::table('user_form_field_data')->where('case_id', $_GET['case_id'])->where('field_id', $k)->update(['field_value'=> $v]);
+                } else {
+                    DB::table('user_form_field_data')->insert(array('case_id'=>$_GET['case_id'], 'field_id'=>$k, 'field_value'=>$v, 'created_at'=>date('Y-m-d H:i:s')) );
+                }
+            }
+        }
+
+        $udt = DB::table('user_personal_details')->select('id', 'visa_type', 'user_id')->where('user_id', Auth::user()->id)->first();
+        $ufd = DB::table('user_form_fields')->whereRaw("find_in_set($udt->visa_type, form_id)")->where('short_code_type', 2)->get();
+        
+        if(count($ufd)>0){
+            foreach($ufd as $i=>$d){
+                $data['userFields'][$i]['case_id'] = $udt->id;
+                $data['userFields'][$i]['field'] = $d;
+                $data['userFields'][$i]['data'] = DB::table('user_form_field_data')->where('field_id', $d->id)->where('case_id', $udt->id)->first();
+            }
+        }
+
+        
+
+        // echo "<pre>"; print_r($data['userFields']); echo "</pre>"; die();
+        return view('my-form-fields', $data);
     }
     
 }

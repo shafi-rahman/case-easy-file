@@ -17,6 +17,12 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 class Dashboard extends Controller
 {
+    public function __construct()
+    {
+        
+        $this->middleware('auth');
+    }
+
     public function subscriberDashboard(){
 
         return view('dashboard');
@@ -153,10 +159,12 @@ class Dashboard extends Controller
         }
 
         if(DB::table('user_retainer_agreement')->where('case_id', $uid)->first()==null){
-            $formdata = DB::table('user_forms')->select('id', 'form')->where('type', 7)->first();
-            $filename = strtotime(date('Y-m-d H:i:s')).'_'.str_replace(' ', '', $data['userDetails']->first_name).'_Retainer-Agreement';
-            $formData = DB::table('user_form_fields')->where("form_id", $formdata->id)->get();
-            if($fn = $this->generateDocx($filename, $formData, $uid)){
+            $form = DB::table('user_forms')->select('id', 'form')->where('type', 7)->first();
+            $filename = strtotime(date('Y-m-d H:i:s')).'_'.str_replace(' ', '', $data['userDetails']->first_name).'_'.$form->form;
+            // $formData = DB::table('user_form_fields')->where("form_id", $form->id)->get();
+            $formData = DB::table('user_form_fields')->get();
+           
+            if($fn = $this->generateDocx($filename, $formData, $uid, Auth::user()->id)){
                 $agrmntData['case_id'] = $uid;
                 $agrmntData['agreement'] = $fn;
                 $agrmntData['status'] = 0;
@@ -167,7 +175,7 @@ class Dashboard extends Controller
         }
         
         
-        $data['userRetainerAgreement'] = DB::table('user_retainer_agreement')->where('case_id', $uid)->first();
+        $data['userRetainerAgreement'] = DB::table('user_retainer_agreement')->where('case_id', $uid)->first()??0;
         
         // echo "<pre>"; 
         // print_r($data['userFormDocuments']);
@@ -181,26 +189,51 @@ class Dashboard extends Controller
     }
 
 
-    public function generateDocx($filename, $formData, $uid)
+    public function generateDocx($filename, $formData, $case_id, $user_id)
     {
         try {
-            $location = 'uploads/userdocs/'.$filename.'.docx';
+            $location = 'uploads/userdocs/'.$filename;
 
             $templateProcessor = new TemplateProcessor('uploads/docs/Retainer-Agreement.docx');
-
+            // echo "<pre>";
             foreach($formData as $data){
+                // print_r($formData);
                 if($data->short_code_type==1){ 
                     $col = $data->field_name;
-                    $rdata = DB::table($data->short_code_from)->select($col)->where($data->where_col, $uid)->first();
-                    $templateProcessor->setValue($col, $rdata->$col);
+                    if(($data->where_col)=='id'||trim($data->where_col)=='case_id'){
+                        $rdata = DB::table($data->short_code_from)->select($col)->where($data->where_col, $case_id)->first()??'';
+                    } else {
+                        $rdata = DB::table($data->short_code_from)->select($col)->where($data->where_col, $user_id)->first()??'';
+                    }
+                    if($rdata==''){
+                        $templateProcessor->setValue($data->field_lebel, '------------------------');
+                    } else {
+                        // $templateProcessor->setValue($data->field_lebel, $rdata->$col);
+                        if($data->depend_on!=''){
+                            $get_col = $data->depend_on_get_col;
+                            $srdata = DB::table($data->depend_on)->select($get_col)->where($data->depend_on_whr_col, $rdata->$col)->first()??'';
+                            $templateProcessor->setValue($data->field_lebel, $srdata->$get_col);
+                            // echo $rdata->$col." : "; echo $srdata->$get_col.' /// ';
+                        } else {
+                            $templateProcessor->setValue($data->field_lebel, $rdata->$col);
+                        }
+                    }
                 } else {
                     $col = 'field_value';
-                    $rdata = DB::table('user_form_field_data')->select($col)->where('field_id', $data->id)->where('case_id', $uid)->first();
-                    $templateProcessor->setValue($data->field_name, $rdata->$col);
+                    $rdata = DB::table('user_form_field_data')->select($col)->where('field_id', $data->id)->where('case_id', $case_id)->first()??'';
+                    if($rdata==''){
+                        $templateProcessor->setValue($data->field_lebel, '------------------------');
+                    } else {
+                        $templateProcessor->setValue($data->field_lebel, $rdata->$col);
+                    }
                 }
+               
             }
-
+            
             $templateProcessor->saveAs($location);
+
+            // print_r($arr);
+            // die();
             return $location;
 
             // CloudConvert::file($location)->to('invoice.pdf');
@@ -216,7 +249,6 @@ class Dashboard extends Controller
             // $pdfLocation = public_path('uploads/userdocs/'.$filename.'.pdf');
             // $xmlWriter->save($pdfLocation, true);
             
-
 
         } catch (\Exception $e) {
             return $e->getMessage();
