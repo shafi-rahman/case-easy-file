@@ -29,15 +29,10 @@
                               </div>
                           </div>
                       </div>
-
                   </div>
-
                   <a class="btn btn-primary mb-3 pull-right mt-2" href="{{ url('client-profile') }}"><i
                           class="fa fa-external-link me-2"></i>Preview</a>
-
-
               </div>
-
           </div>
       </div>
   </div>
@@ -60,14 +55,14 @@
                 </div>
                 <div class="col-xxl-6 col-xl-6 col-lg-6 col-md-7 col-sm-12 mt-2 mt-md-0 ">
                     <div class="input-group float-end" style="width: auto;">
-                        <button class="btn btn-outline-primary active text-white" type="button" data-bs-toggle="tooltip" title="Send Report"><i
-                                class="fa fa-database"></i> ALL Time</button>
-                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="tooltip"
-                            title="Download Reports"><i class="fa fa-cubes"></i> Monthly</button>
-                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="tooltip" title="Generate PDF"><i
-                                class="fa fa-cube"></i> Weekly</button>
-                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="tooltip" title="Share Dashboard"><i
-                                class="fa fa-compass"></i> Today</button>
+                        <a class="btn btn-outline-primary {{Crypt::decryptString($seg)=='all'?'active text-white':''}}" href="{{ URL('dashboard').'/'.Crypt::encryptString('all') }}" data-bs-toggle="tooltip" 
+                            title="Show all All Time"><i class="fa fa-database"></i> ALL Time</a>
+                        <a class="btn btn-outline-primary {{Crypt::decryptString($seg)=='monthly'?'active text-white':''}}" href="{{ URL('dashboard').'/'.Crypt::encryptString('monthly') }}" data-bs-toggle="tooltip"
+                            title="Show all Monthly"><i class="fa fa-cubes"></i> Monthly</a>
+                        <a class="btn btn-outline-primary {{Crypt::decryptString($seg)=='weekly'?'active text-white':''}}" href="{{ URL('dashboard').'/'.Crypt::encryptString('weekly') }}" data-bs-toggle="tooltip" 
+                            title="Show all Weekly"><i class="fa fa-cube"></i> Weekly</a>
+                        <a class="btn btn-outline-primary {{Crypt::decryptString($seg)=='today'?'active text-white':''}}" href="{{ URL('dashboard').'/'.Crypt::encryptString('today') }}" data-bs-toggle="tooltip" 
+                            title="Show all Today's"><i class="fa fa-compass"></i> Today</a>
                     </div>
                 </div>
             </div>
@@ -79,7 +74,7 @@
             <div class="row g-3 row-deck">
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('payment-received') }}">
+                        <a href="{{ url('reporting') . '/' . Crypt::encryptString('payment') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="26" fill="currentColor" viewBox="0 0 16 16">
@@ -106,7 +101,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('payment-pending') }}">
+                        <a href="{{ url('reporting') . '/' . Crypt::encryptString('payment') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="26" fill="currentColor" viewBox="0 0 16 16">
@@ -129,7 +124,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('leads') }}">
+                        <a href="{{ url('reporting') . '/' . Crypt::encryptString('case') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                     width="26" fill="currentColor" viewBox="0 0 16 16">
@@ -151,7 +146,7 @@
                 </div>
                 <div class="col-lg-3 col-md-6 col-sm-6">
                     <div class="card overflow-hidden">
-                        <a href="{{ url('lead') . '/' . Crypt::encryptString('leads') }}">
+                        <a href="{{ url('reporting') . '/' . Crypt::encryptString('case') }}">
                             <div class="card-body">
                                 <svg class="position-absolute top-0 end-0 mt-4 me-3" xmlns="http://www.w3.org/2000/svg"
                                 width="26" fill="currentColor" viewBox="0 0 16 16">

@@ -14,13 +14,14 @@
         </div>
     </div>
 
-    <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0">
+    <div class="page-body px-xl-4 px-sm-2 px-0 mt-0">
       <div class="card">
         <div class="card-body">
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="activeLead" role="tabpanel">
                     <div class="card">
                         <div class="card-header p-2">
+                            <h6 class="card-title m-0">List of all new cases</h6>
                             <div class="col-4">
                                 <div class="input-group">
                                     <select class="form-control">
@@ -33,10 +34,10 @@
                                         id="button-addon2">Assing</button>
                                 </div>
                             </div>
-                            <div class="scale-left">
+                            {{-- <div class="scale-left">
                                 <a href="#" class="btn btn-outline-success"><i
                                         class="fa fa fa-refresh"></i> Refrish </a>
-                            </div>
+                            </div> --}}
 
                         </div>
                         <div class="table-responsive">
@@ -45,7 +46,6 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Date of Birth</th>
                                         <th>highest qualification</th>
                                         {{-- <th>work experience</th> --}}
                                         <th>visa type</th>
@@ -62,21 +62,21 @@
                                             <td>
                                                 <label class="form-check mb-0">
                                                     <input class="form-check-input" type="checkbox"> {{ $case->first_name }}
+                                                    <span class="badge bg-info"> {{$case->gender==''?'':($case->gender=='1'?'M ':'F ')}} {{ App\Http\Controllers\Controller::ageFromDOB($case->date_of_birth) }}</span>
                                                 </label>
                                             </td>
-                                            <td>{{ $case->date_of_birth }}</td>
-                                            <td>{{ $case->highest_qualification }} @if($case->work_experience>0) <span class="badge bg-success">{{ $case->work_experience }} Work Exp</span> @endif </td>
+                                            <td>{{ $case->highest_qualification }} @if($case->work_experience>0) <span class="badge bg-success">{{ $case->work_experience }} Y Exp</span> @endif </td>
                                             {{-- <td>{{ $case->work_experience }}</td> --}}
                                             <td>{{ $case->visa_name }}</td>
                                             @if(Auth::user()->role==2)
                                                 <td>{{ $case->name }}</td>
                                             @endif
                                             <td>
-                                                {{-- <a href="{{ url('client-profile') . '/' . Crypt::encryptString( $case->id ) }}"
+                                                <a href="{{ url('client-profile') . '/' . Crypt::encryptString( $case->id ) }}"
                                                     class="btn m-1 btn-primary btn-animate-6"><span
                                                         class="btntext">View</span>
                                                     <div class="btninfo bg-success">Client</div>
-                                                </a> --}}
+                                                </a>
                                                 <a href="{{ url('client-prospect-details') . '/' . Crypt::encryptString( $case->id ) }}"
                                                   class="btn m-1 btn-primary btn-animate-6"><span
                                                       class="btntext">Prospect</span>
@@ -94,7 +94,6 @@
         </div>
     </div>
     </div>
-@endsection
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -111,3 +110,5 @@
             });
         });
     </script>
+@endsection
+    

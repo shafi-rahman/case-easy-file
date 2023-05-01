@@ -54,7 +54,7 @@
                           @foreach($userFields as $i=>$field)
                             <div class="col-md-12 col-12">
                               <div class="form-floating">
-                                <input type="text" class="form-control" name="fields[{{ $field['field']->id }}]" value="{{ ($field['data']->field_id==$field['field']->id)?$field['data']->field_value:'' }}" placeholder="First Name" required>
+                                <input type="text" class="form-control" name="fields[{{ $field['field']->id }}]" value="{{ ($field['data']!=''&&$field['data']->field_id==$field['field']->id)?$field['data']->field_value:'' }}" placeholder="First Name" required>
                                 <label>{{ucfirst(str_replace('_', ' ', $field['field']->field_name))}} <code class="text-danger">*</code></label>
                               </div>
                             </div>

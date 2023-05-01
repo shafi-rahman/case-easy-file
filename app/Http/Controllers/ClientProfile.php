@@ -33,10 +33,11 @@ class ClientProfile extends Controller
         }       
 
         $data['userDetails'] = DB::table('user_personal_details')
-        ->select('user_personal_details.*', 'user_status.name as currentstatus')
+        ->select('user_personal_details.*', DB::raw('@a:="clientProfile" as actionFrom'), 'user_status.name as currentstatus', DB::raw('@a:='.Auth::user()->id.' as logedinuser'))
         ->join('user_status', 'user_status.id', '=', 'user_personal_details.status')
         ->where('user_personal_details.id', $uid)
         ->first();
+        $data['userDetails']->managed_by = Auth::user()->id;
 
         $data['userPaymentDetails'] = DB::table('user_payment_quote')
         ->select('user_payment_quote.*', 'user_payment_installment.*')

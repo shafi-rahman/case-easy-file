@@ -8,6 +8,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Attachment;
 
 class SendGemail extends Mailable
 {
@@ -28,7 +29,7 @@ class SendGemail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Welcome from CEF',
+            // subject: 'Test Email',
         );
     }
 
@@ -38,7 +39,7 @@ class SendGemail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'Email.registration',
+            markdown: '',
         );
     }
 
@@ -54,10 +55,17 @@ class SendGemail extends Mailable
     
     public function build()
     {
-        return $this->markdown('Email.registration')
-              ->with('mailData', $this->mailData);
+        if($this->mailData['emailTemplate']!=''){
+            $emailcc = (isset($this->mailData['mail_cc'])&&$this->mailData['mail_cc']!='')?explode(',', $this->mailData['mail_cc']):'';
+            // $attachment = (isset($this->mailData['attachment'])&&$this->mailData['attachment']!='')?url($this->mailData['attachment']):'';
 
-        // return $this->subject('Test Email')->view('Email.registration');
-
+            return $this->markdown($this->mailData['emailTemplate'])
+            ->subject($this->mailData['subject'])
+            ->cc($emailcc)
+            // ->attach($attachment)
+            ->with('mailData', $this->mailData);
+        } else {
+            return response()->json( array('success'=>'notsend'), 200 );
+        }
     }
 }

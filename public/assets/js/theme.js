@@ -52,7 +52,10 @@ window.addEventListener("load", () => {
 	[].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function(e) {
 		return new bootstrap.Tooltip(e)
 	})
-}), $(function() {
+}), 
+
+/*
+	$(function() {
 	"use strict";
 	let t = document.documentElement;
 	$(".choose-skin li").on("click", function() {
@@ -80,7 +83,9 @@ window.addEventListener("load", () => {
 		t.style.setProperty("--chart-color4", $(this).colorpicker("getValue", "#ffffff"))
 	}), $("#chartColorPicker5").colorpicker().on("changeColor", function() {
 		t.style.setProperty("--chart-color5", $(this).colorpicker("getValue", "#ffffff"))
-	}), $(".theme-rtl input:checkbox").on("click", function() {
+	}), 
+
+	$(".theme-rtl input:checkbox").on("click", function() {
 		$(this).is(":checked") ? $("body").addClass("rtl_mode") : $("body").removeClass("rtl_mode");
 		var e = $(".scale-left"),
 			t = $(".scale-right");
@@ -107,7 +112,10 @@ window.addEventListener("load", () => {
 	}), $(".sidebar-v2 input:checkbox").on("click", function() {
 		$(this).is(":checked") ? $(".sidebar").addClass("version-2") : $(".sidebar").removeClass("version-2")
 	})
-}), $(function() {
+}), 
+*/
+
+$(function() {
 	"use strict";
 	var t = document.querySelector('.theme-switch input[type="checkbox"]'),
 		c = document.querySelector('.theme-high-contrast input[type="checkbox"]'),

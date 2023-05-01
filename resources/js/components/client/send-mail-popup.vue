@@ -20,15 +20,20 @@
                     </div>
                     <div class="col-12">
                         <div class="form-floating">
+                            <input type="text" class="form-control" id="mail_cc">
+                            <label>Cc</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-floating">
                             <div class="summernote"></div>
                         </div>
                     </div>
                     <div class="col-12" id="attachmentDiv">
                         <label class="form-label small">Attachment</label>
-                        <input class="form-control" type="file" id="attachment">
+                        <input class="form-control" type="file" id="attachment"  v-on:change="uploadFile($event)">
                     </div>
                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                        <div class="btn m-1 btn-danger btn-animate-6" data-bs-dismiss="modal"><span class="btntext">Close</span><div class="btninfo bg-success">Click</div></div>
                         <div class="btn m-1 btn-primary btn-animate-6" v-on:click="send_mail()"><span class="btntext">Send</span><div class="btninfo bg-success">Click</div></div>
                     </div>
                 </div>
@@ -41,8 +46,12 @@
 if(window.userDetails!=undefined){
     var userDetails = JSON.parse(window.userDetails.replace(/&quot;/g,'"')); 
     var case_id = userDetails.id;
+    var emailid = userDetails.email_id;
     var managed_by = userDetails.managed_by;
+    var actionFrom = userDetails.actionFrom;
+    console.log(actionFrom);
 }
+
 export default {
     data() {
         return {
@@ -81,27 +90,55 @@ export default {
                 });
             }
         },
+        uploadFile(e) {
+            this.uploadexcel = e.target.files[0];
+            // console.log(this.uploadexcel);
+        },
         send_mail(){
-            var sub = $('#mail_subject').find(":selected").text();
-            var content = $('.summernote').summernote('code'); 
-            var mailid = $('#emailid').val();
-            var attach = $('a#attachment').attr('href');
+            // var sub = $('#mail_subject').find(":selected").text();
+            // var mailcc = $('#mail_cc').val();
+            // var content = $('.summernote').summernote('code'); 
+            // var mailid = $('#emailid').val();
+            // var attach = $('a#attachment').attr('href');
 
-            axios.post(window.url + 'send_mail', { sub: sub, content: content, mailid: mailid, attach: attach, case_id:case_id, managed_by:managed_by })
-                .then(response => {
-                    // console.log(response.data);
-                    if (response.data.success) {
-                        window.location.reload();
-                    }
-                })
-                .catch(errors => {
-                    // $.each(errors.response.data.errors, function (key, value) {
-                    //     showToastMsg('danger', 'Oops', 'Details not updated', 'Your educational information did not update');
-                    //     console.log(key);
-                    //     console.log(value);
-                    // });
-                    // console.log(errorObj);
-                });
+            // axios.post(window.url + 'send_mail', { sub: sub, mailcc:mailcc, content: content, 
+                // mailid: mailid, attach: attach, case_id:case_id, managed_by:managed_by })
+            //     .then(response => {
+            //         // console.log(response.data);
+            //         if (response.data.success) {
+            //             window.location.reload();
+            //         }
+            //     })
+            //     .catch(errors => {
+            //         console.log(errors);
+            //     });
+
+            // console.log(this.uploadexcel);
+            showLoader();
+            // var attach = $('a#attachment').attr('href')!=''?$('a#attachment').attr('href'):'';
+            var attach = $('a#attachment').attr('href');
+            const formData = new FormData();
+            formData.append('sub',  $('#mail_subject').find(":selected").text());
+            formData.append('mailcc', $('#mail_cc').val());
+            formData.append('content', $('.summernote').summernote('code'));
+            formData.append('mailid', emailid);
+            formData.append('file', (this.uploadexcel!=undefined?this.uploadexcel: attach));
+            formData.append('case_id', case_id);
+            formData.append('managed_by', managed_by);
+            formData.append('actionFrom', actionFrom);
+
+            console.log(formData);
+
+            const headers = { 'Content-Type': 'multipart/form-data' };
+            axios.post(window.url + 'send_mail', formData, { headers }).then((res) => {
+                this.response = res.data;
+                console.log(res.data); 
+                
+                hideLoader();
+                showToastMsg('success', 'Greate', 'Sent notification', 'Successfully sent the notification.');
+                            
+                // console.log(res.status); // HTTP status
+            });
 
         },
     },

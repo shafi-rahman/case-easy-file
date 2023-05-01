@@ -2,6 +2,9 @@
 @section('content')
 
 
+<script>
+    window.tasks = "{{ (count($tasks)>0)?json_encode($tasks):'' }}";
+</script>
 <div class="page-body px-xl-4 px-sm-2 px-0 py-lg-2 py-1 mt-0 mt-lg-3">
     <div class="container-fluid">
         <div class="row g-3 row-deck">
@@ -18,7 +21,7 @@
                             </div>
                             <div class="fs-5 fw-bold my-1" id="renderRange"></div>
                             <div class="d-flex align-items-center my-1">
-                                <div class="dropdown morphing scale-left">
+                                {{-- <div class="dropdown morphing scale-left">
                                     <button class="btn btn-primary dropdown-toggle"
                                         id="dropdownMenu-calendarType" type="button"
                                         data-bs-toggle="dropdown"><i id="calendarTypeIcon"></i><span
@@ -57,7 +60,7 @@
                                                     class="checkbox-title"></span>Narrower than weekdays</a>
                                         </li>
                                     </ul>
-                                </div>
+                                </div> --}}
                                 <div class="ms-2">
                                     <button class="btn btn-outline-secondary move-day" type="button"
                                         data-action="move-prev"><i class="fa fa-angle-left"
@@ -85,15 +88,12 @@
                         <div class="border" id="calendar"></div>
                     </div>
                 </div>
-
-                <script src="{{asset('assets/js/bundle/tui-calendar.bundle.js')}}"></script>
-
-                <script>
-                </script>
             </div>
         </div>
     </div>
 </div>
+
+<script src="{{asset('assets/js/bundle/tui-calendar.bundle.js')}}"></script>
 
 
 @endsection

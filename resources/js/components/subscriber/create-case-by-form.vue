@@ -77,15 +77,20 @@
                         <div class="col-6 form-floating mb-3">
                             <input type="date" class="form-control" placeholder="Date of Birth" v-model="caseData.date_of_birth">
                             <label>Date of Birth</label>
-                        </div>                        
-
+                        </div>
+                        <div class="col-12 form-floating mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="ielts" v-model="caseData.ielts">
+                                <label class="form-check-label" for="ielts">Check here, if you have IELTS certificate</label>
+                            </div>
+                        </div>
                         <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                             <button class="btn m-1 btn-primary btn-animate-6" v-on:click="submitManually()"><span class="btntext">Save</span>
                                 <div class="btninfo bg-success">Click</div>
                             </button>
                         </div>
-                        
                         <div class="alert alert-warning text-center mt-3" v-if="response" v-text="response"></div>
+                        <a class="btn btn-success text-uppercase w-100 mt-3 btn-animate-6" v-if="response" v-on:click="refresh_list">Refresh the list</a>
                     </div>
                 </div>
             </div>
@@ -106,6 +111,7 @@ export default {
                 highest_qualification: '',
                 work_experience: '',
                 visa_type: '',
+                ielts: '',
                 source:'manual by form',
             },
             caseDataError: {
@@ -127,7 +133,10 @@ export default {
                     // console.log(res.data);
                 }) .catch(error => { console.log(error) });
             }
-        }
+        },
+        refresh_list(){
+            window.location.reload();
+        } 
     },
     beforeMount() {
         

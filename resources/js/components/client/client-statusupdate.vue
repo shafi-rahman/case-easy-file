@@ -64,8 +64,8 @@ export default {
                 case_id: userDetails.id,
                 status: userDetails.status,
                 notes: '',
-                followup_date: '',
-                followup_time: '',
+                followup_date: new Date().toISOString().slice(0,10),
+                followup_time: new Date().toISOString().slice(11,19),
             },
             caseStatusError:{
                 status: false,
@@ -82,15 +82,20 @@ export default {
                 })
                 .catch(error => { console.log(error) });
         },
-        update_case_status_details() { console.log(this.currentstatus);
+        update_case_status_details() { console.log(this.caseStatusDetail);
             this.caseStatusError.status = this.caseStatusDetail.status==''?true:false;
             this.caseStatusError.notes = this.caseStatusDetail.notes==''?true:false;
 
             if (!this.caseStatusError.notes && !this.caseStatusError.status) {
 
-                axios.post(window.url + 'update_case_status_details/', this.caseStatusDetail)
+                // console.log(this.caseStatusDetail);
+                // var gurl = window.url + 'update_case_status_details?user_id='+this.caseStatusDetail.user_id+'&case_id='+this.caseStatusDetail.case_id+'&status='+this.caseStatusDetail.status+'&notes='+this.caseStatusDetail.notes+'&followup_date='+this.caseStatusDetail.followup_date+'&followup_time='+this.caseStatusDetail.followup_time;
+                // console.log(gurl);
+                // axios.get(gurl)
+                
+                axios.post(window.url+'update_case_status_details', this.caseStatusDetail)
                     .then(response => {
-                        console.log(response.data);
+                        // console.log(response.data);
                         if (response.data.success) {
                             // $('#updatestatus').modal('hide');
                             showToastMsg('success', 'Greate', 'Details updated', 'Case status successfully updated');
@@ -107,11 +112,14 @@ export default {
                         // console.log(errorObj);
                     });
 
+            } else {
+                console.log('else: ');
             }
         },
     },
     beforeMount() {
         this.getLeadStatus();
+        console.log(this.caseStatusDetail)
 
     }
 }

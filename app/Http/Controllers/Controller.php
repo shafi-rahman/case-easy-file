@@ -14,6 +14,11 @@ class Controller extends BaseController
     public static function calcPrecentage($total=0, $sub=0){
         return number_format( (($sub/$total)*100), 0);
     }
+
+    public static function ageFromDOB($dob){
+        $y = (date('Y') - date('Y',strtotime($dob)));
+        return ($y!=0?$y:'');
+    }
     
 }
 

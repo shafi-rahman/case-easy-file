@@ -57,8 +57,12 @@
                                 <i class="fa fa-star text-warning"></i>
                             </span>
                         </p> 
-                        <p class="lead">Your <a class="luno-link text_bg" href="{{url($agreementDetails->agreement)}}">Retainer agreement </a> is here, please check and <button class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" data-bs-toggle="modal" data-bs-target="#approval_popup"><span>click to approve</span></button> it</p>
-                        <p class="lead">If you have any query, talk to your case Officer <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat"> Rishab Panth</a>
+                        @if($agreementDetails->agreement!=NULL)
+                            <p class="lead">Your <a class="luno-link text_bg" href="{{url($agreementDetails->agreement)}}">Retainer agreement </a> is here, please check and <button class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" data-bs-toggle="modal" data-bs-target="#approval_popup"><span>click to approve</span></button> it</p>
+                            <p class="lead">If you have any query, talk to your case Officer <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat"> Rishab Panth</a>
+                        @else 
+                            <p>Not generated till.</p>
+                        @endif
                     </div>
                 </div>
             </div>

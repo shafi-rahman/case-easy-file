@@ -1,12 +1,17 @@
 @extends('layouts.app')
-
 @section('content')
+
+{{-- from vue --}}
+<div id="root-upload-corrected-form">
+  <upload-corrected-form></upload-corrected-form>
+</div> 
 
 {{-- from vue --}}
 <div id="root-send-email-popup">
   {{-- @{{message}} --}}
   <send-email-popup></send-email-popup>
-</div> 
+</div>  
+
 <div class="modal fade" id="approval_popup" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content text-start">
@@ -48,22 +53,24 @@
             <div class="step-app h-wizard-demo1">
               <ul class="step-steps">
                 <li data-step-target="step1"><span>Assessment</span></li>
-                <li data-step-target="step2"><span>Retainer Agreement</span></li>
-                <li data-step-target="step3"><span>Request & Review Documents</span></li>
-                <li data-step-target="step4"><span>Complete Immigration Forms</span></li>
-                <li data-step-target="step5"><span>Submit Files to IRCC</span></li>
-                <li data-step-target="step6"><span>IRCC Response</span></li>
+                {{-- @if(isset($userPaymentInstallment)&&count($userPaymentInstallment)>0) --}}
+                  <li {{($userRetainerAgreement!='')?'data-step-target="step2"':''}}><span>Retainer Agreement</span></li>
+                  <li {{($userRetainerAgreement!='')?'data-step-target="step3"':''}}><span>Request & Review Documents</span></li>
+                  <li {{($userRetainerAgreement!='')?'data-step-target="step4"':''}}><span>Complete Immigration Forms</span></li>
+                  <li {{($userRetainerAgreement!='')?'data-step-target="step5"':''}}><span>IRCC Process</span></li>
+                {{-- @endif --}}
               </ul>
               <div class="step-content">
                 <div class="step-tab-panel" data-step="step1">
                   <div class="row p-3">
                     <div class="card-body">
                       <div class="d-flex align-items-md-start align-items-center flex-column flex-md-row">
-                        <div class="image-input avatar xxl rounded-4" style="background-image: url({{ url('uploads/users').'/'.$userDetails->avatar}})">
-                          <div class="avatar-wrapper rounded-4" style="background-image: url({{ url('uploads/users').'/'.$userDetails->avatar}})"></div>
+                        <div class="image-input avatar xxl rounded-4" style="background-image: url({{ url($userDetails->avatar)}})">
+                          <div class="avatar-wrapper rounded-4" style="background-image: url({{ url($userDetails->avatar)}})"></div>
                         </div>
                         <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center w-100">
                           <div class="row">
+                             
                             <div class="col-lg-3 col-md-12">
                               <h5 class="mb-0 fw-light">{{ ($userDetails->first_name??'').(' '.$userDetails->middle_name??'').(' '.$userDetails->last_name??'') }}</h5>
                               <small>{{ ((date('Y') - date('Y',strtotime($userDetails->date_of_birth)).' year(s)')).(' , '.($userDetails->gender==1?'Male':'Female')).(', '.$userDetails->user_marital_status) }}</small>
@@ -92,9 +99,19 @@
                                     <small class="text-black">Due @ {{ $payment->due_date }}</small>
                                   </div>
                                   @endforeach
+                                @else
+                                  <p class="text-danger">Payment details not define, please set befor go next.</p>
+                                  <a href="{{ url('client-profile') . '/' . Crypt::encryptString( $userDetails->id ) }}"
+                                    class="btn m-1 btn-primary btn-animate-6"><span
+                                        class="btntext">Set Payment Details</span>
+                                    <div class="btninfo bg-success">Go</div>
+                                  </a>
                                 @endif
                               </div>
                             </div>
+
+                            
+
                           </div>
                         </div>
                       </div>
@@ -103,12 +120,13 @@
                 </div>
                 <div class="step-tab-panel p-3" data-step="step2">
                   <h6 class="card-title">Auto Generated <span class="small text-muted">Retainer Agreement</span></h6>
+                  @if($userRetainerAgreement!='')
                   @if($userRetainerAgreement->status==0)
                     <div class="row g-3 mb-4">
                       <div class="col-12">
                         <div class="card">
                           <div class="card-body">
-                            <p class="lead">This is auto generated retainer agreement for this client/user, <a class="luno-link text_bg" href="{{url($userRetainerAgreement->agreement)}}">click to review </a> before send to client.</p>
+                            <p>This is auto generated retainer agreement for this client/user, <a class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" href="{{url($userRetainerAgreement->agreement)}}"><span><i class="fa fa-download"></i> click to review</span> </a> before send to client.</p>
                             <p>*ONLY ADMIN CAN CHANGE THE CONTENT</p>
                             <button class="btn mx-2 btn-primary btn-animate-1 mb-2" data-bs-toggle="modal" id="sendmail" data-bs-target="#sendmail" data-emailid="{{ $userDetails->email_id }}" data-attachmentMSG="Retainer agreement attached" data-attachment="{{$userRetainerAgreement->agreement}}">
                               <span>Click to send</span>
@@ -138,6 +156,7 @@
                       </div>
                     </div>
                   </div>        
+                  @endif
                   @endif
                 </div>
                 <div class="step-tab-panel p-3" data-step="step3">
@@ -198,12 +217,12 @@
                                 <h5 class="card-title mb-0"><i class="fa fa-thumbs-up me-2"></i>Getting worked</h5>
                             </div>
                             <div class="card-body">
-                                <p class="lead">
+                                <p class="">
                                   Congratulations! I am thrilled to hear that you have achieved a significant milestone!
                                   <br/>
-                                  Now to to generate your final immigration forms. 
+                                  Make sure the client full fill the required information to generate the final immigration forms. 
                                 </p>
-                                <p class="lead">
+                                <p class="">
                                     <span class="ms-2">
                                         <i class="fa fa-star text-warning"></i>
                                         <i class="fa fa-star text-warning"></i>
@@ -212,20 +231,39 @@
                                         <i class="fa fa-star text-warning"></i>
                                     </span>
                                 </p> 
-                                <button class="btn mx-2 btn-primary btn-animate-1 mb-2" form_id="1" case_id="34" genetare_by="22" onclick="genetare_form(this)">
-                                  <span>Generate Immigration Form </span>
-                                  <i class="fa fa-long-arrow-right"></i>
-                                </button>
-                                <span id="form_link"></span>
+                                @if($userGenerateForm=='')
+                                  <button class="btn mx-2 btn-primary btn-animate-1 mb-2" form_id="{{$userDetails->visa_id}}" case_id="{{$userDetails->id}}" generate_by="{{$userDetails->managed_by}}" onclick="generate_form(this)">
+                                    <span>Generate Immigration Form </span>
+                                    <i class="fa fa-long-arrow-right"></i>
+                                  </button>
+                                  <span id="form_link"></span>
+                                @else
+                                  @if($userGenerateForm->uploaded_generated_form=='')
+                                    <span id="form_link"><a class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" href="{{url($userGenerateForm->generated_form)}}"><span><i class="fa fa-download"></i> Immigration Form</span></a>&nbsp;generated, this is auto generated form, kindly click to review the form, check properly and do the needfull currection and <a class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" data-bs-toggle="modal" data-bs-target="#uploadCorrectedForm"><span><i class="fa fa-upload"></i> clicl here</span></a> to submit the currected form to generate bar code before submit to the IRCC.</span>
+                                  @else
+                                  <span id="form_link">Auto generate <a class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" href="{{url($userGenerateForm->generated_form)}}"><span><i class="fa fa-download"></i> Immigration Form<span></a> and <a class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" href="{{url($userGenerateForm->uploaded_generated_form)}}"><span><i class="fa fa-download"></i> clicl here</span></a> to download your bar coded form for IRCC.</span>
+                                  @endif
+                                @endif
                             </div>
                         </div>
                     </div>
                   </div>
+                </div>
 
-
+                <div class="step-tab-panel p-3" data-step="step5">
+                  <div class="row">
+                    @if($userGenerateForm!=''&&$userGenerateForm->uploaded_generated_form!='')
+                      {{-- from vue --}}
+                      <div id="root-ircc-process">
+                        <ircc-process></ircc-process>
+                      </div>
+                    @else
+                      <p>kindly complete the "Complete Immigration Process"</p>
+                    @endif
+                  </div>
                 </div>
               </div>
-              @if($userRetainerAgreement->status==2)
+              @if($userRetainerAgreement!=''&&$userRetainerAgreement->status==2)
               <div class="step-footer d-flex justify-content-end p-3">
                 <button class="btn btn-primary step-btn ms-1" data-step-action="prev">Prev</button>
                 <button class="btn btn-primary step-btn ms-1" data-step-action="next">Next</button>
@@ -238,13 +276,10 @@
       </div>
     </div>
 
-    
+    <script>
+      window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
+    </script>
   </div>
 </div>
 @endsection
 
-<script>
-  window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
-
-  
-</script>

@@ -74,7 +74,11 @@
                                     @if($doc['data']=='')
                                       <button type="button" class="btn btn-link btn-sm text-primary approvalPopupBtn" data-bs-toggle="modal" created_by="{{ $doc['created_by'] }}" case_id="{{ $doc['case_id'] }}" status="0" did="{{$doc['doc']->id}}" data-bs-target="#document_upload"><i class="fa fa-cloud-upload"></i></button>
                                     @else
-                                      <button type="button" class="btn btn-link btn-sm text-primary approvalPopupBtn" created_by="{{ $doc['created_by'] }}" case_id="{{ $doc['case_id'] }}" status="{{$doc['data']->status}}" did="{{$doc['doc']->id}}" data-bs-toggle="modal" data-bs-target="#document_upload"><i class="fa fa-cloud-upload"></i></button>
+                                      @if($doc['data']->status==1)
+                                        <button type="button" class="btn btn-link btn-sm text-primary approvalPopupBtn"><i class="fa fa-check-square"></i></button>
+                                      @else
+                                        <button type="button" class="btn btn-link btn-sm text-primary approvalPopupBtn" created_by="{{ $doc['created_by'] }}" case_id="{{ $doc['case_id'] }}" status="{{$doc['data']->status}}" did="{{$doc['doc']->id}}" data-bs-toggle="modal" data-bs-target="#document_upload"><i class="fa fa-cloud-upload"></i></button>
+                                      @endif
                                     @endif  
                                   </td>
                                 </tr>

@@ -84,8 +84,12 @@
                                 <div class="card-body">
                                     <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">TQ</div>
                                     <small class="text-muted">Total Charges</small>
+                                    @if($paymentQuote!='')
                                     <h4>₹ {{ $paymentQuote->quote_amount }}</h4>
                                     <p class="m-0">{{ $paymentQuote->notes }}</p>
+                                    @else
+                                    <p>Amount quote not defile.</p>
+                                    @endif
                                 </div>
                             </div>
                             @if(count($paymentInstallment)>0)

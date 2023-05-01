@@ -11,13 +11,13 @@
                     <div class="row">
                         <div class="col-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control text-primary" v-model="quoteData.quote_amount" placeholder="Quote Amount">
+                                <input type="number" class="form-control text-primary" v-model="quoteData.quote_amount" placeholder="Quote Amount">
                                 <label>Quote Amount</label>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="form-floating">
-                                <input type="text" class="form-control text-primary" v-model="quoteData.discount" placeholder="Discount Amount">
+                                <input type="number" class="form-control text-primary" v-model="quoteData.discount" placeholder="Discount Amount">
                                 <label>Discount Amount</label>
                             </div>
                         </div>
@@ -30,12 +30,12 @@
                         <div class="col-6 pt-3 mt-3">
                             <label>Payment Mode:&nbsp;&nbsp;</label>
                             <div class="form-check form-check-inline">
-                                <label class="form-check-label" for="full">Full</label>
-                                <input class="form-check-input" type="radio" id="full" v-model="quoteData.payment_type" value="1" checked>
+                                <label class="form-check-label" for="inlinFull">Full</label>
+                                <input class="form-check-input" type="radio" id="inlinFull" v-model="quoteData.payment_type" value="1">
                             </div>
                             <div class="form-check form-check-inline">
-                                <label class="form-check-label" for="instalment">Instalment</label>
-                                <input class="form-check-input" type="radio" id="instalment" v-model="quoteData.payment_type" value="2">
+                                <label class="form-check-label" for="inlinIinstalment">Instalment</label>
+                                <input class="form-check-input" type="radio" id="inlinIinstalment" v-model="quoteData.payment_type" value="2" checked>
                             </div>
                         </div>
                     </div>
@@ -162,8 +162,13 @@ export default {
             $('.payment-schedule').append(payRow);
         },
         save_case_quote(){ console.log(this.quoteData);
-            axios.post(window.url + 'save_case_quote/', this.quoteData)
+
+
+          //  http://localhost/ecf/easycasefile/public/api/save_case_quote
+
+            axios.post(window.url + 'save_case_quote', this.quoteData)
                 .then(response => {
+                    
                     if(response.data.success){
                         window.location.reload();
                     }

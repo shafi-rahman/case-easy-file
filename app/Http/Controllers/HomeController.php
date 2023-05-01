@@ -56,6 +56,7 @@ class HomeController extends Controller
         // $home = 'home';
         // die();    
 
+        $data['seg'] = request()->segment(2)==''?'eyJpdiI6IkFvWllpcGc1Q3p5b2lhVWRrZVlDZnc9PSIsInZhbHVlIjoiclJPVklrUVkrNVU4NEFiS09oKzZQZz09IiwibWFjIjoiYjQ5YTAxYzU3NmIwOTUyZGJkZmVhNzdmNzE5OWVkZWY1NWY3NGUyNDFhNmJhZmI2M2U5NjA5NDdlYjIzMGQ2MyIsInRhZyI6IiJ9':request()->segment(2);
 
         return view($home, $data);
     }
@@ -120,7 +121,7 @@ class HomeController extends Controller
             }
         }
 
-        $udt = DB::table('user_personal_details')->select('id', 'visa_type', 'user_id')->where('user_id', Auth::user()->id)->first();
+        $udt = DB::table('user_personal_details')->select('id', 'visa_type', 'user_id')->where('user_id', Auth::user()->id)->first();       
         $ufd = DB::table('user_form_fields')->whereRaw("find_in_set($udt->visa_type, form_id)")->where('short_code_type', 2)->get();
         
         if(count($ufd)>0){
@@ -131,10 +132,37 @@ class HomeController extends Controller
             }
         }
 
-        
-
         // echo "<pre>"; print_r($data['userFields']); echo "</pre>"; die();
         return view('my-form-fields', $data);
     }
     
+    public function form_type(){
+        $data['formList'] = DB::table('visa_type')->get();       
+        return view('form-type', $data);
+    }
+        
+    public function form_detail(){
+
+        if(isset($_GET['submitformfield'])&&$_GET['submitformfield']=='submit'){
+            unset($_GET['submitformfield']);
+            foreach($_GET['fields'] as $k=>$v){
+                if(DB::table('user_form_field_data')->where('case_id', $_GET['case_id'])->where('field_id', $k)->first()){
+                    DB::table('user_form_field_data')->where('case_id', $_GET['case_id'])->where('field_id', $k)->update(['field_value'=> $v]);
+                } else {
+                    DB::table('user_form_field_data')->insert(array('case_id'=>$_GET['case_id'], 'field_id'=>$k, 'field_value'=>$v, 'created_at'=>date('Y-m-d H:i:s')) );
+                }
+            }
+        }
+
+        $data['formList'] = DB::table('visa_type')->select('visa_type.*', 'user_forms.form')
+        ->leftJoin('user_forms', 'user_forms.type', '=', 'visa_type.id')
+        ->get();
+        
+        $data['shortCodes'] = DB::table('user_form_fields')->where('short_code_type', '1')->get();
+        
+        // echo "<pre>"; print_r($data); echo "</pre>";
+
+        return view('form-detail', $data);
+    }
+
 }

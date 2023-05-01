@@ -103,10 +103,10 @@
                                                         id="button-addon2">Assing</button>
                                                 </div>
                                             </div>
-                                            <div class="scale-left">
+                                            {{-- <div class="scale-left">
                                                 <a href="#" class="btn btn-outline-success"><i
                                                         class="fa fa fa-refresh"></i> Refrish </a>
-                                            </div>
+                                            </div> --}}
 
                                         </div>
                                         <div class="table-responsive">
@@ -115,10 +115,10 @@
                                                     <tr>
                                                         <th>#</th>
                                                         <th>Name</th>
-                                                        <th>Date of Birth</th>
-                                                        <th>highest qualification</th>
-                                                        <th>work experience</th>
+                                                        <th>qualification</th>
+                                                        {{-- <th>work experience</th> --}}
                                                         <th>visa type</th>
+                                                        <th>IELTS</th>
                                                         {{-- @if(Auth::user()->role==2)
                                                             <th>Assign</th>
                                                         @endif --}}
@@ -127,18 +127,20 @@
                                                 </thead>
                                                 <tbody>
                                                     @foreach($all_case as $i=>$case)
+                                                        @if(Auth::user()->id!=$case->assignto)
                                                         <tr>
                                                             <td>{{ ($i+1) }}</td>
                                                             <td>
                                                                 <label class="form-check mb-0">
                                                                     <input class="form-check-input" type="checkbox"> {{ $case->first_name }}
+                                                                    <span class="badge bg-info"> {{$case->gender==''?'':($case->gender=='1'?'M ':'F ')}} {{ App\Http\Controllers\Controller::ageFromDOB($case->date_of_birth) }}</span>
                                                                 </label>
                                                             </td>
-                                                            <td>{{ $case->date_of_birth }}</td>
-                                                            <td>{{ $case->highest_qualification }}</td>
-                                                            <td>{{ $case->work_experience }}</td>
+                                                            {{-- <td>{{ $case->highest_qualification }}</td> --}}
+                                                            <td>{{ $case->highest_qualification }} @if($case->work_experience>0) <span class="badge bg-success">{{ $case->work_experience }} Y Exp</span> @endif </td>
                                                             <td>{{ $case->visa_name }}</td>
-                                                            {{-- @if(Auth::user()->role==2)
+                                                            <td>{{($case->ielts==NULL)?' - ':($case->ielts==1?'Yes':'No')}}</td>
+                                                            {{-- @if(Auth::user()->role==2) 
                                                                 <td>{{ $case->name }}</td>
                                                             @endif --}}
                                                             <td>
@@ -149,6 +151,7 @@
                                                                 </a>
                                                             </td>
                                                         </tr>
+                                                        @endif
                                                     @endforeach
                                                 </tbody>
                                             </table>
@@ -174,7 +177,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach($connected as $i=>$case)
+                                                    @foreach($in_active as $i=>$case)
                                                     <tr>
                                                         <td>{{ ($i+1) }}</td>
                                                         <td>{{ $case->first_name }}</td>
@@ -211,20 +214,20 @@
             </div>
         </div>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.leadTable').addClass('nowrap').dataTable({
+                responsive: true,
+                searching: true,
+                paging: true,
+                ordering: true,
+                info: false,
+            });
+            
+            $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
+                $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
+            });
+        });
+    </script>
 @endsection
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.leadTable').addClass('nowrap').dataTable({
-            responsive: true,
-            searching: true,
-            paging: true,
-            ordering: true,
-            info: false,
-        });
-        
-        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function(e) {
-            $($.fn.dataTable.tables(true)).DataTable().columns.adjust().responsive.recalc();
-        });
-    });
-</script>

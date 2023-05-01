@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -55,7 +55,42 @@
             margin: 0;
             width: 20px;
         }
-       
+        .dt-buttons{
+            float: right !important;
+            margin-bottom: 10px;
+            margin-right: 10px;
+        }
+        .dt-button{
+            background-color: #0d6efd;
+            color: #ffffff;
+            border: 1px solid #1464d9;
+            border-radius: 3px;
+            padding: 5px 20px;
+        }
+        #loader{
+            background-color: #0c1b24;
+            opacity: 0.8;
+            z-index: 9999999999999999999;
+        }
+        /* .hide{
+            display: none;
+        } */
+        .show{
+            display: block !important;
+        }
+        .act_date{
+            text-align: right;
+            left: -120px;
+            font-size: 12px;
+            min-width: 100px;
+            position: absolute;
+        }
+        .done-actions{
+            position: absolute;
+            top: 40px;
+            width: 75px;
+            padding: 0px 0px 0px 8px;
+        }
     </style>
 
     <script src="{{ asset('assets/js/plugins.js') }}"></script>
@@ -66,21 +101,30 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="layout-1" data-luno="theme-blue">
+<body class="layout-1" data-luno="theme-orange">
 
-    <div class="sidebar p-2 py-md-3 @@cardClass">
-        <div class="container-fluid">
 
-            <div class="title-text d-flex align-items-center mb-4 mt-1">
-                <h4 class="sidebar-title mb-0 flex-grow-1"><span class="sm-txt">E</span><span>asy Case File</span></h4>
+<div class="modal fade" itabindex="-1" id="loader">
+    <div class="modal-dialog">
+        <div class="modal-content text-start" style="border: none;">
+            <img src="{{ url('assets/img/loading-dark.gif') }}" style="width: 100%;" />
+        </div>
+    </div>
+</div>
+
+    <div class="sidebar @@cardClass">
+        <div class="container-fluid p-0">
+
+            <div class="p-3 py-md-3 title-text d-flex align-items-center mt-1">
+                <h4 class="sidebar-title mb-0 flex-grow-1 text-xxl-center"><span><img src="{{ url('assets/img/ecf_flogo.png') }}" style="width: 230px" /></span></h4>
             </div>
 
             <div class="main-menu flex-grow-1">
                 <ul class="menu-list">
-                    <li class="divider py-2 lh-sm">
+                    {{-- <li class="divider py-2 lh-sm">
                         <span class="small">Main Operations</span><br>
                         <small class="text-muted">Unique Client dashboard</small>
-                    </li>
+                    </li> --}}
                     @if(Session::get('menus')!=NULL)
                         @foreach (Session::get('menus') as $menu)
                             <li>
@@ -91,6 +135,23 @@
                             </li>
                         @endforeach
                     @endif 
+                    @if(Auth::user()->role=2)
+                    <li class="collapsed">
+                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu_pages" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path class="fill-secondary" fill-rule="evenodd" d="M8.646 5.646a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L10.293 8 8.646 6.354a.5.5 0 0 1 0-.708zm-1.292 0a.5.5 0 0 0-.708 0l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L5.707 8l1.647-1.646a.5.5 0 0 0 0-.708z" />
+                                <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2z" />
+                                <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1H1z" />
+                            </svg>
+                            <span class="ms-2">Form Management</span>
+                            <span class="arrow fa fa-angle-right ms-auto text-end"></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="menu_pages">
+                            <li><a class="ms-link" href="{{url('form-type')}}">Form Type</a></li>
+                            <li><a class="ms-link" href="{{url('form-detail')}}">From Detail</a></li>
+                        </ul>
+                    </li>
+                    @endif
                 </ul>
             </div>
 
@@ -133,11 +194,11 @@
                     <a class="d-inline-block w-100 color-400" href="#" data-bs-toggle="modal"
                         data-bs-target="#ScheduleModal" title="My Schedule">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path class="fill-secondary"
+                            <path class="fill-primary"
                                 d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0z" />
                             <path
                                 d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z" />
-                            <path class="fill-secondary"
+                            <path class="fill-primary"
                                 d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4z" />
                         </svg>
                     </a>
@@ -146,7 +207,7 @@
                     <a class="d-inline-block w-100 color-400" href="#" data-bs-toggle="modal"
                         data-bs-target="#MynotesModal" title="My notes">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
-                            <path class="fill-secondary"
+                            <path class="fill-primary"
                                 d="M1.5 0A1.5 1.5 0 0 0 0 1.5V13a1 1 0 0 0 1 1V1.5a.5.5 0 0 1 .5-.5H14a1 1 0 0 0-1-1H1.5z" />
                             <path
                                 d="M3.5 2A1.5 1.5 0 0 0 2 3.5v11A1.5 1.5 0 0 0 3.5 16h6.086a1.5 1.5 0 0 0 1.06-.44l4.915-4.914A1.5 1.5 0 0 0 16 9.586V3.5A1.5 1.5 0 0 0 14.5 2h-11zM3 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .5.5V9h-4.5A1.5 1.5 0 0 0 9 10.5V15H3.5a.5.5 0 0 1-.5-.5v-11zm7 11.293V10.5a.5.5 0 0 1 .5-.5h4.293L10 14.793z" />
@@ -159,19 +220,30 @@
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
                             <path
                                 d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                            <path class="fill-secondary"
+                            <path class="fill-primary"
                                 d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z" />
                         </svg>
                     </a>
                 </li>
                 <li class="nav-item flex-fill p-2">
-                    <a class="d-inline-block w-100 color-400" href="auth-signin.html" title="sign-out">
+                    {{-- <a class="d-inline-block w-100 color-400" href="auth-signin.html" title="sign-out">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
                             <path d="M7.5 1v7h1V1h-1z" />
                             <path class="fill-secondary"
                                 d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
                         </svg>
-                    </a>
+                    </a> --}}
+                    <a class="d-inline-block w-100 color-400" href="auth-signin.html" title="sign-out" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
+                            <path d="M7.5 1v7h1V1h-1z" />
+                            <path class="fill-primary"
+                                d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
+                        </svg> </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                        class="d-none">
+                        @csrf
+                    </form>
                 </li>
             </ul>
         </div>
@@ -212,9 +284,10 @@
                                     d="M66.0301 10.0497C66.0301 11.433 65.8551 12.6913 65.5051 13.8247C65.1551 14.9413 64.6301 15.908 63.9301 16.7247C63.2467 17.5413 62.3884 18.1663 61.3551 18.5997C60.3384 19.033 59.1551 19.2497 57.8051 19.2497C56.4051 19.2497 55.1884 19.033 54.1551 18.5997C53.1217 18.1497 52.2634 17.5247 51.5801 16.7247C50.8967 15.908 50.3884 14.933 50.0551 13.7997C49.7217 12.6663 49.5551 11.408 49.5551 10.0247C49.5551 8.19135 49.8551 6.59135 50.4551 5.22468C51.0551 3.85801 51.9634 2.79135 53.1801 2.02468C54.4134 1.25801 55.9634 0.87468 57.8301 0.87468C59.6134 0.87468 61.1134 1.25801 62.3301 2.02468C63.5467 2.77468 64.4634 3.84135 65.0801 5.22468C65.7134 6.59135 66.0301 8.19968 66.0301 10.0497ZM51.9301 10.0497C51.9301 11.5497 52.1384 12.8413 52.5551 13.9247C52.9717 15.008 53.6134 15.8413 54.4801 16.4247C55.3634 17.008 56.4717 17.2997 57.8051 17.2997C59.1551 17.2997 60.2551 17.008 61.1051 16.4247C61.9717 15.8413 62.6134 15.008 63.0301 13.9247C63.4467 12.8413 63.6551 11.5497 63.6551 10.0497C63.6551 7.79968 63.1884 6.04135 62.2551 4.77468C61.3217 3.49135 59.8467 2.84968 57.8301 2.84968C56.4801 2.84968 55.3634 3.14135 54.4801 3.72468C53.6134 4.29135 52.9717 5.11635 52.5551 6.19968C52.1384 7.26635 51.9301 8.54968 51.9301 10.0497Z" />
                             </svg>
                         </a> --}}
+                        {{-- <img src="{{url('assets/img/ecf_logo-aw.png')}}" style="width: 42px; margin-left: 10px;"/> --}}
                     </div>
 
-                    <div class="header-left flex-grow-1 d-none d-md-block">
+                    {{-- <div class="header-left flex-grow-1 d-none d-md-block">
                         <div class="main-search px-3 flex-fill">
                             <input class="form-control" type="text" placeholder="Enter your search key word">
                             <div class="card shadow rounded-4 search-result slidedown">
@@ -268,7 +341,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
 
                     <ul class="header-right justify-content-end d-flex align-items-center mb-0">
 
@@ -292,16 +365,6 @@
                                             <h6 class="card-title mb-0">Notifications Center</h6>
                                             <span class="badge bg-danger text-light">14</span>
                                         </div>
-                                        <ul class="nav nav-tabs tab-card d-flex text-center" role="tablist">
-                                            <li class="nav-item flex-fill"><a class="nav-link active"
-                                                    data-bs-toggle="tab" href="#Noti-tab-Message"
-                                                    role="tab">Message</a>
-                                            </li>
-                                            <li class="nav-item flex-fill"><a class="nav-link" data-bs-toggle="tab"
-                                                    href="#Noti-tab-Events" role="tab">Events</a></li>
-                                            <li class="nav-item flex-fill"><a class="nav-link" data-bs-toggle="tab"
-                                                    href="#Noti-tab-Logs" role="tab">Logs</a></li>
-                                        </ul>
                                         <div class="tab-content card-body custom_scroll">
                                             <div class="tab-pane fade show active" id="Noti-tab-Message"
                                                 role="tabpanel">
@@ -396,63 +459,6 @@
                                                     </li>
                                                 </ul>
                                             </div>
-                                            <div class="tab-pane fade" id="Noti-tab-Events" role="tabpanel">
-                                                <ul class="list-unstyled list mb-0">
-                                                    <li class="py-2 mb-1 border-bottom">
-                                                        <a href="javascript:void(0);" class="d-flex">
-                                                            <div class="avatar rounded-circle no-thumbnail"><i
-                                                                    class="fa fa-thumbs-up fa-lg"></i></div>
-                                                            <div class="flex-fill ms-3">
-                                                                <p class="mb-0">Your New Campaign <strong
-                                                                        class="text-primary">Holiday Sale</strong> is
-                                                                    approved.</p>
-                                                                <small>11:30 AM Today</small>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    <li class="py-2 mb-1 border-bottom">
-                                                        <a href="javascript:void(0);" class="d-flex">
-                                                            <div class="avatar rounded-circle no-thumbnail"><i
-                                                                    class="fa fa-pie-chart fa-lg"></i></div>
-                                                            <div class="flex-fill ms-3">
-                                                                <p class="mb-0">Website visits from Twitter is
-                                                                    <strong class="text-danger">27% higher</strong>
-                                                                    than
-                                                                    last week.
-                                                                </p>
-                                                                <small>04:00 PM Today</small>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    <li class="py-2 mb-1 border-bottom">
-                                                        <a href="javascript:void(0);" class="d-flex">
-                                                            <div class="avatar rounded-circle no-thumbnail"><i
-                                                                    class="fa fa-info-circle fa-lg"></i></div>
-                                                            <div class="flex-fill ms-3">
-                                                                <p class="mb-0">Campaign <strong
-                                                                        class="text-primary">Holiday Sale</strong> is
-                                                                    nearly reach budget limit.</p>
-                                                                <small>10:00 AM Today</small>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                    <li class="py-2 mb-1 border-bottom">
-                                                        <a href="javascript:void(0);" class="d-flex">
-                                                            <div class="avatar rounded-circle no-thumbnail"><i
-                                                                    class="fa fa-warning fa-lg"></i></div>
-                                                            <div class="flex-fill ms-3">
-                                                                <p class="mb-0"><strong
-                                                                        class="text-warning">Error</strong> on website
-                                                                    analytics configurations</p>
-                                                                <small>Yesterday</small>
-                                                            </div>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            <div class="tab-pane fade" id="Noti-tab-Logs" role="tabpanel">
-                                                <h4 class="color-400">No Logs right now!</h4>
-                                            </div>
                                         </div>
                                         <a href="#" class="btn btn-primary text-light rounded-0">View all
                                             notifications</a>
@@ -497,7 +503,7 @@
                             </div>
                         </li>
 
-                        <li class="d-none d-lg-inline-block">
+                        {{-- <li class="d-none d-lg-inline-block">
                             <div class="dropdown morphing scale-left grid-menu mx-sm-2">
                                 <a class="nav-link dropdown-toggle after-none" href="#" role="button"
                                     data-bs-toggle="dropdown">
@@ -573,7 +579,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </li>
+                        </li> --}}
 
                         <li class="d-none d-sm-inline-block d-xl-none">
                             <a class="nav-link" href="#" data-bs-toggle="modal"
@@ -685,14 +691,14 @@
                             d="M46.5286 0.765681C46.6246 0.82568 46.6726 0.92168 46.6726 1.05368L46.5466 18.6037C46.5466 18.8677 46.3906 18.9937 46.0786 18.9817H44.4586L33.1546 3.62768L33.1006 13.1677L37.5646 13.1857C37.6726 13.1857 37.7626 13.2217 37.8346 13.2937C37.9186 13.3657 37.9606 13.4617 37.9606 13.5817L37.9426 14.8957C37.9426 15.0157 37.9066 15.1237 37.8346 15.2197C37.7626 15.3037 37.6666 15.3457 37.5466 15.3457L31.3726 15.2917H31.3546C31.1026 15.2917 30.9706 15.1837 30.9586 14.9677L31.0666 0.98168C31.0666 0.849679 31.1026 0.74768 31.1746 0.675681C31.2586 0.59168 31.3666 0.555679 31.4986 0.56768H33.1726C33.3406 0.56768 33.4726 0.63368 33.5686 0.765681L44.4406 15.4177L44.5486 0.94568C44.5966 0.741679 44.7286 0.639679 44.9446 0.639679L46.2046 0.65768C46.3126 0.65768 46.4206 0.69368 46.5286 0.765681ZM39.7786 16.7857C39.8986 16.7977 39.9946 16.8397 40.0666 16.9117C40.1386 16.9717 40.1746 17.0677 40.1746 17.1997L40.1566 18.4957C40.1566 18.6157 40.1206 18.7237 40.0486 18.8197C39.9886 18.9037 39.8926 18.9457 39.7606 18.9457H31.3546C31.2346 18.9457 31.1386 18.9097 31.0666 18.8377C30.9946 18.7657 30.9586 18.6697 30.9586 18.5497V17.2357C30.9586 17.1157 30.9946 17.0137 31.0666 16.9297C31.1386 16.8337 31.2406 16.7857 31.3726 16.7857H35.5666C38.0266 16.7857 39.4306 16.7857 39.7786 16.7857Z" />
                         <path class="fill-muted"
                             d="M66.0301 10.0497C66.0301 11.433 65.8551 12.6913 65.5051 13.8247C65.1551 14.9413 64.6301 15.908 63.9301 16.7247C63.2467 17.5413 62.3884 18.1663 61.3551 18.5997C60.3384 19.033 59.1551 19.2497 57.8051 19.2497C56.4051 19.2497 55.1884 19.033 54.1551 18.5997C53.1217 18.1497 52.2634 17.5247 51.5801 16.7247C50.8967 15.908 50.3884 14.933 50.0551 13.7997C49.7217 12.6663 49.5551 11.408 49.5551 10.0247C49.5551 8.19135 49.8551 6.59135 50.4551 5.22468C51.0551 3.85801 51.9634 2.79135 53.1801 2.02468C54.4134 1.25801 55.9634 0.87468 57.8301 0.87468C59.6134 0.87468 61.1134 1.25801 62.3301 2.02468C63.5467 2.77468 64.4634 3.84135 65.0801 5.22468C65.7134 6.59135 66.0301 8.19968 66.0301 10.0497ZM51.9301 10.0497C51.9301 11.5497 52.1384 12.8413 52.5551 13.9247C52.9717 15.008 53.6134 15.8413 54.4801 16.4247C55.3634 17.008 56.4717 17.2997 57.8051 17.2997C59.1551 17.2997 60.2551 17.008 61.1051 16.4247C61.9717 15.8413 62.6134 15.008 63.0301 13.9247C63.4467 12.8413 63.6551 11.5497 63.6551 10.0497C63.6551 7.79968 63.1884 6.04135 62.2551 4.77468C61.3217 3.49135 59.8467 2.84968 57.8301 2.84968C56.4801 2.84968 55.3634 3.14135 54.4801 3.72468C53.6134 4.29135 52.9717 5.11635 52.5551 6.19968C52.1384 7.26635 51.9301 8.54968 51.9301 10.0497Z" />
-                    </svg>
+                    </svg> 
                 </a> --}}
-                <img src="{{ url('assets/img/ecf_logo-b.png') }}" width="160" />
+                
                 <ul class="nav col-md-4 justify-content-center justify-content-lg-end">
-                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">Portfolio</a></li>
-                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">licenses</a></li>
-                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">Support</a></li>
-                    <li class="nav-item"><a href="#" target="_blank" class="nav-link px-2 text-muted">FAQs</a></li>
+                    <li class="nav-item"><a href="javascript:void(0)" target="_blank" class="nav-link px-2 text-muted">Portfolio</a></li>
+                    <li class="nav-item"><a href="javascript:void(0)" target="_blank" class="nav-link px-2 text-muted">licenses</a></li>
+                    <li class="nav-item"><a href="javascript:void(0)" target="_blank" class="nav-link px-2 text-muted">Support</a></li>
+                    <li class="nav-item"><a href="javascript:void(0)" target="_blank" class="nav-link px-2 text-muted">FAQs</a></li>
                 </ul>
             </div>
         </footer>
@@ -1757,6 +1763,12 @@
     {{-- <script src="{{ asset('assets/bundles/dataTables.bundle.js') }}"></script> --}}
 
     <script src="{{ asset('assets/js/bundle/dataTables.bundle.js') }}"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script>
     
     <script src="{{ asset('assets/vendor/prismjs/prism.js') }}"></script>
     {{-- <script src="{{asset('assets/js/bundle/select2.bundle.js')}}"></script> --}}
@@ -1770,6 +1782,9 @@
 
     <script src="{{ asset('assets/js/bundle/apexcharts.bundle.js') }}"></script>
     <script>
+    var pageurl = window.location.pathname;
+    var pageName = pageurl.split("/")[4];
+    if(pageName==''||pageName=='dashboard'){
         // LUNO Revenue
         var options = {
           series: [{
@@ -1851,6 +1866,7 @@
         }
         var chart = new ApexCharts(document.querySelector("#apex-SalesbyCategory"), options);
         chart.render();
+    }
       </script>
     <script>
         // $('.inbox .inbox-list-toggle').on('click', function() {
@@ -1967,6 +1983,7 @@ $("#docuploadBtn").on('click', function(e){
                 $("#docuploadBtn").css('display', 'none');
                 $('#'+res.did+'_status').html('Waiting for approval&nbsp;<i class="fa fa-folder"></i>');
                 $('#'+res.did+'_date').html(res.date);
+                window.location.reload();
             }
         },
         error: function() {
@@ -2006,17 +2023,18 @@ $('.docStatusUpdate').on('click', function(){
 });
 
 
-function genetare_form(ths){
+function generate_form(ths){
     var form_id = $(ths).attr('form_id');
     var case_id = $(ths).attr('case_id');
-    var genetare_by = $(ths).attr('genetare_by');
+    var generate_by = $(ths).attr('generate_by');
     if(confirm('Are you sure to genetare form now?')){        
-        $.post(window.url+'genetare_form', {form_id:form_id, case_id:case_id, genetare_by:genetare_by}, function(response){ 
+        $.post(window.url+'generate_form', {form_id:form_id, case_id:case_id, generate_by:generate_by}, function(response){ 
             console.log(response);
             if(response.success){
                 $(ths).css('display', 'none');
                 showToastMsg('success', 'Greate', 'Details updated', 'Successfully genetared the form!');
-                $('#form_link').html('<a class="luno-link text_bg" href="'+response.href+'">Immigration Form</a>&nbsp;generated, this is auto generated form, you need to check it manually.');
+                $('#form_link').html('<i class="fa fa-download"></i>&nbsp;<a class="luno-link text_bg" href="'+response.href+'">Immigration Form</a>&nbsp;generated, this is auto generated form, kindly review the form before submit to the IRCC.');
+                window.location.reload();
             }
          });
     }
@@ -2062,7 +2080,156 @@ function otp_countdown(seconds){
     }
     tick();
 }
+
+$('body').on('click', '.taskPopupBtn', function(){ 
+    $('#tid').val($(this).attr('tid'));
+    $('#task_date').val($(this).attr('task_date'));
+    $('#task_time').val($(this).attr('task_time'));
+    $('#task_detail').val($(this).attr('task_detail'));
+    $('#task_title').val($(this).attr('task_title'));
+});
+function set_task(){ 
+    var tid = $('#tid').val()??'';
+    var task_date = $('#task_date').val()??'';
+    var task_time = $('#task_time').val()??'';
+    var task_detail = $('#task_detail').val()??'';
+    var task_title = $('#task_title').val()??'';
+    var created_by = $('#created_by').val()??'';
+    var taskdone = $('#taskdone').is(":checked")?1:0;
+
+    if(task_title!=''&&task_detail!=''&&task_time!=''&&task_date!=''){
+        $.post(window.url+'set_task', {tid:tid, task_title:task_title, task_detail:task_detail, task_date:task_date, task_time:task_time, created_by:created_by, taskdone:taskdone}, function(response){ 
+            console.log(response);
+            if(response.success){
+                showToastMsg('success', 'Greate', 'Details updated', response.msg);
+                window.location.reload();
+            }
+         });
+    } else {
+        $('#email_field_div').append('<div class="alert alert-warning text-center mt-3">All fields are required.</div>');
+    }
+}
+$('body').on('click', '.emailTemplatepopup', function(){ 
+    $('#eid').val($(this).attr('eid'));
+    $('#content_handler').val($(this).attr('content_handler'));
+    $('#content_subject').val($(this).attr('content_subject'));
+    $('.summernote').summernote('reset');
+    $('.summernote').summernote('editor.pasteHTML', $(this).attr('content_body'));
+    if($(this).attr('status')==1){
+        $('#status').attr('checked', true);
+    } else {
+        $('#status').attr('checked', false);
+    }
+});
+function save_email_template(){ 
+    var eid = $('#eid').val()??'';
+    var content_handler = $('#content_handler').val()??'';
+    var content_subject = $('#content_subject').val()??'';
+    var content_body = $('.summernote').summernote('code');
+    var status = $('#status').prop("checked")==true?1:0;
+
+    if(content_handler!=''&&content_subject!=''&&content_body!=''){
+        $.post(window.url+'save_email_template', {eid:eid, content_handler:content_handler, content_subject:content_subject, content_body:content_body, status:status}, function(response){ 
+            console.log(response);
+            if(response.success){
+                
+                // $('#eid').val('');
+                // $('#content_handler').val('');
+                // $('#content_subject').val('');
+                // $('.summernote').summernote('reset');
+                // $('#status').attr('checked', false);
+
+                showToastMsg('success', 'Greate', 'Details updated', response.msg);
+                window.location.reload();
+            }
+         });
+    } else {
+        $('#email_field_div').append('<div class="alert alert-warning text-center mt-3">All fields are required.</div>');
+    }
+}
+// form type
+$('body').on('click', '.formTypeBtn', function(){ 
+    $('#fid').val($(this).attr('fid'));
+    $('#name').val($(this).attr('name'));
+    $('#description').val($(this).attr('description'));
+    $('#type option[value="'+$(this).attr('type')+'"]').prop("selected", "selected");
+    if($(this).attr('status')==1){
+        $('#status').attr('checked', true);
+    } else {
+        $('#status').attr('checked', false);
+    }
+});
+function save_form_type(){ 
+    var fid = $('#fid').val()??'';
+    var name = $('#name').val()??'';
+    var description = $('#description').val()??'';
+    var type = $('#type').find(":selected").val();
+    var status = $('#status').prop("checked")==true?1:0;
+
+    if(name!=''&&type){
+        $.post(window.url+'save_form_type', {fid:fid, name:name, description:description, type:type, status:status}, function(response){ 
+            console.log(response);
+            if(response.success){
+                showToastMsg('success', 'Greate', 'Details updated', response.msg);
+                window.location.reload();
+            }
+         });
+    } else {
+        $('#field_div').append('<div class="alert alert-warning text-center mt-3">All fields are required.</div>');
+    }
+}
+
+function upload_avatar(){
+    const [file] = avatar.files
+    if (file) {
+        cavatar.src = URL.createObjectURL(file)
+    }
+    $('#saveavatar').css('display', 'block');
+}
+$('body').on('click', '#saveavatar', function(){ 
+    var formData = new FormData($('#avatar_form')[0]);
+
+    // console.log($('#avatar')[0].files[0]);
+    formData.append('file', $('#avatar')[0].files[0]); 
+    $.ajax({
+        type:'POST',
+        url: window.url+'upload_avtar',
+        data:formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        beforeSend : function(){
+            showLoader();
+        },
+        success:function(data){
+            $('#saveavatar').css('display', 'none');
+            hideLoader();
+            showToastMsg('success', 'Greate', 'Image updated', data.msg);
+        },
+        error: function(data){
+            console.log("error");
+            hideLoader();
+        }
+    });
+
+
+});
+
+
+function showLoader(){
+    $('#loader').addClass('show')
+}
+function hideLoader(){
+    $('#loader').removeClass('show')
+}
+
+
+$('body').on('click', '.shortcodecopybtn', function(){ 
+    document.execCommand("copy");
+    $(this).text('copied');
+});
 </script>
+
 </body>
 
 </html>

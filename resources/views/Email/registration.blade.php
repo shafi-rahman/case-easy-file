@@ -6,7 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="color-scheme" content="light dark" />
     <meta name="supported-color-schemes" content="light dark" />
-    <title></title>
+    <title>Welcome to ECF</title>
     <style type="text/css" rel="stylesheet" media="all">
       /* Base ------------------------------ */
       @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,700&display=swap");
@@ -466,7 +466,7 @@
                                 <tr>
                                   <td class="attributes_item">
                                     <span class="f-fallback">
-                                      <strong>Login email:</strong> {{$mailData['userEmail']}}
+                                      <strong>Login email:</strong> {{$mailData['toEmail']}}
                                     </span>
                                   </td>
                                 </tr>
@@ -490,7 +490,7 @@
                               <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                 <tr>
                                   <td align="center">
-                                    <a href="{{$mailData['action_url']}}" class="f-fallback button" target="_blank">Do this Next</a>
+                                    <a href="{{$mailData['action_url']}}" class="f-fallback button" target="_blank">Go to Login</a>
                                   </td>
                                 </tr>
                               </table>

@@ -1,6 +1,8 @@
 @extends('layouts.app')
 @section('content')
-
+<style>
+#saveavatar{ display: none; }
+</style>
 {{-- from vue --}}
 <div id="root-create-user-account">
     {{-- @{{message}} --}}
@@ -256,11 +258,22 @@
         <div class="col-12">
           <div class="card">
             <div class="card-body border-bottom">
+                
+              <button class="btn ms-4 mb-1 btn-primary btn-animate-4 " id="saveavatar"><span>Save Image</span></button>
+
               <div class="d-flex align-items-md-start align-items-center flex-column flex-md-row">
-                <img src="{{ url('uploads/users').'/'.$userDetails->avatar }}" alt="" class="rounded-4">
+                
+                <img src="{{url($userDetails->avatar)}}" style="width: 150px" alt="" id="cavatar" class="rounded-4">
+                <form id="avatar_form" method="post" enctype="multipart/form-data">
+                    <div class="file-input bg-dark text-white ms-1 pt-1 pb-1 ps-2 pe-2 rounded-circle">
+                        <input type="file" class="form-control" name="file " id="avatar" onchange="upload_avatar()" accept="image/png, image/gif, image/jpeg">
+                        <label for="avatar" class="fa fa-pencil shadow"></label>
+                    </div>
+                    <input type="hidden" name="case_id" value="{{$userDetails->id}}" />
+                </form>
                 <div class="media-body ms-md-5 m-0 mt-4 mt-md-0 text-md-start text-center">
                   <h4 class="mb-1 fw-light">{{ $userDetails->first_name }} | <span class="text-success fs-6" style="font-size: 12px !important; font-weight: 100;"><i class="fa fa-tags"></i> {{ $userDetails->currentstatus }}</span></h4>
-                  <div class="">
+                  <div class="mb-2">
                     <div class="input-group">
                         <button class="btn btn-secondary" type="button" data-bs-toggle="modal"
                         data-bs-target="#sendmail" emailid="{{ $userDetails->email_id }}" title="Send email"><i
@@ -314,9 +327,9 @@
 
                 <div class="mt-3 d-grid gap-2 d-md-flex justify-content-md-end">                    
                     
-                    <div class="btn m-1 btn-primary btn-animate-6" data-bs-toggle="modal"
+                    {{-- <div class="btn m-1 btn-primary btn-animate-6" data-bs-toggle="modal"
                     data-bs-target="#generatepaymentlink" title="Generate Payment Link">
-                    <span class="btntext">Instant Payment Link</span><div class="btninfo bg-success">Click</div></div>
+                    <span class="btntext">Instant Payment Link</span><div class="btninfo bg-success">Click</div></div> --}}
 {{-- 
                     <div class="btn m-1 btn-primary btn-animate-6" data-bs-toggle="modal"
                     data-bs-target="#invoicestatement" title="Invoice Statement">
@@ -350,12 +363,12 @@
           <div class="tab-content mt-5">
 
             {{-- from vue --}}
-            <div id="root-profile-content" :caseId="{{ $userDetails->id }}">
+            <div id="root-profile-content">
                 {{-- @{{message}} --}}
-                <profile-content :caseId="{{ $userDetails->id }}"></profile-content>
+                <profile-content></profile-content>
             </div> 
             <script>
-                window.userDetails = "{{ $userDetails->id?json_encode($userDetails):'' }}";
+                window.userDetails = "{{$userDetails->id?json_encode($userDetails):''}}";
             </script>
         </div>
       </div>
