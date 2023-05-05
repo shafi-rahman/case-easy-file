@@ -22,14 +22,18 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('ho
 Route::get('/client-home', [App\Http\Controllers\HomeController::class, 'index'])->name('home'); 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/user-guide', function () { return view('user-guide'); });
-Route::get('/application-status', function () { return view('application-status'); });
+// Route::get('/application-status', function () { return view('application-status'); });
 
 Route::get('/documents', [App\Http\Controllers\HomeController::class, 'documents']);
 Route::get('/my-form-fields', [App\Http\Controllers\HomeController::class, 'my_form_fields']);
 Route::get('/billing', [App\Http\Controllers\HomeController::class, 'billing']);
+Route::get('/application-status', [App\Http\Controllers\HomeController::class, 'application_status']);
 Route::get('/agreement', [App\Http\Controllers\HomeController::class, 'agreement']);
 Route::get('/calender', function () { return view('calender'); });
 Route::get('/documentation-process', function () { return view('documentation-process'); });
+
+Route::get('/user-managment', [App\Http\Controllers\HomeController::class, 'user_managment']);
+Route::get('/user-managment/{user_id}', [App\Http\Controllers\HomeController::class, 'user_managment']);
 
 
 // subcriber
@@ -55,3 +59,11 @@ Route::get('/generateDocx', [App\Http\Controllers\Dashboard::class, 'generateDoc
 // form managment
 Route::get('/form-type', [App\Http\Controllers\HomeController::class, 'form_type']);
 Route::get('/form-detail', [App\Http\Controllers\HomeController::class, 'form_detail']);
+
+
+// Route::controller(StripePaymentController::class)->group(function(){
+//     Route::get('stripe', 'stripe');
+//     Route::post('stripe', 'stripePost')->name('stripe.post');
+// });
+Route::get('stripe', [App\Http\Controllers\StripePaymentController::class, 'stripe']);
+Route::post('stripe', [App\Http\Controllers\StripePaymentController::class, 'stripePost'])->name('stripe.post');

@@ -11,7 +11,7 @@
             <div class="modal-body custom_scroll p-lg-5">
                 <div class="row g-2">
                     <div class="col-12">
-                        <p>To the agreement approval, we will send an OTP to the registered mobile number, click to proceed.</p>
+                        <p>To the agreement approval, we will send an OTP to the registered email, click to proceed.</p>
                     </div>
                     <div id="approval_popup_content">
                         <div class="text-center">
@@ -47,8 +47,8 @@
                         <h5 class="card-title mb-0"><i class="fa fa-thumbs-up me-2"></i>Getting Started</h5>
                     </div>
                     <div class="card-body">
-                        <p class="lead">A general retainer agreement is a contract between a client and a service provider, typically a lawyer, consultant, or other professional, that establishes an ongoing relationship for the provision of services. The agreement typically outlines the scope of services to be provided, the fees and billing arrangements, and the duration of the relationship. In exchange for a regular fee or retainer, the service provider agrees to make themselves available to the client for a specified number of hours or services each month or year. This type of agreement is often used in situations where the client requires ongoing support or advice from the service provider, rather than a one-time project or transaction. It can provide both parties with the security of a long-term relationship and ensure that the client receives consistent and reliable service.</p>
-                        <p class="lead">
+                        <p class="">A general retainer agreement is a contract between a client and a service provider, typically a lawyer, consultant, or other professional, that establishes an ongoing relationship for the provision of services. The agreement typically outlines the scope of services to be provided, the fees and billing arrangements, and the duration of the relationship. In exchange for a regular fee or retainer, the service provider agrees to make themselves available to the client for a specified number of hours or services each month or year. This type of agreement is often used in situations where the client requires ongoing support or advice from the service provider, rather than a one-time project or transaction. It can provide both parties with the security of a long-term relationship and ensure that the client receives consistent and reliable service.</p>
+                        <p class="">
                             <span class="ms-2">
                                 <i class="fa fa-star text-warning"></i>
                                 <i class="fa fa-star text-warning"></i>
@@ -58,8 +58,8 @@
                             </span>
                         </p> 
                         @if($agreementDetails->agreement!=NULL)
-                            <p class="lead">Your <a class="luno-link text_bg" href="{{url($agreementDetails->agreement)}}">Retainer agreement </a> is here, please check and <button class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" data-bs-toggle="modal" data-bs-target="#approval_popup"><span>click to approve</span></button> it</p>
-                            <p class="lead">If you have any query, talk to your case Officer <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat"> Rishab Panth</a>
+                            <p class="">Your <a class="luno-link text_bg" href="{{url($agreementDetails->agreement)}}">Retainer agreement </a> is here, please check and <button class="btn mx-2 px-4 py-2 btn-primary btn-animate-4" data-bs-toggle="modal" data-bs-target="#approval_popup"><span>click to approve</span></button> it</p>
+                            <p class="">If you have any query, talk to your case Officer <a href="#" data-bs-toggle="modal" data-bs-target="#RecentChat"> Rishab Panth</a>
                         @else 
                             <p>Not generated till.</p>
                         @endif

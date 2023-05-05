@@ -135,7 +135,26 @@
                             </li>
                         @endforeach
                     @endif 
-                    @if(Auth::user()->role=2)
+                    @if(Auth::user()->role==2)
+                    <li class="collapsed">
+                        <a class="m-link" data-bs-toggle="collapse" data-bs-target="#setting" href="#">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M0 3H16V4H0V3Z"></path>
+                                <path d="M9 1H14V6H9V1Z"></path>
+                                <path d="M0 13H16V14H0V13Z"></path>
+                                <path d="M9 11H14V16H9V11Z"></path>
+                                <path class="fill-secondary" d="M0 8H16V9H0V8Z"></path>
+                                <path class="fill-secondary" d="M2 6H7V11H2V6Z"></path>
+                            </svg>
+                            <span class="ms-2">Settings</span>
+                            <span class="arrow fa fa-angle-right ms-auto text-end"></span>
+                        </a>
+                        <ul class="sub-menu collapse" id="setting">
+                            <li><a class="ms-link" href="{{url('user-managment')}}">User Managment</a></li>
+                            <li><a class="ms-link" href="{{url('subscriber-profile')}}">Subscriber Profile</a></li>
+                        </ul>
+                    </li>
+                    
                     <li class="collapsed">
                         <a class="m-link" data-bs-toggle="collapse" data-bs-target="#menu_pages" href="#">
                             <svg xmlns="http://www.w3.org/2000/svg" width="18" fill="currentColor" viewBox="0 0 16 16">
@@ -2147,6 +2166,60 @@ function save_email_template(){
         $('#email_field_div').append('<div class="alert alert-warning text-center mt-3">All fields are required.</div>');
     }
 }
+//update payment
+$('body').on('click', '.updatepaymentbtn', function(){  
+    $('#cid').val($(this).attr('cid'));
+    $('#iid').val($(this).attr('iid'));
+    $('#created_by').val($(this).attr('created_by'));
+    $('#bank_name').val($(this).attr('bank_name'));
+    $('#ifsc').val($(this).attr('ifsc'));
+    $('#location').val($(this).attr('location'));
+    $('#payment_date').val($(this).attr('payment_date'));
+    $('#amount').val($(this).attr('amount'));
+    $('#transaction_number').val($(this).attr('transaction_number'));
+    $('#notes').val($(this).attr('notes'));
+    if($(this).attr('status')==1){
+        $('.update_payment_details').css('display', 'none');
+    } else {
+        $('.update_payment_details').css('display', 'block');
+    }
+});
+$('body').on('click', '.update_payment_details', function(){ 
+    var formData = new FormData($('#paymentupdateform')[0]);
+    
+    formData.append('file', $('#attachment')[0].files[0]); 
+    formData.append('case_id', $('#cid').val()); 
+    formData.append('installment_id', $('#iid').val()); 
+    formData.append('created_by', $('#created_by').val()); 
+    formData.append('bank_name', $('#bank_name').val()); 
+    formData.append('ifsc', $('#ifsc').val()); 
+    formData.append('location', $('#location').val()); 
+    formData.append('payment_date', $('#payment_date').val()); 
+    formData.append('amount', $('#amount').val()); 
+    formData.append('transaction_number', $('#transaction_number').val()); 
+    formData.append('notes', $('#notes').val());
+   
+    $.ajax({
+        type:'POST',
+        url: window.url+'update_payment_details',
+        data:formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        beforeSend : function(){
+            showLoader();
+        },
+        success:function(data){
+            showToastMsg('success', 'Greate', 'Details Update', 'Your payment information updated.');
+            window.location.reload();
+        },
+        error: function(data){
+            console.log("error");
+            hideLoader();
+        }
+    });
+   
+});
 // form type
 $('body').on('click', '.formTypeBtn', function(){ 
     $('#fid').val($(this).attr('fid'));
@@ -2211,8 +2284,6 @@ $('body').on('click', '#saveavatar', function(){
             hideLoader();
         }
     });
-
-
 });
 
 
@@ -2223,10 +2294,75 @@ function hideLoader(){
     $('#loader').removeClass('show')
 }
 
+$('body').on('click', '.invoiceDetailBtn', function(){ 
+    let desc = $(this).attr('bank_name')+' : '+$(this).attr('ifsc')+'<br/>';
+    desc += $(this).attr('location')+'<br/>';
+    desc += $(this).attr('transaction_number')+'<br/>';
+    desc += $(this).attr('payment_date')+'<br/>';
+    desc += $(this).attr('notes')+'<br/>';
+    $('#description').html(desc);
+    $('#amount').html("$"+$(this).attr('amount'));
+
+    if($(this).attr('invoice_type')==1){
+        let tax_amount = (13 / 100) * $(this).attr('amount');
+        $('#tax').html("$"+tax_amount);
+        $('#subtotal').html("$"+$(this).attr('amount'));
+        $('#total').html("$"+(parseInt($(this).attr('amount'))+parseInt(tax_amount)));
+    } else {
+        $('#subtotal').html("$"+$(this).attr('amount'));
+        $('#total').html("$"+$(this).attr('amount'));
+    }
+
+});
 
 $('body').on('click', '.shortcodecopybtn', function(){ 
     document.execCommand("copy");
     $(this).text('copied');
+});
+
+$('body').on('click', '.setUserBtn', function(e){
+    e.preventDefault();
+    var formData = new FormData($('#setUserForm')[0]);
+
+    $.ajax({
+        type:'POST',
+        url: window.url+'save_subscriber_user_account',
+        data:formData,
+        cache:false,
+        contentType: false,
+        processData: false,
+        beforeSend : function(){
+            showLoader();
+        },
+        success:function(data){ console.log(data);
+            if(data.success){
+                hideLoader();
+                showToastMsg('success', 'Greate', 'Successfully save details', data.msg);
+                window.location.reload();
+            }
+        },
+        error: function(data){
+            showToastMsg('danger', 'Oops', 'Somthing went wrong', data.msg);
+            hideLoader();
+        }
+    });
+
+});
+
+
+$.fn.extend({
+	print: function() {
+        $('#printBtn').css('display', 'none');
+		var frameName = 'printIframe';
+		var doc = window.frames[frameName];
+		if (!doc) {
+			$('<iframe>').hide().attr('name', frameName).appendTo(document.body);
+			doc = window.frames[frameName];
+		}
+		doc.document.body.innerHTML = this.html();
+		doc.window.print();
+		return this;
+	}
 });
 </script>
 

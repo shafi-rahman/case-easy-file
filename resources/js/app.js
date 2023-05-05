@@ -127,7 +127,7 @@ const rootIrccProcess = createApp({
         'ircc-process': irccProcess,
     },
 }, );
-rootIrccProcess.mount('#root-ircc-process');
+rootIrccProcess.mount('#root-ircc-process'); 
 
 const rootUploadCorrectedForm = createApp({
     data() {
@@ -140,3 +140,4 @@ const rootUploadCorrectedForm = createApp({
     },
 }, );
 rootUploadCorrectedForm.mount('#root-upload-corrected-form');
+

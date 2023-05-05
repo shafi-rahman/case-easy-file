@@ -435,6 +435,7 @@ class commonController extends Controller
             $quoteData['notes'] = $request->notes;
             $quoteData['discount'] = $request->discount;
             $quoteData['payment_type'] = $request->payment_type;
+            $quoteData['invoice_type'] = $request->invoice_type;
             $quoteData['created_by'] = 1;
             $quoteData['created_at'] = date('Y-m-d H:i:s');
             DB::table('user_payment_quote')->insertGetId($quoteData);
@@ -513,7 +514,6 @@ class commonController extends Controller
 
     public function save_personal_details(Request $request, $action){  
 
-
         // $request->validate([
         //     'first_name'        => 'required',
         //     // 'middle_name'       => 'required',
@@ -566,14 +566,14 @@ class commonController extends Controller
                 // update logs
                 DB::table('logs')->insert( array('user_id'=>$insID, 'action_performed'=>'create client account', 'action_id'=>$request->id, 'jsondata'=>json_encode($insertArray), 'created_at'=>date('Y-m-d H:i:s')) );
 
-                // send welcome mail 
+                // send welcome mail
                 $mailData = [
                     'subject' => $request->subject,
                     'action_url' => URL::to('/login'),
                     'toEmail' => $request->email_id,
-                    'userLogin' => $pass,  
+                    'userLogin' => $pass,
                     'emailTemplate' => 'Email.registration',
-                    'mail_cc' => $request->mail_cc,  
+                    'mail_cc' => $request->mail_cc,
                     'name' => $request->first_name
                 ];
 
@@ -607,18 +607,22 @@ class commonController extends Controller
         $insertArray['secondary_country'] = $request->secondary_country;
         $insertArray['secondary_board'] = $request->secondary_board;
         $insertArray['secondary_year'] = $request->secondary_year;
-        $insertArray['senior_secondary'] = $request->senior_secondary;
+        $insertArray['senior_secondary'] = ($request->senior_secondary===false||$request->senior_secondary=='')?0:1;
         $insertArray['senior_secondary_country'] = $request->senior_secondary_country;
         $insertArray['senior_secondary_board'] = $request->senior_secondary_board;
         $insertArray['senior_secondary_year'] = $request->senior_secondary_year;
-        $insertArray['bachelor'] = $request->bachelor;
+        $insertArray['bachelor'] = ($request->bachelor===false||$request->bachelor=='')?0:1;
         $insertArray['bachelor_country'] = $request->bachelor_country;
         $insertArray['bachelor_board'] = $request->bachelor_board;
         $insertArray['bachelor_year'] = $request->bachelor_year;
-        $insertArray['master'] = $request->master;
+        $insertArray['master'] = ($request->master===false||$request->master=='')?0:1;
         $insertArray['master_country'] = $request->master_country;
         $insertArray['master_board'] = $request->master_board;
         $insertArray['master_year'] = $request->master_year;
+        $insertArray['phd'] = ($request->phd===false||$request->phd=='')?0:1;
+        $insertArray['phd_country'] = $request->phd_country;
+        $insertArray['phd_board'] = $request->phd_board;
+        $insertArray['phd_year'] = $request->phd_year;
 
         try {
             if($action=='insert'){
@@ -722,6 +726,113 @@ class commonController extends Controller
         
     }
 
+    public function save_subscriber_user_account(Request $request){
+        try {
+            $createUser['name'] = $request->name;
+            $createUser['email'] = $request->email;
+            $createUser['mobile'] = $request->mobile;
+            $createUser['role'] = 5;
+            $createUser['password'] = Hash::make($request->password);
+            
+            if($request->id==''){
+                $createUser['created_at'] = date('Y-m-d H:i:s');
+                $insID = DB::table('users')->insertGetId($createUser);
+                DB::table('logs')->insert( array('user_id'=>$insID, 'action_performed'=>'create user account', 'action_id'=>$request->aid, 'jsondata'=>json_encode($createUser), 'created_at'=>date('Y-m-d H:i:s')) );
+                // send welcome mail
+                $mailData = [
+                    'subject' => 'Account Created as ECF',
+                    'action_url' => URL::to('/login'),
+                    'toEmail' => $request->email,
+                    'userLogin' => $request->password,
+                    'emailTemplate' => 'Email.registration',
+                    'mail_cc' => '',
+                    'name' => $request->first
+                ];
+                app('App\Http\Controllers\commonController')->sendGmail($mailData);
+                return response()->json( array('success' => true, 'msg'=>'User created successfully'), 200 );
+
+            } else {
+                if($request->password==''){
+                    unset($createUser['password']);
+                } else {
+                    $mailData = [
+                        'subject' => 'ECF new password',
+                        'toEmail' => $request->email,
+                        'mail_cc' => '', 
+                        'econtent' => 'new password is: '.$request->password,
+                        'emailTemplate' => 'Email.defaultEmail'
+                    ];
+        
+                    app('App\Http\Controllers\commonController')->sendGmail($mailData);
+                }
+                $createUser['updated_at'] = date('Y-m-d H:i:s');
+                DB::table('users')
+                ->where('id', $request->id)
+                ->update($createUser);
+                //update logs
+                DB::table('logs')->insert( array('user_id'=>$request->submit, 'action_performed'=>'update user details menually', 'action_id'=>$request->aid, 'jsondata'=>json_encode($createUser), 'created_at'=>date('Y-m-d H:i:s')) );
+
+                return response()->json( array('success' => true, 'msg'=>'User update successfully'), 200 );
+
+            }
+            
+                        
+            
+
+            // update logs
+            // DB::table('logs')->insert( array('user_id'=>$insID, 'action_performed'=>'send mail to client after creating account', 'action_id'=>$request->id, 'jsondata'=>json_encode($mailData), 'created_at'=>date('Y-m-d H:i:s')) );
+            // DB::table('notifications')->insert( array('to_user_id'=>$insID, 'from_user_id'=>$request->logedinuser, 'jsondata'=>json_encode($mailData), 'action_performed'=>'Welcone to the Case Easy File, Please do not shear your login details to any other one, if you have any query write to your case officer.', 'status'=>0, 'created_at'=>date('Y-m-d H:i:s')));
+
+        } catch (\Exception $e) {
+            return response()->json( array('success' => false, 'msg'=>$e->getMessage()), 200 );
+        }
+
+    }
+
+    public function update_payment_details(Request $request){
+
+        try {
+            $file = $request->file('file');
+            if($file){
+                $filename = strtotime(now()).'_'.preg_replace('/[^A-Za-z\-]/', '', str_replace(' ', '', pathinfo($file->getClientOriginalName(),PATHINFO_FILENAME))).'.'.$file->getClientOriginalExtension();
+                $uPath = 'uploads/userdocs/';
+                $file->move($uPath, $filename); 
+                $attachment = $uPath.$filename;
+            } else {
+                $attachment = $request->attachment;
+            }
+
+            $dataArray['case_id'] = $request->case_id;
+            $dataArray['installment_id'] = $request->installment_id;
+            $dataArray['bank_name'] = $request->bank_name;
+            $dataArray['ifsc'] = $request->ifsc;
+            $dataArray['location'] = $request->location;
+            $dataArray['attachment'] = $attachment;
+            $dataArray['transaction_number'] = $request->transaction_number;
+            $dataArray['amount'] = $request->amount;
+            $dataArray['notes'] = $request->notes;
+            $dataArray['payment_date'] = $request->payment_date;
+            $dataArray['created_by'] = $request->created_by;
+            $dataArray['created_at'] = date('Y-m-d H:i:s');
+
+            $insID = DB::table('user_payment_paid')->insertGetId($dataArray);
+            
+            $updArray['status'] = 1;
+            DB::table('user_payment_installment')
+            ->where('id', $request->installment_id)
+            ->where('case_id', $request->case_id)
+            ->update($updArray);
+            //update logs
+            DB::table('logs')->insert( array('user_id'=>$request->created_by, 'action_performed'=>'update payment details menually', 'action_id'=>$insID, 'jsondata'=>json_encode($dataArray), 'created_at'=>date('Y-m-d H:i:s')) );
+
+            return response()->json( array('success' => true, 'action'=>'insert', 'insID'=>$insID), 200 );
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+
     public function get_ircc_process(Request $request){
         try{
             // return $request;
@@ -745,8 +856,12 @@ class commonController extends Controller
             $ircceData['application_type'] = $request->application_type;
             $ircceData['uci_no'] = $request->uci_no;
             $ircceData['submit_date_to_ircc'] = $request->submit_date_to_ircc;
+            $ircceData['application_outcome'] = $request->application_outcome;
+            $ircceData['view_status'] = $request->view_status===true?0:1;
             $ircceData['application_no'] = $request->application_no;
             $ircceData['created_at'] = date('Y-m-d H:i:s');
+
+            // return $ircceData;
 
             if(DB::table('user_generate_form_to_ircc')->where('id', $request->generate_form_id)->first()==NULL){
                 

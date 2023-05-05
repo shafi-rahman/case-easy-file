@@ -283,21 +283,21 @@
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.secondary_country"
                                         class="form-control" placeholder="Country">
-                                    <label>Country</label>
+                                    <label>Enter Country</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.secondary_board" class="form-control"
                                         placeholder="Board">
-                                    <label>Board</label>
+                                    <label>Enter Board</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.secondary_year" class="form-control"
                                         placeholder="Passing Year">
-                                    <label>Passing Year</label>
+                                    <label>Enter Passing Year</label>
                                 </div>
                             </div>
 
@@ -317,21 +317,21 @@
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.senior_secondary_country"
                                         class="form-control" placeholder="Country">
-                                    <label>Country</label>
+                                    <label>Enter Country</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.senior_secondary_board"
                                         class="form-control" placeholder="Board">
-                                    <label>Board</label>
+                                    <label>Enter Board</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.senior_secondary_year"
                                         class="form-control" placeholder="Passing Year">
-                                    <label>Passing Year</label>
+                                    <label>Enter Passing Year</label>
                                 </div>
                             </div>
 
@@ -343,7 +343,7 @@
                                         <div class="avatar rounded no-thumbnail chart-text-color1 float-start me-3"><i
                                                 class="fa fa-bank"></i></div>
                                         <strong>Bachelor's</strong>
-                                        <span class="text-muted d-flex small">Degree college</span>
+                                        <span class="text-muted d-flex small">Degree university</span>
                                     </label>
                                 </div>
                             </div>
@@ -351,21 +351,21 @@
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.bachelor_country"
                                         class="form-control" placeholder="Country">
-                                    <label>Country</label>
+                                    <label>Enter Country</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.bachelor_board" class="form-control"
                                         placeholder="Board">
-                                    <label>Board</label>
+                                    <label>Enter Board</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.bachelor_year" class="form-control"
                                         placeholder="Passing Year">
-                                    <label>Passing Year</label>
+                                    <label>Enter Passing Year</label>
                                 </div>
                             </div>
 
@@ -377,7 +377,7 @@
                                         <div class="avatar rounded no-thumbnail chart-text-color1 float-start me-3"><i
                                                 class="fa fa-bank"></i></div>
                                         <strong>Master's</strong>
-                                        <span class="text-muted d-flex small">Degree college</span>
+                                        <span class="text-muted d-flex small">Degree university</span>
                                     </label>
                                 </div>
                             </div>
@@ -385,21 +385,55 @@
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.master_country" class="form-control"
                                         placeholder="Country">
-                                    <label>Country</label>
+                                    <label>Enter Country</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.master_board" class="form-control"
                                         placeholder="Board">
-                                    <label>Board</label>
+                                    <label>Enter Board</label>
                                 </div>
                             </div>
                             <div class="col-md-3 col-12">
                                 <div class="form-floating">
                                     <input type="text" v-model="educationalDetails.master_year" class="form-control"
                                         placeholder="Passing Year">
-                                    <label>Passing Year</label>
+                                    <label>Enter Passing Year</label>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" v-model="educationalDetails.phd"
+                                        id="phd">
+                                    <label class="form-check-label col-12" for="phd">
+                                        <div class="avatar rounded no-thumbnail chart-text-color1 float-start me-3"><i
+                                                class="fa fa-bank"></i></div>
+                                        <strong>PHD</strong>
+                                        <span class="text-muted d-flex small">PHD university</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-12">
+                                <div class="form-floating">
+                                    <input type="text" v-model="educationalDetails.phd_country" class="form-control"
+                                        placeholder="Country">
+                                    <label>Enter Country</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-12">
+                                <div class="form-floating">
+                                    <input type="text" v-model="educationalDetails.phd_board" class="form-control"
+                                        placeholder="Board">
+                                    <label>Enter Board</label>
+                                </div>
+                            </div>
+                            <div class="col-md-3 col-12">
+                                <div class="form-floating">
+                                    <input type="text" v-model="educationalDetails.phd_year" class="form-control"
+                                        placeholder="Passing Year">
+                                    <label>Enter Passing Year</label>
                                 </div>
                             </div>
 
@@ -666,6 +700,7 @@ export default {
                 pin_code: '',
             },
             personalDetailsError: {
+                user_id: case_id,
                 first_name: false,
                 email_id: false,
                 mobile_number: false,
@@ -680,7 +715,7 @@ export default {
                 pin_code: false,
             },
             educationalDetails: {
-                user_id: '',
+                user_id: case_id,
                 id: '',
                 educationalDetailSubmit: '',
                 secondary: '',
@@ -699,10 +734,14 @@ export default {
                 master_country: '',
                 master_board: '',
                 master_year: '',
+                phd: '',
+                phd_country: '',
+                phd_board: '',
+                phd_year: '',
             },
             professionalDetails: {
                 id: '',
-                user_id: '',
+                user_id: case_id,
                 experience_year: '',
                 description: ''
             },
@@ -879,9 +918,9 @@ export default {
                         if (response.data.success) {
                             this.personalDetails.id = response.data.insID;
                             showToastMsg('success', 'Greate', 'Details updated', 'Your profile information successfully updated');
-                            if (this.personalDetailAction == 'createaccount') {
+                            // if (this.personalDetailAction == 'createaccount') {
                                 window.location.reload();
-                            }
+                            // }
                             this.personalDetailAction = 'update';
                         }
                     })
@@ -952,9 +991,11 @@ export default {
             if (!this.educationalDetails.educationalDetailSubmit) {
                 showToastMsg('danger', 'Oops', 'Check the details', 'No data to update');
             } else {
+                console.log(this.educationalDetailAction);
+                console.log(this.educationalDetails);
                 axios.post(window.url + 'save_educational_details/' + this.educationalDetailAction, this.educationalDetails)
                     .then(response => {
-                        // console.log(response);
+                        console.log(response);
 
                         if (response.data.success) {
                             this.educationalDetailAction = 'update';

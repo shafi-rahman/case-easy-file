@@ -73,6 +73,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @if(isset($todayFollowups)&&count($todayFollowups)>0)
                                                 @foreach($todayFollowups as $i=>$case)
                                                     @php $rbg=''; $rtxt=''; if(strtotime($case->followupDate)<strtotime(date('Y-m-d'))){ $rbg = 'bg-danger'; $rtxt='text-white'; } @endphp
                                                     <tr class="{{$rbg}}">
@@ -96,6 +97,7 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -137,6 +139,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @if(isset($futureFollowups)&&count($futureFollowups)>0)
                                                 @foreach($futureFollowups as $i=>$case)
                                                     <tr>
                                                         <td>{{ ($i+1) }}</td>
@@ -159,6 +162,7 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

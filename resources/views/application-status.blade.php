@@ -25,18 +25,36 @@
                                 <div class="col-12">
                                     <div class="custom_scroll">
                                         <h4 class="modal-title">Process of your Application</h4>
-                                        <p class="text-muted">Here you will see all the step process taken for your application.</p>
+                                        <p class="text-muted">Application submitted to IRCC &nbsp;<i class="fa fa-clock-o"></i> {{$irccStatus[0]->submit_date_to_ircc}}</p>
+                                            @if(count($irccStatus)>0)
                                             <div class="card bg-body p-md-4 p-2 mb-2">
-                                                <p>IRCC Credential </p>
-                                                <p class="mb-1">User ID: <span class="fw-bold">suername</span></p>
-                                                <p class="mb-0">Password: <span class="fw-bold">passwoed</span></p>
+                                                <p class="mb-1">Application number: <span class="fw-bold">{{$irccStatus[0]->application_no}}</span></p>
+                                                <p class="mb-0">UCI number: <span class="fw-bold">{{$irccStatus[0]->uci_no}}</span></p>
+                                                <p class="mb-0">Application type: <span class="fw-bold">{{$irccStatus[0]->application_type}}</span></p>
                                             </div>
-                                        <ul class="timeline-activity list-unstyled mb-0">
-                                            <li class="activity px-3 py-2 mb-1" data-date="12:30 - Sun">
+                                            <ul class="timeline-activity list-unstyled mb-0">
+                                            
+                                                @foreach($irccStatus as $ircc)
+                                                    <li class="activity px-3 py-2 mb-1">
+                                                        <span class="act_date">{{date("d M Y", strtotime($ircc->created_at))}}</span>
+                                                        <div class="fw-bold small d-flex justify-content-between align-items-center">
+                                                            {{$ircc->ircc_file_status}}
+                                                            @if($ircc->application_outcome==1) 
+                                                                <span class="badge bg-success">Visa Granted</span>
+                                                            @endif
+                                                            @if($ircc->application_outcome==2) 
+                                                                <span class="badge bg-danger">Visa Refused</span>
+                                                            @endif
+                                                        </div>
+                                                        <span class="d-flex text-muted mb-3 small">{{$ircc->ircc_status_notes}}</span>
+                                                    </li>
+                                                @endforeach
+                                            @endif
+
+                                            {{-- <li class="activity px-3 py-2 mb-1" data-date="12:30 - Sun">
                                                 <div
                                                     class="fw-bold small d-flex justify-content-between align-items-center">
                                                     Account Created<span class="badge bg-warning">ID: 215</span></div>
-                                                
                                             </li>
                                             <li class="activity px-3 py-2 mb-1" data-date="12:31 - Sun">
                                                 <div class="fw-bold small">Persnal Details Updated</div>
@@ -51,7 +69,7 @@
                                                     <h5 class="mb-0 text-success">Canada PR</h5>
                                                     <small class="text-muted">Now we are starting for this documentation</small>
                                                 </div>
-                                            </li>
+                                            </li> --}}
                                             
                                         </ul>
                                     </div>

@@ -13,6 +13,7 @@
                             <div class="form-floating">
                                 <input type="number" class="form-control text-primary" v-model="quoteData.quote_amount" placeholder="Quote Amount">
                                 <label>Quote Amount</label>
+                                <small class="text-danger" v-if="quoteDataError.quote_amount">Amount can not be null</small>
                             </div>
                         </div>
                         <div class="col-6">
@@ -35,8 +36,22 @@
                             </div>
                             <div class="form-check form-check-inline">
                                 <label class="form-check-label" for="inlinIinstalment">Instalment</label>
-                                <input class="form-check-input" type="radio" id="inlinIinstalment" v-model="quoteData.payment_type" value="2" checked>
+                                <input class="form-check-input" type="radio" id="inlinIinstalment" v-model="quoteData.payment_type" value="2">
                             </div>
+                            <small class="text-danger" v-if="quoteDataError.payment_type">Select payment type</small>
+                        </div>
+                        
+                        <div class="col-6 pt-3 mt-3">
+                            <label>Invoice Type:&nbsp;&nbsp;</label>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="withtax">With Tax</label>
+                                <input class="form-check-input" type="radio" id="withtax" v-model="quoteData.invoice_type" value="1">
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label class="form-check-label" for="withouttax">With-out Tax</label>
+                                <input class="form-check-input" type="radio" id="withouttax" v-model="quoteData.invoice_type" value="2">
+                            </div>
+                            <small class="text-danger" v-if="quoteDataError.invoice_type">Select tax type</small>
                         </div>
                     </div>
 
@@ -51,12 +66,14 @@
                                     <input type="number" class="form-control text-primary" v-model="quoteData.amount[0]" required placeholder="Amount">
                                     <label>Token Amount</label>
                                 </div>
+                                <small class="text-danger" v-if="quoteDataError.quoteAmount_1">Can not be empty</small>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating">
                                     <input type="date" class="form-control text-primary" v-model="quoteData.due_date[0]" placeholder="Amount">
                                     <label>Due Date</label>
                                 </div>
+                                <small class="text-danger" v-if="quoteDataError.quoteDate_1">Can not be empty</small>
                             </div>
                         </div>
                         <div class="row p-0">
@@ -130,11 +147,19 @@ export default {
             quoteData:{
                 case_id: case_id,
                 quote_amount: '',
+                invoice_type: '',
                 notes: '',
                 discount: '',
                 payment_type: '',
                 amount: [],
                 due_date: [],
+            },
+            quoteDataError:{
+                quote_amount: false,
+                invoice_type: false,
+                payment_type: false,
+                quoteAmount_1: false,
+                quoteDate_1: false
             }
         }
     },
@@ -163,22 +188,21 @@ export default {
         },
         save_case_quote(){ console.log(this.quoteData);
 
+            this.quoteDataError.quote_amount = this.quoteData.quote_amount==""?true:false;
+            this.quoteDataError.payment_type = this.quoteData.payment_type==""?true:false;
+            this.quoteDataError.invoice_type = this.quoteData.invoice_type==""?true:false;
+            this.quoteDataError.quoteAmount_1 = this.quoteData.amount[0]==undefined?true:false;
+            this.quoteDataError.quoteDate_1 = this.quoteData.due_date[0]==undefined?true:false;
 
-          //  http://localhost/ecf/easycasefile/public/api/save_case_quote
-
-            axios.post(window.url + 'save_case_quote', this.quoteData)
-                .then(response => {
-                    
-                    if(response.data.success){
-                        window.location.reload();
-                    }
-                    
-                    // if (response.data.length != 0) {
-                    //     this.personalDetailsError.email_id = true;
-                    //     $('.email_validation').text('Email already in used');
-                    // }
-                })
-                .catch(errors => { console.log(errors); });
+            if(this.quoteData.quote_amount!=''&&this.quoteData.payment_type!=''&&this.quoteData.invoice_type!=''&&this.quoteData.quoteAmount_1!=''&&this.quoteData.quoteDate_1!=''){
+                axios.post(window.url + 'save_case_quote', this.quoteData)
+                    .then(response => {
+                        if(response.data.success){
+                            window.location.reload();
+                        }
+                    })
+                    .catch(errors => { console.log(errors); });
+            }
         }
     },
     beforeMount() {

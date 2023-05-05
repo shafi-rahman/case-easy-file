@@ -36,14 +36,31 @@
         <div class="col-md-12 col-12">
             <div class="form-floating">
                 <input type="text" class="form-control" v-model="ircc_status_notes" required>
-                <label>IRCC Status Notes <code class="text-danger">*</code></label>
+                <label>IRCC File Status Notes <code class="text-danger">*</code></label>
+            </div>
+        </div>
+        <div class="col-md-12 col-12 mt-3" v-if="this.application_no">
+            <div class="form-check form-check-inline">
+                <label class="form-check-label">Application Outcome: </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="application_outcome" v-model="application_outcome" id="granted" :value="1">
+                <label class="form-check-label" for="granted">Granted</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="application_outcome" v-model="application_outcome" id="refused" :value="2">
+                <label class="form-check-label" for="refused">Refused</label>
             </div>
         </div>
         <input type="hidden" name="case_id" value=""/>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end personal_details_btn_main">
+        <div class="d-grid mt-4 gap-2 d-md-flex justify-content-md-end personal_details_btn_main">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="view_status" v-model="view_status">
+                <label class="form-check-label" for="view_status">Check here, if you do not want to show this status to the client.</label>
+            </div>
             <button type="submit" value="submit" v-on:click="set_ircc_process_status()" class="btn m-1 btn-lg btn-primary btn-animate-6">
-            <span class="btntext">Save</span>
-            <div class="btninfo bg-success">Click</div>
+                <span class="btntext">Save</span>
+                <div class="btninfo bg-success">Click</div>
             </button>
         </div>
     </div>
@@ -65,7 +82,7 @@
                 <li class="activity px-3 py-2 mb-1" v-for="responseIrcc in this.userGenerateFormToIRCC">
                     <span class="act_date">{{ new Date(responseIrcc.created_at).toLocaleString("en", { year: "numeric", month: "short", day: "numeric"}) }}</span>
                     <div class="fw-bold small d-flex justify-content-between align-items-center">
-                        {{ responseIrcc.ircc_file_status }}
+                        {{ responseIrcc.ircc_file_status }}<span v-if="responseIrcc.view_status==0" class="badge bg-warning">Client can not see</span>
                     </div>
                     <div>
                         <small class="text-muted">{{ responseIrcc.ircc_status_notes }}</small>
@@ -103,6 +120,8 @@ export default {
             ircc_status_by: managed_by,
             ircc_status_notes: '',
             application_type: '',
+            application_outcome: '',
+            view_status: '1',
             uci_no: '',
             application_no: '',
             submit_date_to_ircc: '',
@@ -141,22 +160,19 @@ export default {
                 application_type:this.application_type, 
                 uci_no:this.uci_no, 
                 application_no:this.application_no,
+                view_status:this.view_status,
+                application_outcome:this.application_outcome,
                 submit_date_to_ircc:this.submit_date_to_ircc
             };
 
+            console.log(fdata);
+
             axios.post(window.url + 'set_ircc_process_status', fdata)
                 .then(response => {
-
-                    // console.log(response.data);
-
+                    console.log(response.data);
                     if(response.data.success){
                         window.location.reload();
                     }
-                    
-                    // if (response.data.length != 0) {
-                    //     this.personalDetailsError.email_id = true;
-                    //     $('.email_validation').text('Email already in used');
-                    // }
                 })
                 .catch(errors => { console.log(errors); });
                

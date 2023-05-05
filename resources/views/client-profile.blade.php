@@ -15,38 +15,47 @@
     <add-quote></add-quote>
 </div> 
 
+{{-- from vue --}}
+<div id="root-update-payment">
+    {{-- @{{message}} --}}
+    <update-payment></update-payment>
+</div> 
+
 <div class="modal fade" id="updatepayment" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content text-start">
-            <div class="modal-body custom_scroll p-lg-5">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLiveLabel">Update Payment Request</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom_scroll p-lg-4">
                 <div class="row g-2">
-                    <div class="col-12 mb-4">
-                        <h4>Update Payment Request</h4>
+                    <div class="col-12 mb-3">
                         <span class="text-danger">*This will be approved by only admin.</span>
                     </div>
-
+                    <form method="post" id="paymentupdateform">
                     <div class="d-flex justify-content-between">
                         <div>
                             <div class="form-floating mb-1">
-                                <input type="text" class="form-control" value="DCB Bank" placeholder="Amount">
+                                <input type="text" class="form-control" id="bank_name">
                                 <label>Bank Name</label>
                             </div>
                             <div class="form-floating mb-1">
-                                <input type="text" class="form-control" value="DCB0000435" placeholder="IFSC">
+                                <input type="text" class="form-control" id="ifsc">
                                 <label>IFSC</label>
                             </div>
                             <div class="form-floating">
-                                <input type="text" class="form-control" value="Kirti Nagar, Delhi, India" placeholder="Location">
+                                <input type="text" class="form-control" id="location">
                                 <label>Location</label>
                             </div>
                         </div>
                         <div class="text-end">
                             <div class="form-floating mb-1">
-                                <input type="date" class="form-control" value="<?=date('Y-m-d')?>" placeholder="Date">
-                                <label>Date</label>
+                                <input type="date" class="form-control" value="<?=date('Y-m-d')?>" id="payment_date">
+                                <label>Payment Date</label>
                             </div>
                             <div class="form-floating">
-                                <input type="text" class="form-control text-primary" value="25,000" placeholder="Amount">
+                                <input type="text" class="form-control text-primary" id="amount">
                                 <label>Amount ₹</label>
                             </div>
                         </div>
@@ -54,27 +63,28 @@
 
                     <div class="col-12">
                         <div class="form-floating">
-                            <input type="text" class="form-control text-primary" value="25,000" placeholder="Amount">
+                            <input type="text" class="form-control text-primary" id="transaction_number">
                             <label>Transaction Number</label>
                         </div>
                     </div>
 
                     <div class="col-12">
                         <div class="form-floating">
-                            <textarea class="form-control"
-                                placeholder="Add project details"
-                                style="height: 100px"></textarea>
+                            <textarea id="notes" class="form-control" placeholder="Add project details" style="height: 100px"></textarea>
                             <label>Message...</label>
                         </div>
                     </div>
                     <div class="col-12">
                         <label class="form-label small">Attachment</label>
-                        <input class="form-control" type="file" multiple>
+                        <input class="form-control" type="file" id="attachment">
                     </div>
-                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <div class="btn m-1 btn-primary btn-animate-6" data-bs-dismiss="modal"><span class="btntext">Close</span><div class="btninfo bg-success">Click</div></div>
-                            <div class="btn m-1 btn-primary btn-animate-6"><span class="btntext">Save</span><div class="btninfo bg-success">Click</div></div>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end updatepaymentbtndiv">
+                        <input type="hidden" id="iid" />
+                        <input type="hidden" id="cid" />
+                        <input type="hidden" id="created_by" />
+                        <div class="btn m-1 btn-primary btn-animate-6 update_payment_details"><span class="btntext">Save</span><div class="btninfo bg-success">Click</div></div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -296,10 +306,18 @@
                     @if(count($userPaymentDetails)>0)
 
                     @foreach($userPaymentDetails as $i=>$paymentDetail)
-                    <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="card cust_pay py-2 px-3 me-2 mt-2 btn btn-outline-success">
+                    <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="{{($paymentDetail->i_status==1)?'btn-outline-success':(strtotime(date('Y-m-d'))>strtotime($paymentDetail->due_date)?'btn-outline-danger':'btn-outline-info')}} updatepaymentbtn card cust_pay py-2 px-3 me-2 mt-2 btn"
+                        created_by="{{$userDetails->logedinuser}}" status="{{$paymentDetail->i_status}}" bank_name="{{$paymentDetail->bank_name}}"
+                        ifsc="{{$paymentDetail->ifsc}}" location="{{$paymentDetail->location}}" transaction_number="{{$paymentDetail->transaction_number}}"
+                        notes="{{$paymentDetail->notes}}" attachment="{{$paymentDetail->attachment}}" payment_date="{{$paymentDetail->payment_date}}" 
+                        amount="{{$paymentDetail->i_amount}}" iid="{{$paymentDetail->iid}}" cid="{{$paymentDetail->case_id}}">
                       <small class="">{{ ($i+1) }} Installment </small>
-                      <div class="fs-5">₹ {{ $paymentDetail->amount }}</div>
-                      <small class="">Unpaid @ {{ date("d M Y", strtotime($paymentDetail->due_date)) }}</small>
+                      <div class="fs-5">₹ {{ $paymentDetail->i_amount }}</div>
+                      @if($paymentDetail->i_status==0)
+                        <small>Unpaid @ {{ date("d M Y", strtotime($paymentDetail->due_date)) }}</small>
+                      @else 
+                        <small>Paid @ {{ date("d M Y", strtotime($paymentDetail->payment_date)) }}</small>
+                      @endif
                     </div>
                     @endforeach
                     {{-- <div data-bs-toggle="modal" data-bs-target="#updatepayment" class="card cust_pay py-2 px-3 me-2 mt-2 bg-success">

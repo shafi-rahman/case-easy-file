@@ -63,3 +63,5 @@ Route::post('save_form_type', [commonController::class, 'save_form_type']);
 
 Route::post('check_mail', [commonController::class, 'check_mail']);
 Route::post('upload_avtar', [commonController::class, 'upload_avtar']);
+Route::post('update_payment_details', [commonController::class, 'update_payment_details']);
+Route::post('save_subscriber_user_account', [commonController::class, 'save_subscriber_user_account']);

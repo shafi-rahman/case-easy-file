@@ -39,13 +39,14 @@ class ClientProfile extends Controller
         ->first();
         $data['userDetails']->managed_by = Auth::user()->id;
 
-        $data['userPaymentDetails'] = DB::table('user_payment_quote')
-        ->select('user_payment_quote.*', 'user_payment_installment.*')
-        ->join('user_payment_installment', 'user_payment_installment.case_id', '=', 'user_payment_quote.case_id')
-        ->where('user_payment_quote.case_id', $uid)
+        $data['userPaymentDetails'] = DB::table('user_payment_quote as Q')
+        ->select('Q.id', 'Q.case_id', 'Q.quote_amount', 'Q.notes as q_notes', 'Q.discount', 'Q.payment_type', 'Q.invoice_type', 'I.id as iid', 'I.amount as i_amount', 'I.due_date', 'I.status as i_status', 'P.id as pid', 'P.bank_name', 'P.ifsc', 'P.location', 'P.transaction_number', 'P.amount', 'P.notes', 'P.payment_date', 'P.attachment', )
+        ->join('user_payment_installment as I', 'I.case_id', '=', 'Q.case_id')
+        ->leftjoin('user_payment_paid as P', 'P.installment_id', '=', 'I.id')
+        ->where('Q.case_id', $uid)
         ->get();
 
-        // echo "<pre>".$view;
+        // echo "<pre>";
         // print_r($data);
         // die();
 

@@ -71,6 +71,7 @@ class Dashboard extends Controller
         return view('cases', $data);
     }
 
+    
     public function email(){
         $data['emailTemplate'] = DB::table('email_template')->get();
         return view('email', $data);

@@ -13,6 +13,96 @@
         </div>
     </div>
 </div>
+
+
+<div class="modal fade" id="invoice_detail" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Invoice</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body custom_scroll">
+                <table class="table table-borderless mb-0">
+                    <tbody>
+                        <tr>
+                            <td> Invoice <strong>{{date('d M Y')}}</strong>
+                                </th>
+                            <td class="text-end" style="text-align: right !important;">
+                                <span class="text-danger"> <strong>Status:</strong> Pending</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>From:</div>
+                                <div class="fs-6 fw-bold mb-1">{{$subscriberDetail->company_name}}</div>
+                                <small class="fw-bold mb-1">{{$subscriberDetail->auth_number}}</small>
+                                <div>{{$subscriberDetail->company_address}}<br/>{{$subscriberDetail->city_name}}<br/>{{$subscriberDetail->state_name}},&nbsp;{{$subscriberDetail->country_name}}</div>
+                                
+                            </td>
+                            <td class="text-end" style="float: right; text-align: right !important;">
+                                <div>To:</div>
+                                <div class="fs-6 fw-bold mb-1">{!!$paymentQuote->first_name.'&nbsp;'.$paymentQuote->middle_name.'&nbsp;'.$paymentQuote->last_name!!}</div>
+                                <div>{{$paymentQuote->address}}<br/>{{$paymentQuote->city_name}}<br/>{{$paymentQuote->state_name}},&nbsp;{{$paymentQuote->country_name}}</div>
+                                <div>Email: {{$paymentQuote->email_id}}</div>
+                                <div>Phone: {{$paymentQuote->mobile_number}}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <table class="table table-borderless table-striped mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th style="width: 70%;">Description</th>
+                                            <th style="width: 30%;" class="text-end" style="text-align: right !important;">Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td id="description"></td>
+                                            <td class="text-end" style="text-align: right !important;" id="amount">$999,00</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding-top: 50px;">
+                                                <h6>Terms &amp; Condition</h6>
+                                                <p class="text-muted">These may include restrictions on use, ownership of intellectual property, and liability limitations. It is important to review and agree to these terms before downloading any invoices from the website.</p>
+                                            </td>
+                                            <td style="padding-top: 50px; width: 30%;">
+                                                <table class="table table-borderless mb-0 " style="width:100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="width:50%"><strong>Subtotal</strong></td>
+                                                            <td class="text-end" style="width:50%; text-align: right !important;" id="subtotal">$8.497,00</td>
+                                                        </tr>
+                                                        @if($paymentQuote->invoice_type==1)
+                                                        <tr>
+                                                            <td style="width:50%"><strong>TAX (13%)</strong></td>
+                                                            <td class="text-end" style="width:50%; text-align: right !important;" id="tax">$679,76</td>
+                                                        </tr>
+                                                        @endif
+                                                        <tr>
+                                                            <td style="width:50%"><strong>Total</strong></td>
+                                                            <td class="text-end" style="width:50%; text-align: right !important;"><strong id="total">$7.477,36</strong></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer" id="printBtn">
+                <button type="button" onclick="$('#invoice_detail').print();" class="btn btn-primary"><i class="fa fa-print me-2"></i>Print</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="body-area">
 
     <div class="modal fade" id="Upgradeplan" tabindex="-1" aria-hidden="true">
@@ -83,20 +173,28 @@
                                 <div class="option-9 position-absolute text-light"><i class="fa fa-star"></i></div>
                                 <div class="card-body">
                                     <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">TQ</div>
-                                    <small class="text-muted">Total Charges</small>
+                                    <p class="m-0">Total Charges</P>
+                                    
                                     @if($paymentQuote!='')
-                                    <h4>₹ {{ $paymentQuote->quote_amount }}</h4>
-                                    <p class="m-0">{{ $paymentQuote->notes }}</p>
+                                        <h4>₹ {{ $paymentQuote->quote_amount }}</h4>
+                                        <p class="m-0">{{ $paymentQuote->notes }}</p>
                                     @else
-                                    <p>Amount quote not defile.</p>
+                                        <p>Amount quote not defile.</p>
                                     @endif
+                                    
+                                    @if($paymentQuote->invoice_type==1)
+                                        <small class="text-muted">Invoice will come with tax</small>
+                                    @else
+                                        <small class="text-muted">Invoice will come with out tax</small>
+                                    @endif
+
                                 </div>
                             </div>
                             @if(count($paymentInstallment)>0)
-                                @foreach($paymentInstallment as $installment)
+                                @foreach($paymentInstallment as $i=>$installment)
                                     <div class="item card">
                                         <div class="card-body">
-                                            <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">DO</div>
+                                            <div class="avatar lg rounded-circle no-thumbnail mb-3 fs-5">{{($i+1)}}</div>
                                             <small class="text-muted">Total</small>
                                             <h4>₹ {{ $installment->amount }}</h4>
                                             <p class="text-grey">Due Date: {{ date("d M Y", strtotime($installment->due_date)) }}</p>
@@ -119,304 +217,52 @@
                         <table id="invoice_list" class="table card-table align-middle mb-0">
                             <thead>
                                 <tr>
-                                    <th>
-                                        <div class="form-check" style="font-size: 16px;">
-                                            <input class="form-check-input select-all" type="checkbox" value="">
-                                        </div>
-                                    </th>
                                     <th>Invoice</th>
-                                    <th>Name</th>
-                                    <th>Total</th>
-                                    <th>Date</th>
-                                    <th>Due Date</th>
+                                    <th>Bank Info</th>
+                                    <th>Transaction</th>
+                                    <th>Amount</th>
+                                    <th>Payment Date</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="row-selectable">
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td> #RA0011 </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/xs/avatar1.jpg" class="rounded-circle sm avatar" alt="">
-                                            <div class="ms-2 mb-0">Andew Jon</div>
-                                        </div>
-                                    </td>
-                                    <td class="fw-bold">USD 12,820</td>
-                                    <td>Jan 16 2022</td>
-                                    <td>Jan 20 2022</td>
-                                    <td>
-                                        <a href="client-billing-details.php" class="btn btn-link btn-sm color-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil"></i></a>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="modal" data-bs-target="#invoice_send"><i class="fa fa-envelope"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="modal" data-bs-target="#invoice_detail"><i class="fa fa-download"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="row-selectable">
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td> #RA0028 </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/xs/avatar9.jpg" class="rounded-circle sm avatar" alt="">
-                                            <div class="ms-2 mb-0">Chris Fox</div>
-                                        </div>
-                                    </td>
-                                    <td class="fw-bold">USD 2,000</td>
-                                    <td>Jan 03 2022</td>
-                                    <td>Jan 05 2022</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="modal" data-bs-target="#invoice_send"><i class="fa fa-envelope"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="modal" data-bs-target="#invoice_detail"><i class="fa fa-download"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                                <tr class="row-selectable">
-                                    <td>
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="">
-                                        </div>
-                                    </td>
-                                    <td> #RA0035 </td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img src="assets/img/xs/avatar10.jpg" class="rounded-circle sm avatar" alt="">
-                                            <div class="ms-2 mb-0">Bucky Barnes</div>
-                                        </div>
-                                    </td>
-                                    <td class="fw-bold">USD 1,100</td>
-                                    <td>Feb 03 2022</td>
-                                    <td>Feb 05 2022</td>
-                                    <td>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit"><i class="fa fa-pencil"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="modal" data-bs-target="#invoice_send"><i class="fa fa-envelope"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="modal" data-bs-target="#invoice_detail"><i class="fa fa-download"></i></button>
-                                        <button type="button" class="btn btn-link btn-sm color-400" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
-                                    </td>
-                                </tr>
+                                @if(count($paymentInvoice)>0)
+                                    @foreach($paymentInvoice as $invoice)
+                                        <tr class="row-selectable">
+                                            <td>#ECF00{{$invoice->id}}</td>
+                                            <td>{{$invoice->bank_name}}</td>
+                                            <td>{{$invoice->transaction_number}}</td>
+                                            <td>{{$invoice->amount}}</td>
+                                            <td>{{date('d M Y', strtotime($invoice->payment_date))}}</td>
+                                            <td>
+                                                <button invoice_type="{{$paymentQuote->invoice_type}}" notes="{{$invoice->notes}}" amount="{{$invoice->amount}}" transaction_number="{{$invoice->transaction_number}}" 
+                                                    location="{{$invoice->location}}" ifsc="{{$invoice->ifsc}}" bank_name="{{$invoice->bank_name}}" payment_date="{{$invoice->payment_date}}"
+                                                type="button" class="btn btn-link btn-sm color-400 invoiceDetailBtn" data-bs-toggle="modal" data-bs-target="#invoice_detail"><i class="fa fa-eye"></i></button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
                             </tbody>
                         </table>
-                    </div>
-
-                   
-
-
-                    <div class="modal fade" id="invoice_send" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Invoice #RA0011</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body custom_scroll">
-                                    <table class="card p-2">
-                                        <tr>
-                                            <td></td>
-                                            <td style="text-align: center; width: 100%;">
-                                                <table class="table table-borderless mb-0" width="100%" cellpadding="0" cellspacing="0">
-                                                    <tr>
-                                                        <td style="text-align: center;">
-                                                            <h2 style="margin-bottom: 0;">$33.98 Paid</h2>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding-bottom: 30px 0; padding-top: 10px; text-align: center;">
-                                                            <h4 style="margin-bottom: 0;">Thanks for using TTM Inc.</h4>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding: 20px 0;">
-                                                            <table width="100%">
-                                                                <tr>
-                                                                    <td> Attn: <strong>Daniel Marek</strong> 43-190 Mikolow, Poland<br> Email: <a href="https://www.wrraptheme.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="9af7fbe8fff1dafefbf4f3fff6b4f9f5f7">[email&#160;protected]</a><br> Phone: +48 123 456 789<br>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>
-                                                                        <table class="table table-borderless table-striped mb-0" cellpadding="0" cellspacing="0">
-                                                                            <tr>
-                                                                                <td style="text-align: left;">Extended License</td>
-                                                                                <td style="text-align: right;">$19.99</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td style="text-align: left;">1 year subcription</td>
-                                                                                <td style="text-align: right;">$9.99</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td style="text-align: left;">Instalation and Customization</td>
-                                                                                <td style="text-align: right;">$4.00</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td style="text-align: right;" width="80%"><strong>Total</strong></td>
-                                                                                <td style="text-align: right;">$33.98</td>
-                                                                            </tr>
-                                                                        </table>
-                                                                    </td>
-                                                                </tr>
-                                                            </table>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding: 10px 0; text-align: center;">
-                                                            <a href="#">View in browser</a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td style="padding: 0; text-align: center;"> TTM Inc. 70 Bowman St. South Windsor, CT 06074 </td>
-                                                    </tr>
-                                                </table>
-                                                <table width="100%" style="text-align: center; margin-top: 40px;">
-                                                    <tr>
-                                                        <td class="aligncenter content-block">Questions? Email <a href="mailto:"><span class="__cf_email__" data-cfemail="81e8efe7eec1f5e9e4ece4ece0eaeae4f3afe2eeec">[email&#160;protected]</span></a></td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                            <td></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary">Send Email</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="modal fade" id="invoice_detail" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog modal-lg modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Invoice #RA0011</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body custom_scroll">
-                                    <table class="table table-borderless mb-0">
-                                        <tbody>
-                                            <tr>
-                                                <td> Invoice <strong>01/Nov/2020</strong>
-                                                    </th>
-                                                <td class="text-end">
-                                                    <span class="text-danger"> <strong>Status:</strong> Pending</span>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>
-                                                    <div>From:</div>
-                                                    <div class="fs-6 fw-bold mb-1">Webz Poland</div>
-                                                    <div>Madalinskiego 8</div>
-                                                    <div>71-101 Szczecin, Poland</div>
-                                                    <div>Email: <a href="https://www.wrraptheme.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90f9fef6ffd0e7f5f2eabef3fffdbee0fc">[email&#160;protected]</a></div>
-                                                    <div>Phone: +48 444 666 3333</div>
-                                                </td>
-                                                <td class="text-end">
-                                                    <div>To:</div>
-                                                    <div class="fs-6 fw-bold mb-1">Bob Mart</div>
-                                                    <div>Attn: Daniel Marek</div>
-                                                    <div>43-190 Mikolow, Poland</div>
-                                                    <div>Email: <a href="https://www.wrraptheme.com/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d9b4b8abbcb299bdb8b7b0bcb5f7bab6b4">[email&#160;protected]</a></div>
-                                                    <div>Phone: +48 123 456 789</div>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <table class="table table-borderless table-striped mb-0">
-                                                        <thead>
-                                                            <tr>
-                                                                <th class="text-center">#</th>
-                                                                <th>Item</th>
-                                                                <th>Description</th>
-                                                                <th class="text-end">Unit Cost</th>
-                                                                <th class="text-center">Qty</th>
-                                                                <th class="text-end">Total</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            <tr>
-                                                                <td class="text-center">1</td>
-                                                                <td>Origin License</td>
-                                                                <td>Extended License</td>
-                                                                <td class="text-end">$999,00</td>
-                                                                <td class="text-center">1</td>
-                                                                <td class="text-end">$999,00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">2</td>
-                                                                <td>Custom Services</td>
-                                                                <td>Instalation and Customization (cost per hour)</td>
-                                                                <td class="text-end">$150,00</td>
-                                                                <td class="text-center">20</td>
-                                                                <td class="text-end">$3.000,00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">3</td>
-                                                                <td>Hosting</td>
-                                                                <td>1 year subcription</td>
-                                                                <td class="text-end">$499,00</td>
-                                                                <td class="text-center">1</td>
-                                                                <td class="text-end">$499,00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td class="text-center">4</td>
-                                                                <td>Platinum Support</td>
-                                                                <td>1 year subcription 24/7</td>
-                                                                <td class="text-end">$3.999,00</td>
-                                                                <td class="text-center">1</td>
-                                                                <td class="text-end">$3.999,00</td>
-                                                            </tr>
-                                                            <tr>
-                                                                <td colspan="3">
-                                                                    <h6>Terms &amp; Condition</h6>
-                                                                    <p class="text-muted">You know, being a test pilot isn't always the healthiest business in the world. We predict too much for the next year and yet far too little for the next 10.</p>
-                                                                </td>
-                                                                <td colspan="3">
-                                                                    <table class="table table-borderless mb-0">
-                                                                        <tbody>
-                                                                            <tr>
-                                                                                <td><strong>Subtotal</strong></td>
-                                                                                <td class="text-end">$8.497,00</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><strong>VAT (10%)</strong></td>
-                                                                                <td class="text-end">$679,76</td>
-                                                                            </tr>
-                                                                            <tr>
-                                                                                <td><strong>Total</strong></td>
-                                                                                <td class="text-end"><strong>$7.477,36</strong></td>
-                                                                            </tr>
-                                                                        </tbody>
-                                                                    </table>
-                                                                </td>
-                                                            </tr>
-                                                        </tbody>
-                                                    </table>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-primary"><i class="fa fa-print me-2"></i>Print</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
 
+function print_preview(){
+    var prtContent = document.getElementById("invoice_detail");
+    var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    // WinPrint.close();
+}
+
+</script>
 
 
 @endsection

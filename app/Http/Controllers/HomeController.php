@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
@@ -72,15 +73,45 @@ class HomeController extends Controller
         return view('agreement', $data);
     }
 
+    public function application_status(){
+
+        $data['irccStatus'] = DB::table('user_personal_details as P')
+        ->select('I.*')
+        ->join('user_generate_form as F', 'F.case_id', '=', 'P.id')
+        ->join('user_generate_form_to_ircc AS I', 'I.generate_form_id', '=', 'F.id')
+        ->where('I.view_status', '1')
+        ->where('P.user_id', Auth::user()->id)
+        ->get();
+
+
+        return view('application-status', $data);
+    }
+
     public function billing(){
-        $data['paymentQuote'] = DB::table('user_personal_details as P')->select('Q.*')
+        $data['paymentQuote'] = DB::table('user_personal_details as P')->select('P.*', 'CT.city as city_name', 'S.name as state_name', 'C.name as country_name', 'Q.*')
         ->join('user_payment_quote AS Q', 'Q.case_id', '=', 'P.id')
+        ->join('cities AS CT', 'CT.id', '=', 'P.city')
+        ->join('states AS S', 'S.id', '=', 'P.state')
+        ->join('countries AS C', 'C.id', '=', 'P.country')
         ->where('P.user_id', Auth::user()->id)
         ->first();
+
         $data['paymentInstallment'] = DB::table('user_personal_details as P')->select('I.*')
         ->join('user_payment_installment AS I', 'I.case_id', '=', 'P.id')
         ->where('P.user_id', Auth::user()->id)
+        ->get(); 
+        
+        $data['paymentInvoice'] = DB::table('user_personal_details as P')->select('I.*')
+        ->join('user_payment_paid AS I', 'I.case_id', '=', 'P.id')
+        ->where('P.user_id', Auth::user()->id)
         ->get();
+
+        $data['subscriberDetail'] = DB::table('user_subscriber_profile as P')->select('P.*', 'CT.city as city_name', 'S.name as state_name', 'C.name as country_name')
+        ->join('cities AS CT', 'CT.id', '=', 'P.company_city')
+        ->join('states AS S', 'S.id', '=', 'P.company_state')
+        ->join('countries AS C', 'C.id', '=', 'P.company_country')
+        ->first();
+
 
         return view('billing', $data);
     }
@@ -106,6 +137,21 @@ class HomeController extends Controller
         }
         // echo "<pre>"; print_r($data); echo "</pre>"; die();
         return view('documents', $data);
+    }
+
+    public function user_managment(Request $request){
+
+        $data['user_list'] = DB::table('users')->whereIn("role", [3,4,5])->get();    
+        $data['user_details'] = '';
+        if($request->segment(2)!=''){
+            $uid = Crypt::decryptString($request->segment(2));
+            $data['user_details'] = DB::table('users')->where("id", $uid)->first(); 
+        }
+        $data['aid'] = Auth::user()->id;
+        
+        // echo "<pre>"; print_r($data); echo "</pre>"; die();  
+        return view('user-managment', $data);
+
     }
 
     public function my_form_fields(Request $request){
