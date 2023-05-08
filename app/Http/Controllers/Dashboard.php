@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 
 use PhpOffice\PhpWord\TemplateProcessor;
+use mikehaertl\pdftk\Pdf;
 
 // use Illuminate\Support\Facades\CloudConvert;
 
@@ -223,6 +224,13 @@ class Dashboard extends Controller
     }
 
     public function clientProspectDetails(Request $request){
+
+
+        $this->generatePdf();
+        die();
+
+
+
         $uid = Crypt::decryptString($request->segment(2));
 
         $data['userDetails'] = DB::table('user_personal_details as C')
@@ -270,13 +278,56 @@ class Dashboard extends Controller
         // echo "<pre>"; 
         // print_r($data);
         // die();
-        return view('client-prospect-details', $data);
+        // return view('client-prospect-details', $data);
     }
     
     public function lead(Request $request, $type ){
 
         return view('lead', ['type'=>$type]);
     }
+
+    public function generatePdf(){
+        try {
+
+        echo "in side of generatePdf";
+        // Fill form with data array
+        $pdf = new Pdf('C:/xampp8/htdocs/ecf/easycasefile/public/uploads/docs/new_document.pdf');
+        $result = $pdf->fillForm([
+                'name'=>'Daadida',
+                'age'=>'123',
+            ])
+            ->needAppearances()
+            ->saveAs('/uploads/userdocs/filled.pdf');
+
+
+
+        // Always check for errors
+        if ($result === false) {
+            $error = $pdf->getError();
+        }
+
+            echo "<pre>";
+
+            var_dump($result);
+
+
+            print_r($error);
+            echo "</pre>";
+
+
+        } catch (\Exception $e) {
+            print_r($e->getMessage());
+        }
+        // Fill form from FDF
+        // $pdf = new Pdf('form.pdf');
+        // $result = $pdf->fillForm('data.xfdf')
+        //     ->saveAs('filled.pdf');
+        // if ($result === false) {
+        //     $error = $pdf->getError();
+        // }
+
+    }
+
 
     public function generateDocx($filename, $formData, $case_id, $user_id)
     {
